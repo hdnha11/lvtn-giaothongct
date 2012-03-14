@@ -1,0 +1,61 @@
+<div id="left">
+    <div id="sidebar">
+        <h3>Tìm kiếm trên bản đồ</h3>
+            <div class="slideContent" id="nodelist">
+                <p>Tính năng đang phát triển.</p>
+            </div>
+        <h3>Thông tin địa điểm</h3>
+            <div class="slideContent">
+                <p>Tính năng đang phát triển.</p>
+            </div>
+        <h3>Đo đạt trên bản đồ</h3>
+            <div id="measure" class="slideContent">
+                <form id="controlToggle" action="">
+                    <fieldset class="methods">
+                        <legend>Chọn phương pháp đo</legend>
+                        <p>
+                            <input type="radio" name="type" value="none" id="noneToggle"
+                               onclick="toggleControl(this);" checked="checked" />
+                        	<label for="noneToggle">Di chuyển</label>
+                        </p>
+                        <p>
+                            <input type="radio" name="type" value="line" id="lineToggle" onclick="toggleControl(this);" />
+                        	<label for="lineToggle">Đo khoảng cách</label>
+                        </p>
+                        <p>
+                            <input type="radio" name="type" value="polygon" id="polygonToggle" onclick="toggleControl(this);" />
+                        	<label for="polygonToggle">Đo diện tích</label>
+                        </p>
+                    </fieldset>
+                    <fieldset class="options">
+                        <legend>Các tùy chọn đo</legend>
+                        <p>
+                        	<input type="checkbox" name="geodesic" id="geodesicToggle" onclick="toggleGeodesic(this);" />
+                        	<label for="geodesicToggle">Đo bằng phương pháp trắc địa</label>
+                        </p>
+                        <p>
+                        	<input type="checkbox" name="immediate" id="immediateToggle" onclick="toggleImmediate(this);" />
+                        	<label for="immediateToggle">Hiện ngay kết quả đo khi rê chuột</label>
+                        </p>
+                    </fieldset>
+                    <fieldset class="results">
+                        <legend>Kết quả đo</legend>
+                        <p id="measureResult">Chưa có kết quả</p>
+                    </fieldset>
+				</form>                
+            </div>
+        <h3>Tìm đường đi</h3>
+            <div class="slideContent">
+                <p>Tính năng đang phát triển.</p>
+            </div>
+        <h3>Trợ giúp</h3>
+            <div class="slideContent">
+                <p>Tính năng đang phát triển.</p>
+            </div>
+    </div><!--End Sidebar-->
+    <div id="footer">
+        <a href="#">Giới thiệu</a> | 
+        <a href="#">Liên kết</a> | 
+        <a href="#">Liên hệ</a>
+    </div><!--End Footer-->
+</div><!--End Left-->

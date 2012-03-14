@@ -1,0 +1,14 @@
+!table
+!version 300
+!charset WindowsLatin1
+
+Definition Table
+  Type NATIVE Charset "WindowsLatin1"
+  Fields 1
+    thuoc_duong Char (30) ;
+begin_metadata
+"\IsReadOnly" = "FALSE"
+"\MapInfo" = ""
+"\MapInfo\TableID" = "cda0f0ed-d34e-4a77-aa00-ceba2dfd68dc"
+"\MapInfo\ParentTableID" = "5dd05781-f8c5-4a08-b29a-0506d865711b"
+end_metadata

@@ -1,0 +1,18 @@
+!table
+!version 300
+!charset WindowsLatin1
+
+Definition Table
+  Type NATIVE Charset "WindowsLatin1"
+  Fields 5
+    ten Char (30) ;
+    dia_chi Char (100) ;
+    so_dien_thoai Char (11) ;
+    so_dau_xe Integer ;
+    nang_luc_thong_ben Char (100) ;
+begin_metadata
+"\IsReadOnly" = "FALSE"
+"\MapInfo" = ""
+"\MapInfo\TableID" = "3ae9d16a-987e-4961-906f-5bbe8f986a3d"
+"\MapInfo\ParentTableID" = "15a12766-c636-446a-9a3e-37f4edd211af"
+end_metadata

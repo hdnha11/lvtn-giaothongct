@@ -1,0 +1,17 @@
+!table
+!version 300
+!charset WindowsLatin1
+
+Definition Table
+  Type NATIVE Charset "WindowsLatin1"
+  Fields 4
+    autocad_elevation Decimal (2, 0) ;
+    ten Char (20) ;
+    dientich Float ;
+    danso Integer ;
+begin_metadata
+"\IsReadOnly" = "FALSE"
+"\MapInfo" = ""
+"\MapInfo\TableID" = "4bafacd1-f4ce-4aff-83e2-e126ab77a949"
+"\MapInfo\ParentTableID" = "fde506d3-a80a-440c-b630-278ac804d95f"
+end_metadata

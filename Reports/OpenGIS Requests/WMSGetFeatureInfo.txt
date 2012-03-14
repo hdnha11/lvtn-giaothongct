@@ -1,0 +1,9 @@
+// Mau
+http://servername/project?SERVICE=WMS&REQUEST=GetFeatureInfo&BBOX=coordinates]&WIDTH=[value]&HEIGHT=[value]&FORMAT=[format type]&LAYERS=[layer list] &STYLES=[style type]&CRS=EPSG:[EPSG code]&QUERY_LAYERS=[layer list]&INFO_FORMAT= [output format]&I=[value]&J=[value]&EXCEPTIONS=[format]
+
+// Tra ve ket qua HTML
+http://localhost:8088/geoserver/wms?LAYERS=luanvan%3Atinh_lo_polyline&TRANSPARENT=TRUE&STYLES=&FORMAT=image%2Fpng&SERVICE=WMS&VERSION=1.1.1&REQUEST=GetFeatureInfo&SRS=EPSG%3A4326&EXCEPTIONS=application%2Fvnd.ogc.se_xml&BBOX=105.331291%2C9.928834%2C105.735864%2C10.317754&X=389&Y=328&INFO_FORMAT=text%2Fhtml&QUERY_LAYERS=luanvan%3Atinh_lo_polyline&FEATURE_COUNT=50&WIDTH=672&HEIGHT=646
+// Tra ve ket qua PlainText
+http://localhost:8088/geoserver/wms?LAYERS=luanvan:tinh_lo_polyline&TRANSPARENT=TRUE&STYLES=&FORMAT=image/png&SERVICE=WMS&VERSION=1.1.1&REQUEST=GetFeatureInfo&SRS=EPSG:4326&EXCEPTIONS=application/vnd.ogc.se_xml&BBOX=105.331291,9.928834,105.735864,10.317754&X=122&Y=197&INFO_FORMAT=text/plain&QUERY_LAYERS=luanvan:tinh_lo_polyline&FEATURE_COUNT=50&WIDTH=672&HEIGHT=646
+// Tra ve ket qua GML
+http://localhost:8088/geoserver/wms?LAYERS=luanvan:tinh_lo_polyline&TRANSPARENT=TRUE&STYLES=&FORMAT=image/png&SERVICE=WMS&VERSION=1.1.1&REQUEST=GetFeatureInfo&SRS=EPSG:4326&EXCEPTIONS=application/vnd.ogc.se_xml&BBOX=105.331291,9.928834,105.735864,10.317754&X=122&Y=197&INFO_FORMAT=application/vnd.ogc.gml&QUERY_LAYERS=luanvan:tinh_lo_polyline&FEATURE_COUNT=50&WIDTH=672&HEIGHT=646

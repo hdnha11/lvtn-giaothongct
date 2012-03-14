@@ -1,0 +1,14 @@
+!table
+!version 300
+!charset WindowsLatin1
+
+Definition Table
+  Type NATIVE Charset "WindowsLatin1"
+  Fields 1
+    ranh_gioi Char (20) ;
+begin_metadata
+"\IsReadOnly" = "FALSE"
+"\MapInfo" = ""
+"\MapInfo\TableID" = "de12be6b-9e44-44b0-bbb5-0b6d09f949a4"
+"\MapInfo\ParentTableID" = "99eb7f7a-9d52-44f7-930e-ecccc41aa7ee"
+end_metadata
