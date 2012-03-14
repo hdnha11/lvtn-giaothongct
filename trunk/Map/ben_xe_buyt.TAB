@@ -1,0 +1,16 @@
+!table
+!version 300
+!charset WindowsLatin1
+
+Definition Table
+  Type NATIVE Charset "WindowsLatin1"
+  Fields 4
+    stt Integer ;
+    dien_giai Char (100) ;
+    dia_chi Char (100) ;
+    cac_tuyen_di_va_den Char (200) ;
+begin_metadata
+"\IsReadOnly" = "FALSE"
+"\MapInfo" = ""
+"\MapInfo\TableID" = "879e9f3e-2f00-48a9-a782-07f81eda5b5a"
+end_metadata
