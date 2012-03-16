@@ -22,11 +22,11 @@ class PgSQL {
 	/**
 	 * Phương thức khởi tạo
 	 */
-	function __construct($host, $user, $pass, $db) {
+	function __construct($host, $db, $user, $pass) {
 		$this->host = $host;
+		$this->db = $db;
 		$this->user = $user;
 		$this->pass = $pass;
-		$this->db = $db;
 	}
 	
 	/**
