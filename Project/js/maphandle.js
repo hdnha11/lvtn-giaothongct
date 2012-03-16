@@ -222,7 +222,7 @@ function init(){
 	
 	// Ho tro GetFeatureInfo
 	map.events.register('click', map, function (e) {
-		document.getElementById('nodelist').innerHTML = "Đang lấy thông tin... Vui lòng chờ...";
+		//document.getElementById('nodelist').innerHTML = "Đang lấy thông tin... Vui lòng chờ...";
 		// Lam tron toa do, tren Firefox toa do lay so thuc
 		var x = parseInt(e.xy.x);
 		var y = parseInt(e.xy.y);
@@ -234,7 +234,8 @@ function init(){
 				X: x,
 				Y: y,
 				INFO_FORMAT: 'application/vnd.ogc.gml',
-				QUERY_LAYERS: map.layers[1].params.LAYERS,
+				LAYERS: [map.layers[1].params.LAYERS, map.layers[2].params.LAYERS, map.layers[3].params.LAYERS],
+				QUERY_LAYERS: [map.layers[1].params.LAYERS, map.layers[2].params.LAYERS, map.layers[3].params.LAYERS],
 				FEATURE_COUNT: 1,
 				WIDTH: map.size.w,
 				HEIGHT: map.size.h
@@ -295,13 +296,16 @@ function toggleImmediate(element) {
 /********* Phan xu ly GetFeatureInfo ********/
 // sets the HTML provided into the nodelist element
 function setHTML(response){
-	var g = new OpenLayers.Format.GML();
+	/*var g = new OpenLayers.Format.GML();
 	var features = g.read(response.responseText);
 	//console.log(features);
 	if (features.length != 0) {
 		document.getElementById('nodelist').innerHTML = features[0].fid;
 	} else {
 		document.getElementById('nodelist').innerHTML = "Không có dữ liệu";
-	}
+	}*/
+	var g = new OpenLayers.Format.GML();
+	var features = g.read(response.responseText);
+	window.location = "http://localhost/lvtn/show_info.php?fid=" + features[0].fid;
 };
 /********* Het phan xu ly GetFeatureInfo ********/

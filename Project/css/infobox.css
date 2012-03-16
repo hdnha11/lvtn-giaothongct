@@ -1,0 +1,66 @@
+/* CSS Document */
+
+form#tinhlo {
+	background: #fff;
+	padding: 15px;
+	border: 1px solid #eee;
+	width: 450px;
+}
+
+form#tinhlo fieldset div {
+	margin: 5px 0px;
+	clear: both;
+}
+
+form#tinhlo label {
+	float: left;
+	width: 130px;
+	text-align: right;
+	margin: 0px 15px 0px 0px;
+}
+
+form#tinhlo fieldset {
+	margin: 5px 0px;
+	border: 1px solid #ddd;
+	padding: 0px 10px 10px;
+	font: 95%/120% Arial, Helvetica, sans-serif;
+}
+
+form#tinhlo fieldset#duong {
+	/*background: url(../images/measures.png) no-repeat right center;*/
+}
+
+form#tinhlo fieldset#coquan {
+	/*background: url(../images/options.png) no-repeat right center;*/
+}
+
+form#tinhlo legend {
+	color: #0b77b7;
+	font: 120% Arial, Helvetica, sans-serif;
+}
+
+form#tinhlo input {
+	padding: 2.5px;
+	width: 260px;
+	border: 1px solid #ddd;
+	background: #fafafa;
+	font: normal 14px arial, sans-serif;
+	-moz-border-radius: 6px;
+	-khtml-border-radius: 6px;
+}
+
+form#tinhlo textarea {
+	padding: 2.5px;
+	width: 260px;
+	border: 1px solid #ddd;
+	background: #fafafa;
+	font: normal 14px arial, sans-serif;
+	resize: none;
+	-moz-border-radius: 6px;
+	-khtml-border-radius: 6px;
+}
+
+form#tinhlo input:hover, input:focus {
+	border-color: #c5c5c5;
+	background: #f6f6f6;
+}
