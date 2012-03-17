@@ -3,9 +3,10 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>GIS - Quản lý giao thông bộ TP. Cần Thơ</title>
+<link type="text/css" rel="stylesheet" href="css/ui-lightness/jquery-ui-1.8.18.custom.css" />
 <link type="text/css" rel="stylesheet" href="css/main.css" />
 <script type="text/javascript" src="js/jquery/jquery-1.7.1.min.js"></script>
-<script type="text/javascript" src="js/jquery/jquery-ui-1.8.17.custom.min.js"></script>
+<script type="text/javascript" src="js/jquery/jquery-ui-1.8.18.custom.min.js"></script>
 <script type="text/javascript" src="js/effects.js"></script>
 <script type="text/javascript" src="js/OpenLayers-2.11/OpenLayers.js"></script>
 <script type="text/javascript" src="js/maphandle.js"></script>

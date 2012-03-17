@@ -1,6 +1,6 @@
 <?php
 	
-	require_once(dirname(__FILE__) . '/classes/PgSQL.php');
+	require_once dirname(__FILE__) . '/classes/PgSQL.php';
 	
 	if (isset($_GET['fid'])) {
 		$fid = $_GET['fid'];
@@ -13,18 +13,16 @@
 	function getInfo($table, $id) {
 		switch ($table) {
 			case 'tinh_lo_polyline':
-				return getFromTinhLo($table, $id);
-				break;
 			case 'quoc_lo_polyline':
-				return getFromQuocLo($table, $id);
+				return getDuong($table, $id);
 				break;
 			case 'ben_xe_font_point':
-				return getFromBenXe($table, $id);
+				return getBenXe($table, $id);
 				break;
 		}
 	}
 	
-	function getFromTinhLo($table, $id) {
+	function getDuong($table, $id) {
 		$queryStr = "SELECT d.ten as ten_duong, d.diem_dau, d.diem_cuoi, d.tong_so_cau, l.loai as loai_duong, c.cap as cap_duong
 							, cq.ten as co_quan_quan_ly, cq.dia_chi as dia_chi_co_quan, d.tinh_trang_su_dung
 					FROM {$table} t, duong_bo d, cap_duong c, co_quan_quan_ly cq, loai_duong l
@@ -34,12 +32,13 @@
 						  AND d.id_co_quan = cq.id_co_quan
 						  AND d.id_loai = l.id_loai";
 		
-		$pg = new PgSQL('localhost', 'gth_cantho', 'postgres', 'postgres');
+		//$pg = new PgSQL->setConnectionInfo('localhost', 'gth_cantho', 'postgres', 'postgres');
+		$pg = new PgSQL();
 		$pg->connect();
 		$result = $pg->query($queryStr);
 		
 		
-		$html = '<form id="tinhlo" name="tinhlo" method="post" action="">
+		$html = '<form id="duonglo" name="duonglo" method="post" action="">
 				<fieldset id="duong">
 					<legend>Thông tin đường</legend>
 					<div>
@@ -98,6 +97,53 @@
 		
 		return $html;
 	}
+	
+	function getBenXe($table, $id) {
+		$queryStr = "SELECT ten, dia_chi, dien_thoai, so_dau_xe, thong_ben
+					FROM {$table}
+					WHERE gid = {$id}";
+		
+		$pg = new PgSQL();
+		$pg->connect();
+		$result = $pg->query($queryStr);
+		
+		
+		$html = '<form id="benxe" name="benxe" method="post" action="">
+				<fieldset id="thongtinben">
+					<legend>Thông tin bến</legend>
+					<div>
+						<label for="tenben">Bến xe</label>
+						<input type="text" name="tenben" id="tenben" value="';
+		
+		while ($row = pg_fetch_object($result)) {
+			$html .= $row->ten . '" />
+					</div>
+					<div>
+						<label for="dienthoai">Số điện thoại</label>
+						<input type="text" name="dienthoai" id="dienthoai" value="';
+			$html .= $row->dien_thoai . '" />
+					</div>
+					<div>
+						<label for="sodauxe">Số đầu xe</label>
+						<input type="text" name="sodauxe" id="sodauxe" value="';
+			$html .= $row->so_dau_xe . '" />
+					</div>
+					<div>
+						<label for="thongben">Thông bến</label>
+						<input type="text" name="thongben" id="thongben" value="';
+			$html .= $row->thong_ben . '" />
+					</div>
+					<div>
+						<label for="diachi">Địa chỉ</label>
+						<textarea name="diachi" rows="4" id="diachi">';
+			$html .= $row->dia_chi . '</textarea>
+					</div>
+				</fieldset>
+			</form>';
+		}
+		
+		return $html;
+	}
 ?>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
@@ -105,14 +151,29 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>Test</title>
+<link type="text/css" rel="stylesheet" href="css/ui-lightness/jquery-ui-1.8.18.custom.css" />
 <link rel="stylesheet" type="text/css" href="css/infobox.css" />
+<script type="text/javascript" src="js/jquery/jquery-1.7.1.min.js"></script>
+<script type="text/javascript" src="js/jquery/jquery-ui-1.8.18.custom.min.js"></script>
+<script type="text/javascript">
+	$(document).ready(function() {
+        var $dialog = $('div#info').dialog({
+							autoOpen: true,
+							width: 'auto',
+							position: [200, 50],
+							title: 'Thông tin'
+						});
+    });
+</script>
 </head>
 
 <body>
+<div id="info">
 	<?php
 		if (isset($table) && isset($id)) {
 			echo getInfo($table, $id);
 		}
 	?>
+</div>
 </body>
 </html>

@@ -6,6 +6,7 @@
  * Trường Đại học Cần Thơ
  * Email: hdnha11@gmail.com
  */
+require_once dirname(__FILE__) . '/../Config.php';
  
 /**
  * Lớp truy xuất CSDL PostgreSQL
@@ -22,9 +23,19 @@ class PgSQL {
 	/**
 	 * Phương thức khởi tạo
 	 */
-	function __construct($host, $db, $user, $pass) {
+	function __construct() {
+		$this->host = Config::$hostname;
+		$this->db   = Config::$database;
+		$this->user = Config::$username;
+		$this->pass = Config::$password;
+	}
+	
+	/**
+	 * Phương thức gán giá trị cho $host, $db, $user và $pass
+	 */
+	function setConnectionInfo($host, $db, $user, $pass) {
 		$this->host = $host;
-		$this->db = $db;
+		$this->db   = $db;
 		$this->user = $user;
 		$this->pass = $pass;
 	}
