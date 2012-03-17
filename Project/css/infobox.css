@@ -1,66 +1,71 @@
 /* CSS Document */
 
-form#tinhlo {
-	background: #fff;
-	padding: 15px;
-	border: 1px solid #eee;
-	width: 450px;
+div#info {
+	padding: 0px !important;
+	width: 482px !important;
 }
 
-form#tinhlo fieldset div {
-	margin: 5px 0px;
+div#info form {
+	background: #fff;
+	padding: 15px !important;
+	border: 1px solid #eee;
+	width: 450px !important;
+}
+
+div#info form fieldset div {
+	margin: 5px 0px !important;
 	clear: both;
 }
 
-form#tinhlo label {
+div#info form label {
 	float: left;
-	width: 130px;
+	width: 130px !important;
 	text-align: right;
-	margin: 0px 15px 0px 0px;
+	margin: 0px 15px 0px 0px !important;
 }
 
-form#tinhlo fieldset {
-	margin: 5px 0px;
+div#info form fieldset {
+	margin: 5px 0px !important;
 	border: 1px solid #ddd;
-	padding: 0px 10px 10px;
-	font: 95%/120% Arial, Helvetica, sans-serif;
+	padding: 0px 10px 10px !important;
+	font: 95%/120% Arial, Helvetica, sans-serif !important;
 }
 
-form#tinhlo fieldset#duong {
+div#info form fieldset#duong {
 	/*background: url(../images/measures.png) no-repeat right center;*/
 }
 
-form#tinhlo fieldset#coquan {
+div#info form fieldset#coquan {
 	/*background: url(../images/options.png) no-repeat right center;*/
 }
 
-form#tinhlo legend {
+div#info form legend {
 	color: #0b77b7;
-	font: 120% Arial, Helvetica, sans-serif;
+	font: 120% Arial, Helvetica, sans-serif !important;
 }
 
-form#tinhlo input {
-	padding: 2.5px;
-	width: 260px;
+div#info form input {
+	padding: 2.5px !important;
+	width: 260px !important;
 	border: 1px solid #ddd;
 	background: #fafafa;
-	font: normal 14px arial, sans-serif;
+	font: normal 14px arial, sans-serif !important;
 	-moz-border-radius: 6px;
 	-khtml-border-radius: 6px;
 }
 
-form#tinhlo textarea {
-	padding: 2.5px;
-	width: 260px;
+div#info form textarea {
+	padding: 2.5px !important;
+	width: 260px !important;
 	border: 1px solid #ddd;
 	background: #fafafa;
-	font: normal 14px arial, sans-serif;
+	font: normal 14px arial, sans-serif !important;
 	resize: none;
 	-moz-border-radius: 6px;
 	-khtml-border-radius: 6px;
 }
 
-form#tinhlo input:hover, input:focus {
+div#info form input:hover, input:focus {
 	border-color: #c5c5c5;
 	background: #f6f6f6;
 }

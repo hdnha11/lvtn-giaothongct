@@ -1,11 +1,11 @@
 // JavaScript Document
-$(document).ready(function(){
+$(document).ready(function() {
 	
 	/* Side Bar */
 	$("#sidebar h3:first").addClass("active");
 	$("#sidebar div:not(:first)").hide();
 
-	$("#sidebar h3").click(function(){
+	$("#sidebar h3").click(function() {
 		$(this).next("div").slideToggle("fast")
 		.siblings("div:visible").slideUp("fast");
 		$(this).toggleClass("active");
@@ -13,21 +13,22 @@ $(document).ready(function(){
 	});
 	
 	/* Login Form Slide Toggle */
-	$(".btn-slide").click(function(){
+	$(".btn-slide").click(function() {
 		$("#panel").slideToggle("slow");
-		$(this).toggleClass("active"); return false;
+		$(this).toggleClass("active");
+		return false;
 	});
 	
 	/* Slide Bar Navigation */
 	$(function() {
-		$('#navigation a').stop().animate({'marginLeft':'-85px'},1000);
+		$('#navigation a').stop().animate({'marginLeft':'-85px'}, 1000);
 
 		$('#navigation > li').hover(
-			function () {
-				$('a',$(this)).stop().animate({'marginLeft':'-2px'},200);
+			function() {
+				$('a',$(this)).stop().animate({'marginLeft':'-2px'}, 200);
 			},
-			function () {
-				$('a',$(this)).stop().animate({'marginLeft':'-85px'},200);
+			function(){
+				$('a',$(this)).stop().animate({'marginLeft':'-85px'}, 200);
 			}
 		);
 	});
