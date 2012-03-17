@@ -33,66 +33,73 @@
 						  AND d.id_loai = l.id_loai";
 		
 		//$pg = new PgSQL->setConnectionInfo('localhost', 'gth_cantho', 'postgres', 'postgres');
+		// Khởi tạo đối tượng PgSQL
 		$pg = new PgSQL();
 		$pg->connect();
 		$result = $pg->query($queryStr);
 		
-		
-		$html = '<form id="duonglo" name="duonglo" method="post" action="">
-				<fieldset id="duong">
-					<legend>Thông tin đường</legend>
-					<div>
-						<label for="tenduong">Đường</label>
-						<input type="text" name="tenduong" id="tenduong" value="';
-		
-		while ($row = pg_fetch_object($result)) {
-			$html .= $row->ten_duong . '" />
-					</div>
-					<div>
-						<label for="diemdau">Điểm đầu</label>
-						<input type="text" name="diemdau" id="diemdau" value="';
-			$html .= $row->diem_dau . '" />
-					</div>
-					<div>
-						<label for="diemcuoi">Điểm cuối</label>
-						<input type="text" name="diemcuoi" id="diemcuoi" value="';
-			$html .= $row->diem_cuoi . '" />
-					</div>
-					<div>
-						<label for="tscau">Tổng số cầu</label>
-						<input type="text" name="tscau" id="tscau" value="';
-			$html .= $row->tong_so_cau . '" />
-					</div>
-					<div>
-						<label for="loai">Loại</label>
-						<input type="text" name="loai" id="loai" value="';
-			$html .= $row->loai_duong . '" />
-					</div>
-					<div>
-						<label for="cap">Cấp</label>
-						<input type="text" name="cap" id="cap" value="';
-			$html .= $row->cap_duong . '" />
-					</div>
-					<div>
-						<label for="tinhtrang">Tình trạng sử dụng</label>
-						<textarea name="tinhtrang" rows="4" id="tinhtrang">';
-			$html .= $row->tinh_trang_su_dung . '</textarea>
-					</div>
-				</fieldset>
-				<fieldset id="coquan">
-					<legend>Cơ quan quản lý</legend>
-					<div>
-						<label for="tencq">Tên cơ quan</label>
-						<input type="text" name="tencq" id="tencq" value="';
-			$html .= $row->co_quan_quan_ly . '" />
-					</div>
-					<div>
-						<label for="diachi">Địa chỉ</label>
-						<textarea name="diachi" rows="4" id="diachi">';
-			$html .= $row->dia_chi_co_quan . '</textarea>
-					</div>
-				</fieldset>
-			</form>';
+		// Nếu có kết quả trả về sẽ trả về dạng HTML
+		if ($pg->numberRows() != 0) {
+			
+			// Sinh mã HTML
+			$html = '<form id="duonglo" name="duonglo" method="post" action="">
+					<fieldset id="duong">
+						<legend>Thông tin đường</legend>
+						<div>
+							<label for="tenduong">Đường</label>
+							<input type="text" name="tenduong" id="tenduong" value="';
+			
+			while ($row = pg_fetch_object($result)) {
+				$html .= $row->ten_duong . '" />
+						</div>
+						<div>
+							<label for="diemdau">Điểm đầu</label>
+							<input type="text" name="diemdau" id="diemdau" value="';
+				$html .= $row->diem_dau . '" />
+						</div>
+						<div>
+							<label for="diemcuoi">Điểm cuối</label>
+							<input type="text" name="diemcuoi" id="diemcuoi" value="';
+				$html .= $row->diem_cuoi . '" />
+						</div>
+						<div>
+							<label for="tscau">Tổng số cầu</label>
+							<input type="text" name="tscau" id="tscau" value="';
+				$html .= $row->tong_so_cau . '" />
+						</div>
+						<div>
+							<label for="loai">Loại</label>
+							<input type="text" name="loai" id="loai" value="';
+				$html .= $row->loai_duong . '" />
+						</div>
+						<div>
+							<label for="cap">Cấp</label>
+							<input type="text" name="cap" id="cap" value="';
+				$html .= $row->cap_duong . '" />
+						</div>
+						<div>
+							<label for="tinhtrang">Tình trạng sử dụng</label>
+							<textarea name="tinhtrang" rows="4" id="tinhtrang">';
+				$html .= $row->tinh_trang_su_dung . '</textarea>
+						</div>
+					</fieldset>
+					<fieldset id="coquan">
+						<legend>Cơ quan quản lý</legend>
+						<div>
+							<label for="tencq">Tên cơ quan</label>
+							<input type="text" name="tencq" id="tencq" value="';
+				$html .= $row->co_quan_quan_ly . '" />
+						</div>
+						<div>
+							<label for="diachi">Địa chỉ</label>
+							<textarea name="diachi" rows="4" id="diachi">';
+				$html .= $row->dia_chi_co_quan . '</textarea>
+						</div>
+					</fieldset>
+				</form>';
+			}
+		} else {
+			$html = "<p>Không tìm thấy thông tin về đường này</p>";
 		}
 		
 		return $html;

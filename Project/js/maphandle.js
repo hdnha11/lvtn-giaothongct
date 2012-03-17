@@ -1,11 +1,13 @@
 // JavaScript Document
 // Ban do
 var map;
+
 // Cong cu do khoang cach, dien tich
 var measureControls;
 
 // pink tile avoidance
 OpenLayers.IMAGE_RELOAD_ATTEMPTS = 5;
+
 // make OL compute scale according to WMS spec
 OpenLayers.DOTS_PER_INCH = 25.4 / 0.28;
 
@@ -14,6 +16,7 @@ OpenLayers.ProxyHost = 'geoproxy.php?url=';
 
 // Ham khoi tao ban do
 function init(){
+	
 	// Dinh dang anh khi xuat ra trinh duyet
 	format = 'image/png';
 	
@@ -222,10 +225,17 @@ function init(){
 	
 	// Ho tro GetFeatureInfo
 	map.events.register('click', map, function (e) {
+		
 		//document.getElementById('nodelist').innerHTML = "Đang lấy thông tin... Vui lòng chờ...";
 		// Lam tron toa do, tren Firefox toa do lay so thuc
 		var x = parseInt(e.xy.x);
 		var y = parseInt(e.xy.y);
+		
+		// Luu toa do x, y cua man hinh lai tren trang chu
+		$("div#x").html(e.clientX);
+		$("div#y").html(e.clientY);
+		
+		// Tao cau truy van cho dich vu GetFeatureInfo
 		var url =  map.layers[1].getFullRequestString(
 			{
 				REQUEST: "GetFeatureInfo",
@@ -295,17 +305,35 @@ function toggleImmediate(element) {
 
 /********* Phan xu ly GetFeatureInfo ********/
 // sets the HTML provided into the nodelist element
-function setHTML(response){
-	/*var g = new OpenLayers.Format.GML();
-	var features = g.read(response.responseText);
-	//console.log(features);
-	if (features.length != 0) {
-		document.getElementById('nodelist').innerHTML = features[0].fid;
-	} else {
-		document.getElementById('nodelist').innerHTML = "Không có dữ liệu";
-	}*/
+function setHTML(response) {
+	
+	// Tao mot doi tuong GML
 	var g = new OpenLayers.Format.GML();
+	
+	// Dung ham read doc gia tri tra ve va chuyen sang dang GML
 	var features = g.read(response.responseText);
-	window.location = "http://localhost/lvtn/show_info.php?fid=" + features[0].fid;
+	
+	// Dung Ajax lay thong tin doi tuong nho FID
+	OpenLayers.loadURL("get_info.php?fid=" + features[0].fid, '', this, showInfo, showInfo);
 };
+
+// Hien thi thong tin len cua so Popup
+function showInfo(response) {
+	
+	// Gan ket qua tra ve vao div#info
+	$('div#info').html(response.responseText);
+	
+	// Lay toa do da luu tren trang chu
+	var x = eval($("div#x").html());
+	var y = eval($("div#y").html());
+	
+	// Hien Popup, zIndex = 1000 cho phep hien tren cung
+	var $dialog = $('div#info').dialog({
+						autoOpen: true,
+						width: 'auto',
+						position: [x, y],
+						zIndex: 10000,
+						title: 'Thông tin'
+					});
+}
 /********* Het phan xu ly GetFeatureInfo ********/
