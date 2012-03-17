@@ -151,28 +151,28 @@ a:focus {
 }
 #login .submit input {
 	margin-left: 140px;
-	background-color:#f5f5f5;
-    border:1px solid #dedede;
-    border-top:1px solid #eee;
-    border-left:1px solid #eee;
-	font-family:"Lucida Grande", Tahoma, Arial, Verdana, sans-serif;
-    font-size:100%;
-    line-height:130%;
-    text-decoration:none;
-    font-weight:bold;
-    color:#565656;
-    cursor:pointer;
-    padding:5px 10px 6px 7px;
+	background-color: #f5f5f5;
+    border: 1px solid #dedede;
+    border-top: 1px solid #eee;
+    border-left: 1px solid #eee;
+	font-family: "Lucida Grande", Tahoma, Arial, Verdana, sans-serif;
+    font-size: 100%;
+    line-height: 130%;
+    text-decoration: none;
+    font-weight: bold;
+    color: #565656;
+    cursor: pointer;
+    padding: 5px 10px 6px 7px;
 }
 #login .submit input:hover {
-	background-color:#dff4ff;
-    border:1px solid #c2e1ef;
-    color:#336699;
+	background-color: #dff4ff;
+    border: 1px solid #c2e1ef;
+    color: #336699;
 }
 #login .submit input:active {
-    background-color:#6299c5;
-    border:1px solid #6299c5;
-    color:#fff;
+    background-color: #6299c5;
+    border: 1px solid #6299c5;
+    color: #fff;
 }
 #login input {
 	color: #781351;
@@ -188,7 +188,7 @@ ul#navigation {
     top: 110px;
     left: 0px;
     list-style: none;
-    z-index:9999;
+    z-index: 9999;
 }
 ul#navigation li {
     width: 100px;
@@ -198,11 +198,11 @@ ul#navigation li a {
     margin-left: -2px;
     width: 100px;
     height: 70px;
-    background-color:#CFCFCF;
-    background-repeat:no-repeat;
-    background-position:center center;
-    border:1px solid #AFAFAF;
-    -moz-border-radius:0px 10px 10px 0px;
+    background-color: #CFCFCF;
+    background-repeat: no-repeat;
+    background-position: center center;
+    border: 1px solid #AFAFAF;
+    -moz-border-radius: 0px 10px 10px 0px;
     -webkit-border-bottom-right-radius: 10px;
     -webkit-border-top-right-radius: 10px;
     -khtml-border-bottom-right-radius: 10px;
@@ -211,7 +211,7 @@ ul#navigation li a {
     -webkit-box-shadow: 0px 4px 3px #000;
     */
     opacity: 0.6;
-    filter:progid:DXImageTransform.Microsoft.Alpha(opacity=60);
+    filter: progid:DXImageTransform.Microsoft.Alpha(opacity=60);
 }
 ul#navigation .showmenu a{
     background-image: url(../images/pin.png);
