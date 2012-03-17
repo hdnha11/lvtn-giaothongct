@@ -79,21 +79,17 @@ body {
 	padding: 1em;
 	border: 1px solid #eee;
 }
-
 #sidebar form#controlToggle fieldset {
 	margin: 0.3em 0;
 	border: 1px solid #ddd;
 	padding: 0 0.5em 0.5em;
 }
-
 #sidebar form#controlToggle fieldset.methods {
 	background: url(../images/measures.png) no-repeat right center;
 }
-
 #sidebar form#controlToggle fieldset.options {
 	background: url(../images/options.png) no-repeat right center;
 }
-
 #sidebar form#controlToggle legend {
 	color: #0b77b7;
 	font-size: 120%;
@@ -215,6 +211,9 @@ ul#navigation li a {
 }
 ul#navigation .showmenu a{
     background-image: url(../images/pin.png);
+}
+ul#navigation .printmap a{
+    background-image: url(../images/print.png);
 }
 
 /* Additional styles */

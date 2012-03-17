@@ -8,7 +8,7 @@
  * File lấy thông tin đối tượng từ CSDL khi biết FID
  */
 	
-require_once dirname(__FILE__) . '/classes/PgSQL.php';
+require_once dirname(__FILE__) . '/PgSQL.php';
 
 if (isset($_GET['fid'])) {
 	$fid = $_GET['fid'];

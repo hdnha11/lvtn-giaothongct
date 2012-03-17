@@ -11,6 +11,7 @@
 <script type="text/javascript" src="js/effects.js"></script>
 <script type="text/javascript" src="js/OpenLayers-2.11/OpenLayers.js"></script>
 <script type="text/javascript" src="js/maphandle.js"></script>
+<script type="text/javascript" src="js/printmap.js"></script>
 </head>
 
 <body onload="init();">
@@ -31,6 +32,6 @@
 <div id="info"></div>
 <!-- Hold x, y coordinare -->
 <div id="x" style="display:none"></div>
-<div id="y" style="display:none></div>
+<div id="y" style="display:none"></div>
 </body>
 </html>

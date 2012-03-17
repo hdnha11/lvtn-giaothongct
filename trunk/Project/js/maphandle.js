@@ -12,7 +12,7 @@ OpenLayers.IMAGE_RELOAD_ATTEMPTS = 5;
 OpenLayers.DOTS_PER_INCH = 25.4 / 0.28;
 
 // PHP Proxy dung cho viec goi AJAX Cross Server
-OpenLayers.ProxyHost = 'geoproxy.php?url=';
+OpenLayers.ProxyHost = 'lib/geoproxy.php?url=';
 
 // Ham khoi tao ban do
 function init(){
@@ -314,7 +314,7 @@ function setHTML(response) {
 	var features = g.read(response.responseText);
 	
 	// Dung Ajax lay thong tin doi tuong nho FID
-	OpenLayers.loadURL("get_info.php?fid=" + features[0].fid, '', this, showInfo, showInfo);
+	OpenLayers.loadURL("lib/get_info.php?fid=" + features[0].fid, '', this, showInfo, showInfo);
 };
 
 // Hien thi thong tin len cua so Popup
