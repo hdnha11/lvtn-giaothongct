@@ -1,0 +1,50 @@
+/* CSS Document */
+
+body {
+	margin: 0;
+	padding: 0;
+	line-height: 1.4em;
+	word-spacing: 1px;
+	letter-spacing: 0.2px;
+	font: 13px Arial, Helvetica,"Lucida Grande", serif;
+	color: #000;
+}
+
+/* Links */
+a:link, a:visited {
+	background: transparent;
+	color: #333;
+	text-decoration: none;
+}
+
+a:link[href^="http://"]:after, a[href^="http://"]:visited:after {
+	content: " (" attr(href) ") ";
+	font-size: 11px;
+}
+
+a[href^="http://"] {
+	color: #000;
+}
+
+/*Remove Element*/
+#wrapper #left {
+	display: none;
+}
+
+/*Display Element*/
+div#title {
+	display: block;
+	width: 100%;
+	margin: 10px auto;
+	text-align: center;
+	font: bold 22px Arial, Helvetica,"Lucida Grande", serif;
+}
+
+img#mapImage {
+	border: 2px solid #000;
+}
+
+div#right {
+	width: 100%;
+	height: auto;
+}

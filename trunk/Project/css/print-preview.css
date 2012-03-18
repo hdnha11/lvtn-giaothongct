@@ -1,0 +1,104 @@
+/* CSS Document */
+
+body {
+	margin: 0px;
+	padding: 0px;
+}
+
+#wrapper {
+	margin: auto;
+	padding: 0px;
+	border: 0px;
+	width: auto;
+}
+
+div#left {
+	width: 20%;
+	float: left;
+}
+
+div#right {
+	background: #999;
+	width: 80%;
+	height: auto;
+	float: right;
+}
+
+img#mapImage {
+	display: block;
+	border: 1px solid #999;
+	margin: 10px auto;
+}
+
+div#title {
+	display: none;
+}
+
+form {
+	background: #fff;
+	padding: 15px;
+	border-bottom: 1px solid #eee;
+	width: 90%;
+}
+
+form fieldset {
+	margin: 5px 0px;
+	border: 1px solid #ddd;
+	padding: 0px 10px 10px;
+	font: 95%/120% Arial, Helvetica, sans-serif;
+}
+
+form fieldset div {
+	margin: 5px auto;
+}
+
+form legend {
+	color: #0b77b7;
+	font: 18px Arial, Helvetica, sans-serif;
+}
+
+form textarea {
+	padding: 5px;
+	margin-left: 20px;
+	width: 75%;
+	border: 1px solid #ddd;
+	background: #fafafa;
+	font: normal 14px arial, sans-serif;
+	-moz-border-radius: 6px;
+	-khtml-border-radius: 6px;
+}
+
+form textarea:hover {
+	border-color: #c5c5c5;
+	background: #f6f6f6;
+}
+
+form button {
+	width: 75%;
+	margin-left: 20px;
+	background-color: #f5f5f5;
+    border: 1px solid #dedede;
+    border-top: 1px solid #eee;
+    border-left: 1px solid #eee;
+	font-family: "Lucida Grande", Tahoma, Arial, Verdana, sans-serif;
+    font-size: 14px;
+    text-decoration: none;
+    font-weight: bold;
+    color: #565656;
+    cursor: pointer;
+    padding: 5px 10px 6px 7px;
+	-moz-border-radius: 6px;
+	-khtml-border-radius: 6px;
+}
+
+form button:hover {
+	background-color: #dff4ff;
+    border: 1px solid #c2e1ef;
+    color: #336699;
+}
+
+form button:active {
+    background-color: #6299c5;
+    border: 1px solid #6299c5;
+    color: #fff;
+}
