@@ -2,6 +2,9 @@
 // Ban do
 var map;
 
+// Layer hien thi ket qua tim kiem
+var showSearchResult;
+
 // Cong cu do khoang cach, dien tich
 var measureControls;
 
@@ -258,6 +261,33 @@ function init() {
 		OpenLayers.loadURL(url, '', this, setHTML, setHTML);
 		OpenLayers.Event.stop(e);
 	});
+	
+	// Hien thi ket qua tim kiem
+	// Style cho layer ket qua
+	// TODO: Style for showSearchResult layer
+	var showSearchResultStyle = OpenLayers.Util.applyDefaults({
+									externalGraphic: "images/pink_marker.png",
+									graphicWidth: 32,
+									graphicHeight: 32,
+									graphicYOffset: -26,
+									graphicOpacity: 1,
+									strokeWidth: 6,
+									strokeColor: '#FF0004',
+									strokeOpacity: 0.8
+								}, OpenLayers.Feature.Vector.style['default']);
+	
+	// Layer hien ket qua
+	showSearchResult = new OpenLayers.Layer.Vector(
+		"Kết quả tìm kiếm",
+		{
+			style: showSearchResultStyle,
+			srs: 'EPSG:4326',
+			displayInLayerSwitcher: false
+		}
+	);
+	
+	map.addLayer(showSearchResult);
+	
 }// End init()
 
 /********* Phan xu ly do khoang cach ********/

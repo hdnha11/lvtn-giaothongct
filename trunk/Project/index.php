@@ -13,6 +13,7 @@
 <script type="text/javascript" src="js/OpenLayers-2.11/lang/vi.js"></script>
 <script type="text/javascript" src="js/MapHandle.js"></script>
 <script type="text/javascript" src="js/PrintMap.js"></script>
+<script type="text/javascript" src="js/SearchInMap.js"></script>
 </head>
 
 <body onload="init();">
