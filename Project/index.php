@@ -10,6 +10,7 @@
 <script type="text/javascript" src="js/jquery/jquery-ui-1.8.18.custom.min.js"></script>
 <script type="text/javascript" src="js/effects.js"></script>
 <script type="text/javascript" src="js/OpenLayers-2.11/OpenLayers.js"></script>
+<script type="text/javascript" src="js/OpenLayers-2.11/lang/vi.js"></script>
 <script type="text/javascript" src="js/MapHandle.js"></script>
 <script type="text/javascript" src="js/PrintMap.js"></script>
 </head>
