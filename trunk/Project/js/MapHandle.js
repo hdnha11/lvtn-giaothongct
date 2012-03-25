@@ -14,8 +14,11 @@ OpenLayers.DOTS_PER_INCH = 25.4 / 0.28;
 // PHP Proxy dung cho viec goi AJAX Cross Server
 OpenLayers.ProxyHost = 'lib/geoproxy.php?url=';
 
+// Su dung tieng Viet
+OpenLayers.Lang.setCode('vi');
+
 // Ham khoi tao ban do
-function init(){
+function init() {
 	
 	// Dinh dang anh khi xuat ra trinh duyet
 	format = 'image/png';
