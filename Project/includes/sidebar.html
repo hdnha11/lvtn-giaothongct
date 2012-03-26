@@ -3,14 +3,19 @@
         <h3>Tìm kiếm trên bản đồ</h3>
             <div class="slideContent" id="searchInMap">
                 <form id="searchForm" name="searchForm" method="post" action="">
-                	<input id="query" name="query" type="text" value="Nhập nội dung tìm kiếm" />
-                    <select id="searchLayer" name="searchLayer">
-                    	<option value="all">Tất cả</option>
-                    	<option value="tinhLo">Tỉnh lộ</option>
-                        <option value="quocLo">Quốc lộ</option>
-                        <option value="benXe">Bến xe</option>
-                    </select>
-                    <input id="search" name="search" type="submit" value="Tìm kiếm" onclick="return searchInMap();" />
+                	<p>
+                        <input id="query" name="query" type="text" value="Nhập nội dung tìm kiếm" />
+                        <span id="delete"><span id="x">x</span></span>
+                        <input id="search" name="search" type="submit" value="Tìm kiếm" onclick="return searchInMap();" />
+                    </p>
+                    <p>
+                        <select id="searchLayer" name="searchLayer">
+                            <option value="all">Tất cả các lớp</option>
+                            <option value="tinhLo">Lớp tỉnh lộ</option>
+                            <option value="quocLo">Lớp quốc lộ</option>
+                            <option value="benXe">Lớp bến xe</option>
+                        </select>
+                    </p>
                 </form>
             </div>
         <h3>Đo đạt trên bản đồ</h3>

@@ -19,19 +19,19 @@ switch ($layers) {
 					FROM tinh_lo_polyline tl
 					INNER JOIN duong_bo db
 					ON tl.id_duong = db.id_duong
-					WHERE db.ten ILIKE '%{$query}%';";
+					WHERE db.ten ILIKE '%{$query}%'";
 		break;
 	case 'quocLo':
 		$queryStr = "SELECT db.ten, ST_AsText(ql.the_geom) AS wkt
 					FROM quoc_lo_polyline ql
 					INNER JOIN duong_bo db
 					ON ql.id_duong = db.id_duong
-					WHERE db.ten ILIKE '%{$query}%';";
+					WHERE db.ten ILIKE '%{$query}%'";
 		break;
 	case 'benXe':
 		$queryStr = "SELECT ten, ST_AsText(the_geom) AS wkt
 					FROM ben_xe_font_point
-					WHERE ten ILIKE '%{$query}%';";
+					WHERE ten ILIKE '%{$query}%'";
 		break;
 	default:
 		$queryStr = '';
