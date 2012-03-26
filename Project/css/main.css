@@ -72,6 +72,14 @@ body {
 	border-left: solid 1px #c4c4c4;
 	border-right: solid 1px #c4c4c4;
 }
+/* Ket qua tim kiem */
+#sidebar #searchInMap {
+	height: 300px;
+	overflow: auto;
+}
+#sidebar #searchInMap a.resultItem {
+	display: block;
+}
 	
 /* Do khoang cach */
 #sidebar form#controlToggle {
