@@ -79,6 +79,79 @@ body {
 }
 #sidebar #searchInMap a.resultItem {
 	display: block;
+	height: 25px;
+	padding-top: 10px;
+	font: 125%/120% Arial, Helvetica, sans-serif;
+	color: #0055A8;
+}
+#sidebar #searchInMap a.resultItem:hover {
+	text-decoration: underline;
+}
+#searchInMap #searchForm {
+	border-bottom: 1px solid #BFCAE7;
+}
+/* Search box */
+#searchForm #query {
+	float: left;
+	width: 186px;
+	height: 27px;
+	line-height: 27px;
+	text-indent: 10px;
+	font-family: arial, sans-serif;
+	font-size: 1em;
+	color: #333;
+	background: #fff;
+	border: solid 1px #d9d9d9;
+	border-top: solid 1px #c0c0c0;
+	border-right: none;
+}
+#searchForm #delete {
+	float: left;
+	width: 14px;
+	height: 29px;
+	line-height: 27px;
+	margin-right: 12px;
+	padding: 0 5px 0 5px;
+	font-family: "Lucida Sans", "Lucida Sans Unicode", sans-serif;
+	font-size: 20px;
+	background: #fff;
+	border: solid 1px #d9d9d9;
+	border-top: solid 1px #c0c0c0;
+	border-left: none;
+}
+#searchForm #delete #x {
+	color: #A1B9ED;
+	cursor: pointer;
+	display: none;
+}
+#searchForm #delete #x:hover {
+	color: #36c;
+}
+#searchForm #search {
+	cursor: pointer;
+	width: 65px;
+	height: 31px;
+	line-height: 0;
+	font-size: 0;
+	text-indent: -999px;
+	color: transparent;
+	background: url(../images/ico-search.png) no-repeat #3c85fe center;
+	border: 1px solid #3079ED;
+	-moz-border-radius: 2px;
+	-webkit-border-radius: 2px;
+}
+#searchForm #searchLayer {
+	width: 212px;
+	height: 27px;
+	line-height: 27px;
+	text-indent: 10px;
+	font-family: arial, sans-serif;
+	font-size: 1em;
+	color: #333;
+	background: #fff;
+	border: solid 1px #d9d9d9;
+	border-top: solid 1px #c0c0c0;
+	margin-bottom: 10px;
 }
 	
 /* Do khoang cach */

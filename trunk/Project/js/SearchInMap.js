@@ -4,7 +4,9 @@ function searchInMap() {
 	var keyWord = $('#searchForm #query').val();
 	var layers = $('#searchForm #searchLayer').val();
 	
-	OpenLayers.loadURL('lib/search_map.php?q=' + keyWord + '&layers=' + layers, null, null, getResult, null);
+	var url = 'lib/search_map.php?q=' + keyWord + '&layers=' + layers;
+	
+	OpenLayers.loadURL(url, null, null, getResult, null);
 	
 	return false;
 }
@@ -20,18 +22,21 @@ function getResult(response) {
 		showSearchResult.removeFeatures(showSearchResult.features);
 		
 		// Parse the features
+		var listItem = '';
 		for (var i = 0; i < jsonObj.results.length; i++) {
 			parseWKT(jsonObj.results[i].geom);
 			
-			// TODO: Insert text describe for each feature in left side bar
-			$('form#searchForm').after('<a class="resultItem" href="#">' + i + '. ' + jsonObj.results[i].name + '</a>');
+			// Insert text describe for each feature in left side bar
+			//$('form#searchForm').after('<a class="resultItem" href="#">' + i + '. ' + jsonObj.results[i].name + '</a>');
+			listItem += '<a class="resultItem" href="#">' + (i + 1) + '. ' + jsonObj.results[i].name + '</a>';
 		}
+		$('form#searchForm').after(listItem);
 		
 		// Dang ky su kien click cho cac nhan
 		$('a.resultItem').click(function(e) {
 			// Lay cac ky tu so trong the a
 			var pattern = /^\d+/;
-			var id = parseInt(e.target.innerHTML.match(pattern));
+			var id = parseInt(e.target.innerHTML.match(pattern)) - 1;
 			map.setCenter(showSearchResult.features[id].geometry.bounds.getCenterLonLat(), 3);
 		});
 		
@@ -54,3 +59,34 @@ function parseWKT(wkt) {
 		alert("Lỗi định dạng WKT");
 	}
 }
+
+$(document).ready(function() {
+	
+	// Dua chuot vao o tu dong xoa du lieu
+    $('form#searchForm input#query').focus(function() {
+		if ($('form#searchForm input#query').val() === 'Nhập nội dung tìm kiếm') {
+			$('form#searchForm input#query').val('');
+		}
+	});
+	
+	// Roi khoi o tu dong dien du lieu
+	$('form#searchForm input#query').blur(function() {
+		if ($('form#searchForm input#query').val() === '') {
+			$('form#searchForm input#query').val('Nhập nội dung tìm kiếm');
+		}
+	});
+	
+	// if text input field value is not empty show the "X" button
+	$('form#searchForm input#query').keyup(function() {
+		$('#delete #x').fadeIn();
+		if ($.trim($('form#searchForm input#query').val()) == "") {
+			$('#delete #x').fadeOut();
+		}
+	});
+	
+	// on click of "X", delete input field value and hide "X"
+	$('#delete #x').click(function() {
+		$('form#searchForm input#query').val('');
+		$(this).hide();
+	});
+});
