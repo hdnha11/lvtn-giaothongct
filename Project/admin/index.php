@@ -7,6 +7,12 @@
 <link type="text/css" rel="stylesheet" href="css/index-content.css" />
 <script type="text/javascript" src="../js/jquery/jquery-1.7.1.min.js"></script>
 <script type="text/javascript" src="js/sidebar.js"></script>
+<script type="text/javascript">
+$(document).ready(function() {
+    $("#sidebar h3#admin").addClass("active");
+	$("#sidebar div:not(#adminCT)").hide();
+});
+</script>
 </head>
 
 <body>
