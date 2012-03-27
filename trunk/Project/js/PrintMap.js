@@ -46,5 +46,6 @@ function printMap() {
 $(document).ready(function() {
     $("#navigation .printmap").click(function() {
 		printMap();
+		return false;
 	});
 });

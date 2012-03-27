@@ -41,6 +41,7 @@ $(document).ready(function() {
 		} else {
 			$("#map").width(672);
 		}
+		return false;
 	});
 
 });

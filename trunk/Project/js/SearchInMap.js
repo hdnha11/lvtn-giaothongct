@@ -12,6 +12,7 @@ function searchInMap() {
 }
 
 function getResult(response) {
+	
 	// Chuyen JSON tu Text ve dang JavaScript Object
 	var jsonObj = eval('(' + response.responseText + ')');
 	
@@ -34,16 +35,19 @@ function getResult(response) {
 		
 		// Dang ky su kien click cho cac nhan
 		$('a.resultItem').click(function(e) {
+			
 			// Lay cac ky tu so trong the a
 			var pattern = /^\d+/;
 			var id = parseInt(e.target.innerHTML.match(pattern)) - 1;
 			map.setCenter(showSearchResult.features[id].geometry.bounds.getCenterLonLat(), 3);
+			return false;
 		});
 		
 		// Move va Zoom level 3 toi doi tuong dau tien tim duoc
 		map.setCenter(showSearchResult.features[0].geometry.bounds.getCenterLonLat(), 3);
 	} else {
 		alert("Không tìm thấy dữ liệu");
+		
 		// Xoa cac ket qua cu
 		$('a.resultItem').remove();
 		showSearchResult.removeFeatures(showSearchResult.features);

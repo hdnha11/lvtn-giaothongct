@@ -1,0 +1,79 @@
+/* CSS Document */
+
+/* Basic Elements */
+html, body {
+	margin: 0;
+	height: 100%;
+}
+body {	
+	font: 75%/120% Arial, Helvetica, sans-serif;
+}
+#container {
+	width: 1024px;
+	height: 100%;
+	margin: 0 auto;
+	position: relative;
+}
+#header {
+	width: 1024px;
+	height: 100px;
+	background: url(../images/banner.png) no-repeat 0% 0%;
+}
+#wrapper {
+	width: 1024px;
+	height: 100%;
+}
+#left {
+	float: left;
+	width: 350px;
+}
+#footer {
+	width: 340px;
+	margin: 0px 10px 10px 0px;
+	border: 1px solid #c4c4c4;
+	text-align: center;
+	padding: 5px 0;
+	color: #84d5fa;
+	background: #f7f7f7;
+}
+
+/* Sidebar */
+#sidebar {
+	width: 340px;
+	margin: 10px 10px 10px 0px;
+	border-bottom: solid 1px #c4c4c4;
+}
+#sidebar h3 {
+	background: #e9e7e7 url(../images/arrow-square.gif) no-repeat right -51px;
+	padding: 7px 15px;
+	margin: 0;
+	font: bold 120%/100% Arial, Helvetica, sans-serif;
+	border: solid 1px #c4c4c4;
+	border-bottom: none;
+	cursor: pointer;
+}
+#sidebar h3:hover {
+	background-color: #e3e2e2;
+}
+#sidebar h3.active {
+	background-position: right 5px;
+}
+#sidebar div.slideContent {
+	background: #f7f7f7;
+	margin: 0;
+	padding: 10px 15px 20px;
+	border-left: solid 1px #c4c4c4;
+	border-right: solid 1px #c4c4c4;
+}
+
+/* Additional styles */
+img {
+	border: 0;
+}
+a {
+	color: #84d5fa;
+	text-decoration: none;
+}
+a:hover {
+	color: orange;
+}

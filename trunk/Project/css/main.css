@@ -153,6 +153,21 @@ body {
 	border-top: solid 1px #c0c0c0;
 	margin-bottom: 10px;
 }
+
+/* Print button */
+#printarea #printMini {
+	cursor: pointer;
+	width: 80px;
+	height: 40px;
+	line-height: 0;
+	font-size: 0;
+	text-indent: -999px;
+	color: transparent;
+	background: url(../images/ico-print.png) no-repeat #3c85fe center;
+	border: 1px solid #3079ED;
+	-moz-border-radius: 2px;
+	-webkit-border-radius: 2px;
+}
 	
 /* Do khoang cach */
 #sidebar form#controlToggle {

@@ -1,0 +1,63 @@
+/* CSS Document */
+
+div#info {
+	padding: 0px !important;
+	width: 482px !important;
+}
+
+div#info form {
+	background: #fff;
+	padding: 15px !important;
+	border: 1px solid #eee;
+	width: 450px !important;
+}
+
+div#info form fieldset div {
+	margin: 5px 0px !important;
+	clear: both;
+}
+
+div#info form label {
+	float: left;
+	width: 130px !important;
+	text-align: right;
+	margin: 0px 15px 0px 0px !important;
+}
+
+div#info form fieldset {
+	margin: 5px 0px !important;
+	border: 1px solid #ddd;
+	padding: 0px 10px 10px !important;
+	font: 95%/120% Arial, Helvetica, sans-serif !important;
+}
+
+div#info form legend {
+	color: #0b77b7;
+	font: 120% Arial, Helvetica, sans-serif !important;
+}
+
+div#info form input {
+	padding: 2.5px !important;
+	width: 260px !important;
+	border: 1px solid #ddd;
+	background: #fafafa;
+	font: normal 14px arial, sans-serif !important;
+	-moz-border-radius: 6px;
+	-khtml-border-radius: 6px;
+}
+
+div#info form textarea {
+	padding: 2.5px !important;
+	width: 260px !important;
+	border: 1px solid #ddd;
+	background: #fafafa;
+	font: normal 14px arial, sans-serif !important;
+	resize: none;
+	-moz-border-radius: 6px;
+	-khtml-border-radius: 6px;
+}
+
+div#info form input:hover, input:focus {
+	border-color: #c5c5c5;
+	background: #f6f6f6;
+}
