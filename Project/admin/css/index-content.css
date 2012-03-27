@@ -1,0 +1,9 @@
+/* CSS Document */
+
+#indexContent {
+	float: left;
+	width: 672px;
+	height: 97%;
+	margin: 10px 0px 0px 0px !important;
+	border: #c4c4c4 solid 1px;
+}
