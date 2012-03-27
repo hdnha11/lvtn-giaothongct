@@ -2,8 +2,17 @@
 
 #indexContent {
 	float: left;
-	width: 672px;
-	height: 97%;
+	width: 732px;
 	margin: 10px 0px 0px 0px !important;
 	border: #c4c4c4 solid 1px;
+}
+
+#indexContent #content {
+	margin: 0px;
+	padding: 0px 20px;
+}
+
+#indexContent #content p {
+	line-height: 20px;
+	margin: 10px 0px;
 }

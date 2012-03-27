@@ -142,9 +142,6 @@ function init() {
 	// Add Overview map control
 	map.addControl(new OpenLayers.Control.OverviewMap());
 	
-	// Mo rong Layer switcher khi trang da load xong
-	ls.maximizeControl();
-	
 	// Zoom giua ban do
 	map.setCenter(centerPoint, zoom);
 	

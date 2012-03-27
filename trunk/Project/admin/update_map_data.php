@@ -13,6 +13,12 @@
 <script type="text/javascript" src="../js/OpenLayers-2.11/lang/vi.js"></script>
 <script type="text/javascript" src="js/sidebar.js"></script>
 <script type="text/javascript" src="js/AdminMapHandle.js"></script>
+<script type="text/javascript">
+$(document).ready(function() {
+    $("#sidebar h3#updateDate").addClass("active");
+	$("#sidebar div:not(#updateDateCT)").hide();
+});
+</script>
 </head>
 
 <body onload="init();">
