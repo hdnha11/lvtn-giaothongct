@@ -8,6 +8,21 @@ $db = new PgSQL();
 // Nếu một trong các form cập nhật được submit
 if (isset($_POST['action'])) {
 	switch($_POST['action']) {
+		
+		// Cập nhật user
+		case 'saveUser':
+			$strSQL = sprintf("SELECT replace_into_users(%u, '%s', '%s')", $_POST['userID'], $_POST['userName'], md5($_POST['password']));
+			$db->connect();
+			$db->query($strSQL);
+			break;
+			
+		// Xóa user
+		case 'delUser':
+			$strSQL = sprintf("DELETE FROM users WHERE id = %u", $_POST['userID']);
+			$db->connect();
+			$db->query($strSQL);
+			break;
+		
 		// Cập nhật nhóm người dùng
 		case 'saveRoles':
 			// Dùng load lại trang vừa submit
@@ -212,15 +227,15 @@ $(document).ready(function() {
 
 #updateUserContent form input.btnForm {
 	cursor: pointer;
-	width: 100px;
-	height: 30px;
-	line-height: 30px;
-	font-size: 13px;
+	width: 80px;
+	height: 29px;
+	line-height: 25px;
+	font-size: 12px;
 	font-weight: bold;
 	color: #fff;
 	background: #3c85fe;
 	border: 1px solid #3079ED;
-	margin: 5px 0px 0px 190px;
+	margin: 5px 0px 0px 200px;
 	-moz-border-radius: 2px;
 	-webkit-border-radius: 2px;
 }
@@ -232,6 +247,21 @@ $(document).ready(function() {
 
 /* Định dạng label */
 #updateUserContent form label {
+	color: #039;
+}
+
+/* Định dạng phần cập nhật user */
+#updateUserContent div#editUser {
+	border: 1px solid #c4c4c4;
+	padding: 10px;
+}
+
+/* Định dạng label form edit user */
+#updateUserContent div#editUser form label {
+	display: block;
+	width: 120px;
+	float: left;
+	margin-left: 90px;
 	color: #039;
 }
 </style>
@@ -273,7 +303,26 @@ $(document).ready(function() {
 				
 				echo '<h2>Cập nhật cho <span class="username">' . $ac->getUsername($_GET['userID']) . '</span>:</h2>';
 				
-				// TODO: Some form to edit user info here
+				// Forms to edit user info here
+				echo '<div id="editUser">';
+				echo '<form action="update_user.php" method="post">';
+				echo '<p><label for="userName">Tài khoản:</label><input type="text" name="userName" id="userName" value="'
+						. $ac->getUsername($_GET['userID']) . '" maxlength="20" /></p>';
+				echo '<p><label for="password">Mật khẩu:</label>'
+						. '<input type="password" name="password" id="password" value="" maxlength="20" /></p>';
+				echo '<input type="hidden" name="action" value="saveUser" />';
+				echo '<input type="hidden" name="userID" value="' . $_GET['userID'] . '" />';
+				echo '<input type="submit" name="Submit" class="btnForm" value="Cập nhật" />';
+				echo '</form>';
+				echo '<form action="update_user.php" method="post">';
+				echo '<input type="hidden" name="action" value="delUser" />';
+				echo '<input type="hidden" name="userID" value="' . $_GET['userID'] . '" />';
+				echo '<input type="submit" name="Delete" class="btnForm" value="Xóa" />';
+				echo '</form>';
+				echo '<form action="update_user.php" method="post">';
+				echo '<input type="submit" name="Cancel" class="btnForm" value="Hũy bỏ" />';
+				echo '</form>';
+				echo '</div>';
 				
 				echo '<ul>';
 				echo '<li>Người dùng thuộc nhóm:   (<a href="?action=roles&userID=' . $_GET['userID'] . '">Quản lý nhóm</a>)';

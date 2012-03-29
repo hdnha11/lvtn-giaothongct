@@ -4,11 +4,11 @@
 
 CREATE TABLE permissions
 (
-  ID serial NOT NULL,
-  permKey character varying(30) NOT NULL,
-  permName character varying(30) NOT NULL,
-  CONSTRAINT permissions_pkey PRIMARY KEY (ID),
-  CONSTRAINT permissions_permKey_key UNIQUE (permKey)
+  id serial NOT NULL,
+  permkey character varying(30) NOT NULL,
+  permname character varying(30) NOT NULL,
+  CONSTRAINT permissions_pkey PRIMARY KEY (id),
+  CONSTRAINT permissions_permkey_key UNIQUE (permkey)
 )
 WITH (OIDS=FALSE);
 ALTER TABLE permissions OWNER TO postgres;
@@ -19,10 +19,10 @@ ALTER TABLE permissions OWNER TO postgres;
 
 CREATE TABLE roles
 (
-  ID serial NOT NULL,
-  roleName character varying(30) NOT NULL,
-  CONSTRAINT roles_pkey PRIMARY KEY (ID),
-  CONSTRAINT roles_roleName_key UNIQUE (roleName)
+  id serial NOT NULL,
+  rolename character varying(30) NOT NULL,
+  CONSTRAINT roles_pkey PRIMARY KEY (id),
+  CONSTRAINT roles_rolename_key UNIQUE (rolename)
 )
 WITH (OIDS=FALSE);
 ALTER TABLE roles OWNER TO postgres;
@@ -56,10 +56,10 @@ ALTER TABLE role_perms OWNER TO postgres;
 
 CREATE TABLE users
 (
-  ID serial NOT NULL,
+  id serial NOT NULL,
   username character varying(20) NOT NULL,
-  password character varying(20) NOT NULL,
-  CONSTRAINT users_pkey PRIMARY KEY (ID),
+  "password" character varying(32) NOT NULL,
+  CONSTRAINT users_pkey PRIMARY KEY (id),
   CONSTRAINT users_username_key UNIQUE (username)
 )
 WITH (OIDS=FALSE);

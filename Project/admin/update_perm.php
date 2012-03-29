@@ -118,15 +118,15 @@ $(document).ready(function() {
 
 #updatePermContent form input.btnForm {
 	cursor: pointer;
-	width: 100px;
-	height: 30px;
-	line-height: 30px;
-	font-size: 13px;
+	width: 80px;
+	height: 29px;
+	line-height: 25px;
+	font-size: 12px;
 	font-weight: bold;
 	color: #fff;
 	background: #3c85fe;
 	border: 1px solid #3079ED;
-	margin: 5px 0px 0px 190px;
+	margin: 5px 0px 0px 200px;
 	-moz-border-radius: 2px;
 	-webkit-border-radius: 2px;
 }
@@ -157,7 +157,7 @@ $(document).ready(function() {
 			// Hiện danh sách quyền
 			if (!isset($_GET['action'])) {
                 echo '<h2>Chọn quyền cần quản lý:</h2>';
-				echo '<p class="rolelisttitle">Tên nhóm</p>';
+				echo '<p class="rolelisttitle">Tên quyền</p>';
                 
                 $roles = $ac->getAllPerms('full');
 				
@@ -172,7 +172,7 @@ $(document).ready(function() {
                 if (count($roles) < 1) {
                     echo '<p>Hiện chưa có quyền nào.</p>';
                 }
-			} elseif ($_GET['action'] == 'perm') { 
+			} elseif ($_GET['action'] == 'perm') { // Cập nhật cho quyền đã chọn
 				echo '<h2>Quản lý quyền: ('. $ac->getPermNameFromID($_GET['permID']) . ')</h2>';
 				echo '<form action="update_perm.php" method="post">';
 				echo '<p><label for="permName">Tên quyền:</label><input type="text" name="permName" id="permName" value="'
@@ -181,15 +181,15 @@ $(document).ready(function() {
 						. $ac->getPermKeyFromID($_GET['permID']) . '" maxlength="30" /></p>';
 				echo '<input type="hidden" name="action" value="savePerm" />';
 				echo '<input type="hidden" name="permID" value="' . $_GET['permID'] . '" />';
-				echo '<input type="submit" name="Submit" class="btnForm" value="Submit" />';
+				echo '<input type="submit" name="Submit" class="btnForm" value="Cập nhật" />';
 				echo '</form>';
 				echo '<form action="update_perm.php" method="post">';
 				echo '<input type="hidden" name="action" value="delPerm" />';
 				echo '<input type="hidden" name="permID" value="' . $_GET['permID'] . '" />';
-				echo '<input type="submit" name="Delete" class="btnForm" value="Delete" />';
+				echo '<input type="submit" name="Delete" class="btnForm" value="Xóa" />';
 				echo '</form>';
 				echo '<form action="update_perm.php" method="post">';
-				echo '<input type="submit" name="Cancel" class="btnForm" value="Cancel" />';
+				echo '<input type="submit" name="Cancel" class="btnForm" value="Hũy bỏ" />';
 				echo '</form>';
 			}
 		?>
