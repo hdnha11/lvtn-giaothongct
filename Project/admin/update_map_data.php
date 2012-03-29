@@ -15,6 +15,8 @@
 <script type="text/javascript" src="js/AdminMapHandle.js"></script>
 <script type="text/javascript">
 $(document).ready(function() {
+	
+	// Mở menu tương ứng với trang, ẩn các menu khác
     $("#sidebar h3#updateDate").addClass("active");
 	$("#sidebar div:not(#updateDateCT)").hide();
 });
