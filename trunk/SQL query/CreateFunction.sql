@@ -118,3 +118,27 @@ BEGIN
 END;
 $$
 LANGUAGE plpgsql;
+
+-- users
+CREATE OR REPLACE FUNCTION replace_into_users(uid INT, uname TEXT, pass TEXT) RETURNS VOID AS
+$$
+BEGIN
+    LOOP
+        -- first try to update the key
+        UPDATE users SET username = uname, "password" = pass WHERE id = uid OR username = uname;
+        IF found THEN
+            RETURN;
+        END IF;
+        -- not there, so try to insert the key
+        -- if someone else inserts the same key concurrently,
+        -- we could get a unique-key failure
+        BEGIN
+            INSERT INTO users(username, "password") VALUES (uname, pass);
+            RETURN;
+        EXCEPTION WHEN unique_violation THEN
+            -- Do nothing, and loop to try the UPDATE again.
+        END;
+    END LOOP;
+END;
+$$
+LANGUAGE plpgsql;

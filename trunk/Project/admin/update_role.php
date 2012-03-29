@@ -173,15 +173,15 @@ $(document).ready(function() {
 
 #updateRoleContent form input.btnForm {
 	cursor: pointer;
-	width: 100px;
-	height: 30px;
-	line-height: 30px;
-	font-size: 13px;
+	width: 80px;
+	height: 29px;
+	line-height: 25px;
+	font-size: 12px;
 	font-weight: bold;
 	color: #fff;
 	background: #3c85fe;
 	border: 1px solid #3079ED;
-	margin: 5px 0px 0px 190px;
+	margin: 5px 0px 0px 200px;
 	-moz-border-radius: 2px;
 	-webkit-border-radius: 2px;
 }
