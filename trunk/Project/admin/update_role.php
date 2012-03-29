@@ -219,7 +219,7 @@ $(document).ready(function() {
 					$isEven++;
 				}
 				if (count($roles) < 1) {
-					echo 'Hiện chưa có nhóm người dùng nào.<br />';
+					echo '<p>Hiện chưa có nhóm người dùng nào.</p>';
 				}
 			} elseif ($_GET['action'] == 'role') { // Cập nhật nhóm quyền đã chọn
 				

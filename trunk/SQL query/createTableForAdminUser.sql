@@ -33,13 +33,19 @@ ALTER TABLE roles OWNER TO postgres;
 
 CREATE TABLE role_perms
 (
-  ID serial NOT NULL,
-  roleID integer NOT NULL,
-  permID integer NOT NULL,
-  value boolean NOT NULL DEFAULT false,
-  addDate timestamp without time zone NOT NULL,
-  CONSTRAINT role_perms_pkey PRIMARY KEY (ID),
-  CONSTRAINT role_perms_roleID_key UNIQUE (roleID, permID)
+  id serial NOT NULL,
+  roleid integer NOT NULL,
+  permid integer NOT NULL,
+  "value" boolean NOT NULL DEFAULT false,
+  adddate timestamp without time zone NOT NULL,
+  CONSTRAINT role_perms_pkey PRIMARY KEY (id),
+  CONSTRAINT role_perms_permid_fkey FOREIGN KEY (permid)
+      REFERENCES permissions (id) MATCH SIMPLE
+      ON UPDATE NO ACTION ON DELETE CASCADE,
+  CONSTRAINT role_perms_roleid_fkey FOREIGN KEY (roleid)
+      REFERENCES roles (id) MATCH SIMPLE
+      ON UPDATE NO ACTION ON DELETE CASCADE,
+  CONSTRAINT role_perms_roleid_key UNIQUE (roleid, permid)
 )
 WITH (OIDS=FALSE);
 ALTER TABLE role_perms OWNER TO postgres;
@@ -65,13 +71,19 @@ ALTER TABLE users OWNER TO postgres;
 
 CREATE TABLE user_perms
 (
-  ID serial NOT NULL,
-  userID integer NOT NULL,
-  permID integer NOT NULL,
-  value boolean NOT NULL DEFAULT false,
-  addDate timestamp without time zone NOT NULL,
-  CONSTRAINT user_perms_pkey PRIMARY KEY (ID),
-  CONSTRAINT user_perms_userID_key UNIQUE (userID, permID)
+  id serial NOT NULL,
+  userid integer NOT NULL,
+  permid integer NOT NULL,
+  "value" boolean NOT NULL DEFAULT false,
+  adddate timestamp without time zone NOT NULL,
+  CONSTRAINT user_perms_pkey PRIMARY KEY (id),
+  CONSTRAINT user_perms_permid_fkey FOREIGN KEY (permid)
+      REFERENCES permissions (id) MATCH SIMPLE
+      ON UPDATE NO ACTION ON DELETE CASCADE,
+  CONSTRAINT user_perms_userid_fkey FOREIGN KEY (userid)
+      REFERENCES users (id) MATCH SIMPLE
+      ON UPDATE NO ACTION ON DELETE CASCADE,
+  CONSTRAINT user_perms_userid_key UNIQUE (userid, permid)
 )
 WITH (OIDS=FALSE);
 ALTER TABLE user_perms OWNER TO postgres;
@@ -82,10 +94,16 @@ ALTER TABLE user_perms OWNER TO postgres;
 
 CREATE TABLE user_roles
 (
-  userID integer NOT NULL,
-  roleID integer NOT NULL,
-  addDate timestamp without time zone NOT NULL,
-  CONSTRAINT user_roles_userID_key UNIQUE (userID, roleID)
+  userid integer NOT NULL,
+  roleid integer NOT NULL,
+  adddate timestamp without time zone NOT NULL,
+  CONSTRAINT user_roles_roleid_fkey FOREIGN KEY (roleid)
+      REFERENCES roles (id) MATCH SIMPLE
+      ON UPDATE NO ACTION ON DELETE CASCADE,
+  CONSTRAINT user_roles_userid_fkey FOREIGN KEY (userid)
+      REFERENCES users (id) MATCH SIMPLE
+      ON UPDATE NO ACTION ON DELETE CASCADE,
+  CONSTRAINT user_roles_userid_key UNIQUE (userid, roleid)
 )
 WITH (OIDS=FALSE);
 ALTER TABLE user_roles OWNER TO postgres;
