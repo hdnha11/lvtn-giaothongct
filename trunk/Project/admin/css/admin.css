@@ -114,3 +114,6 @@ h1.contentTitle {
 	padding: 10px 20px;
 	margin: 0px auto 0px;
 }
+span.username {
+	color: #FF0019;
+}

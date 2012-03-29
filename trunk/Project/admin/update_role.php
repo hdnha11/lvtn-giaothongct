@@ -78,7 +78,7 @@ $(document).ready(function() {
 
 #updateRoleContent #content {
 	margin: 0px;
-	padding: 0px 20px;
+	padding: 0px 20px 20px 20px;
 }
 
 #updateRoleContent #content p {
@@ -91,6 +91,104 @@ $(document).ready(function() {
 	margin: 10px 0px;
 	color: #000;
 	text-decoration: underline;
+}
+
+#updateRoleContent #content h2 {
+	font-family: Georgia, "Times New Roman", Times, serif;
+	letter-spacing: .10em;
+	font-size: 24px;
+	font-weight: 100;
+	border-bottom: groove 2px #CCC;
+	width: auto;
+	line-height: 24px;
+	font-variant: small-caps;
+	text-transform: none;
+	text-align: center;
+}
+
+/* Định dạng danh sách nhóm người dùng */
+#updateRoleContent #content p.rolelisttitle {
+	line-height: 18px;
+	margin: 0px;
+	padding: 2px 10px;
+	border-bottom: 1px solid black;
+	color: #000;
+	font-size: 13px;
+	font-weight: bold;
+}
+
+#updateRoleContent #content a.rolelist {
+	display: block;
+	line-height: 18px;
+	margin: 0px;
+	padding: 2px 10px;
+	color: #000;
+	text-decoration: none;
+}
+
+#updateRoleContent #content a.even {
+	background-color: #DFD;
+}
+
+#updateRoleContent #content a.odd {
+	background-color: #EFE;
+}
+
+/* Định dạng bảng */
+#updateRoleContent table {
+	/*font-family: "Lucida Sans Unicode", "Lucida Grande", Sans-Serif;
+	font-size: 12px;
+	margin: 45px;*/
+	width: 480px;
+	margin: 0px auto;
+	text-align: center;
+	border-collapse: collapse;
+}
+
+#updateRoleContent table th {
+	font-size: 14px;
+	font-weight: normal;
+	padding: 10px 8px;
+	color: #039;
+}
+
+#updateRoleContent table td {
+	padding: 8px;
+	color: #669;
+}
+
+#updateRoleContent table td.rowtitle {
+	text-align: left;
+}
+
+#updateRoleContent table .even {
+	background: #e8edff; 
+}
+
+/* Định dạng các nút bấm */
+#updateRoleContent form {
+	width: 480px;
+	margin: 0px auto;
+}
+
+#updateRoleContent form input.btnForm {
+	cursor: pointer;
+	width: 100px;
+	height: 30px;
+	line-height: 30px;
+	font-size: 13px;
+	font-weight: bold;
+	color: #fff;
+	background: #3c85fe;
+	border: 1px solid #3079ED;
+	margin: 5px 0px 0px 190px;
+	-moz-border-radius: 2px;
+	-webkit-border-radius: 2px;
+}
+
+/* Định dạng label */
+#updateRoleContent form label {
+	color: #039;
 }
 </style>
 </head>
@@ -107,28 +205,42 @@ $(document).ready(function() {
         <h1 class="contentTitle">Cập nhật nhóm người dùng</h1>
         <div id="content">
         <?php
+			// Hiện danh sách quyền
         	if (!isset($_GET['action'])) {
 				echo '<h2>Chọn nhóm người dùng cần quản lý:</h2>';
+				echo '<p class="rolelisttitle">Tên nhóm</p>';
 				$roles = $ac->getAllRoles('full');
+				
+				// Biến kiểm tra chẳn lẽ
+				$isEven = 0;
 				foreach ($roles as $k => $v) {
-					echo '<a href="?action=role&roleID=' . $v['ID'] . '">' . $v['Name'] . '</a><br />';
+					$roleClass = ($isEven % 2 == 0) ? 'rolelist even' : 'rolelist odd';
+					echo '<a class="' . $roleClass . '" href="?action=role&roleID=' . $v['ID'] . '">' . $v['Name'] . '</a>';
+					$isEven++;
 				}
 				if (count($roles) < 1) {
 					echo 'Hiện chưa có nhóm người dùng nào.<br />';
 				}
-			} elseif ($_GET['action'] == 'role') { 
+			} elseif ($_GET['action'] == 'role') { // Cập nhật nhóm quyền đã chọn
 				
 				echo '<h2>Quản lý nhóm: (' . $ac->getRoleNameFromID($_GET['roleID']) . ')</h2>';
 				echo '<form action="update_role.php" method="post">';
-				echo '<label for="roleName">Tên nhóm:</label><input type="text" name="roleName" id="roleName" value="'
+				echo '<label for="roleName">Tên nhóm: </label><input type="text" name="roleName" id="roleName" value="'
 						. $ac->getRoleNameFromID($_GET['roleID']) . '" />';
 				echo '<table border="0" cellpadding="5" cellspacing="0">';
 				echo '<tr><th></th><th>Cho phép</th><th>Từ chối</th><th>Bỏ qua</th></tr>';
 				
 				$rPerms = $ac->getRolePerms($_GET['roleID']);
 				$aPerms = $ac->getAllPerms('full');
+				
+				// Biến chẳn lẽ dùng trang trí bảng
+				$isEven = 0;
 				foreach ($aPerms as $k => $v) {
-					echo '<tr><td><label>' . $v['Name'] . '</label></td>';
+					
+					// Thêm class chẳn lẽ cho từng dòng
+					$evenClass = ($isEven % 2 === 0) ? 'even' : 'odd';
+					
+					echo '<tr class="' . $evenClass . '"><td class="rowtitle"><label>' . $v['Name'] . '</label></td>';
 					echo '<td><input type="radio" name="perm_' . $v['ID'] . '" id="perm_"' . $v['ID'] . '_1" value="1"';
 					if (array_key_exists($v['Key'], $rPerms)) {
 						if ($rPerms[$v['Key']]['value'] === true && $_GET['roleID'] != '') {
@@ -149,21 +261,24 @@ $(document).ready(function() {
 					}
 					echo ' /></td>';
 					echo '</tr>';
+					
+					// Tăng biến chẳn lẽ
+					$isEven++;
 				}
 				
 				echo '</table>';
 				echo '<input type="hidden" name="action" value="saveRole" />';
 				echo '<input type="hidden" name="roleID" value="' . $_GET['roleID'] . '" />';
-				echo '<input type="submit" name="Submit" value="Cập nhật" />';
+				echo '<input type="submit" name="Submit" class="btnForm" value="Cập nhật" />';
 				echo '</form>';
 				
 				echo '<form action="update_role.php" method="post">';
 				echo '<input type="hidden" name="action" value="delRole" />';
 				echo '<input type="hidden" name="roleID" value="' . $_GET['roleID'] . '" />';
-				echo '<input type="submit" name="Delete" value="Xóa" />';
+				echo '<input type="submit" name="Delete" class="btnForm" value="Xóa nhóm" />';
 				echo '</form>';
 				echo '<form action="update_role.php" method="post">';
-				echo '<input type="submit" name="Cancel" value="Hũy bỏ" />';
+				echo '<input type="submit" name="Cancel" class="btnForm" value="Hũy bỏ" />';
 				echo '</form>';
 			}
 		?>

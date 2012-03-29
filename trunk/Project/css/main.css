@@ -144,7 +144,7 @@ body {
 	width: 212px;
 	height: 27px;
 	line-height: 27px;
-	text-indent: 10px;
+	/*text-indent: 10px;*/
 	font-family: arial, sans-serif;
 	font-size: 1em;
 	color: #333;

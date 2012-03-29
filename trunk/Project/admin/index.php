@@ -8,7 +8,9 @@ if ($ac->hasPermission('quan_tri_nguoi_dung') != true && $ac->hasPermission('lap
 	$ac->hasPermission('cap_nhat_du_lieu') != true
 ) {
 	//header('Location: ../index.php');
+	// Mở trang ../index.php sau 5 giây
 	header("refresh:5;url=../index.php");
+	// Hiển thị thông báo truy cập trái phép
 	include dirname(__FILE__) . '/includes/message.html';
 } else {
 ?>
