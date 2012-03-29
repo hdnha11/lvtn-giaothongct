@@ -94,3 +94,27 @@ BEGIN
 END;
 $$
 LANGUAGE plpgsql;
+
+-- permissions
+CREATE OR REPLACE FUNCTION replace_into_permissions(pid INT, pkey TEXT, pname TEXT) RETURNS VOID AS
+$$
+BEGIN
+    LOOP
+        -- first try to update the key
+        UPDATE permissions SET permkey = pkey, permname = pname WHERE id = pid OR permkey = pkey;
+        IF found THEN
+            RETURN;
+        END IF;
+        -- not there, so try to insert the key
+        -- if someone else inserts the same key concurrently,
+        -- we could get a unique-key failure
+        BEGIN
+            INSERT INTO permissions(permkey, permname) VALUES (pkey, pname);
+            RETURN;
+        EXCEPTION WHEN unique_violation THEN
+            -- Do nothing, and loop to try the UPDATE again.
+        END;
+    END LOOP;
+END;
+$$
+LANGUAGE plpgsql;
