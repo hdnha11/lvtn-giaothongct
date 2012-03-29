@@ -16,3 +16,46 @@
 	line-height: 20px;
 	margin: 10px 0px;
 }
+
+#indexContent #content h2 {
+	font-family: Georgia, "Times New Roman", Times, serif;
+	letter-spacing: .10em;
+	font-size: 24px;
+	font-weight: 100;
+	border-bottom: groove 2px #CCC;
+	width: auto;
+	line-height: 24px;
+	font-variant: small-caps;
+	text-transform: none;
+	text-align: center;
+}
+
+#indexContent #content .perm {
+	height: 22px;
+}
+
+#indexContent #content .perm p {
+	height: 22px;
+	line-height: 22px;
+	font-weight: bold;
+	margin: 0px;
+	position: relative;
+}
+
+/* Canh giửa ảnh theo chiều dọc */
+#indexContent #content .perm p img {
+	position: absolute;
+	height: 16px;
+	width: 16px;
+	top: 50%;
+	margin-top: -8px;
+	margin-left: 5px;
+}
+
+#indexContent #content hr {
+	height: 1px;
+	color: #DDD;
+	background: #DDD;
+	border: 0px;
+	margin: 10px 0px 20px;
+}

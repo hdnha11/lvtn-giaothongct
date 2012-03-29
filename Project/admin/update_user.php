@@ -87,7 +87,7 @@ $(document).ready(function() {
 
 #updateUserContent #content {
 	margin: 0px;
-	padding: 0px 20px;
+	padding: 0px 20px 20px 20px;
 }
 
 #updateUserContent #content p {
@@ -95,11 +95,144 @@ $(document).ready(function() {
 	margin: 10px 0px;
 }
 
-#updateUserContent #content a {
-	line-height: 20px;
-	margin: 10px 0px;
+#updateUserContent #content h2 {
+	font-family: Georgia, "Times New Roman", Times, serif;
+	letter-spacing: .10em;
+	font-size: 24px;
+	font-weight: 100;
+	border-bottom: groove 2px #CCC;
+	width: auto;
+	line-height: 24px;
+	font-variant: small-caps;
+	text-transform: none;
+	text-align: center;
+}
+
+/* Định dạng danh sách người dùng */
+#updateUserContent #content p.userlisttitle {
+	line-height: 18px;
+	margin: 0px;
+	padding: 2px 10px;
+	border-bottom: 1px solid black;
 	color: #000;
+	font-size: 13px;
+	font-weight: bold;
+}
+
+#updateUserContent #content a.userlist {
+	display: block;
+	line-height: 18px;
+	margin: 0px;
+	padding: 2px 10px;
+	color: #000;
+	text-decoration: none;
+}
+
+#updateUserContent #content a.even {
+	background-color: #DFD;
+}
+
+#updateUserContent #content a.odd {
+	background-color: #EFE;
+}
+
+/* Định dạng danh sách lồng */
+#updateUserContent {
+	color:#111;
+}
+
+#updateUserContent ul {
+	list-style-type: none;
+	font-weight: bold;
+}
+
+#updateUserContent ul li {
+	margin: 20px 0px 0px 0px;
+}
+
+#updateUserContent ul li ul {
+	/*list-style-image: url("images/nested.png");*/
+	padding: 5px 0 5px 18px;
+}
+
+#updateUserContent ul li ul li {
+	display: block;
+	color: #3E7E9D;
+	background: url("images/nested.png") no-repeat;
+	height: 25px;
+	line-height: 25px;
+	text-indent: 30px;
+	margin: 0px;
+}
+
+#updateUserContent ul li a {
+	color: #F8AF5A;
+}
+
+#updateUserContent ul li a:hover {
 	text-decoration: underline;
+}
+
+/* Định dạng bảng */
+#updateUserContent table {
+	/*font-family: "Lucida Sans Unicode", "Lucida Grande", Sans-Serif;
+	font-size: 12px;
+	margin: 45px;*/
+	width: 480px;
+	margin: 0px auto;
+	text-align: center;
+	border-collapse: collapse;
+}
+
+#updateUserContent table th {
+	font-size: 14px;
+	font-weight: normal;
+	padding: 10px 8px;
+	color: #039;
+}
+
+#updateUserContent table td {
+	padding: 8px;
+	color: #669;
+}
+
+#updateUserContent table td.rowtitle {
+	text-align: left;
+}
+
+#updateUserContent table .even {
+	background: #e8edff; 
+}
+
+/* Định dạng các nút bấm */
+#updateUserContent form {
+	width: 480px;
+	margin: 0px auto;
+}
+
+#updateUserContent form input.btnForm {
+	cursor: pointer;
+	width: 100px;
+	height: 30px;
+	line-height: 30px;
+	font-size: 13px;
+	font-weight: bold;
+	color: #fff;
+	background: #3c85fe;
+	border: 1px solid #3079ED;
+	margin: 5px 0px 0px 190px;
+	-moz-border-radius: 2px;
+	-webkit-border-radius: 2px;
+}
+
+/* Định dạng các dropdown box */
+#updateUserContent form select {
+	width: 172px;
+}
+
+/* Định dạng label */
+#updateUserContent form label {
+	color: #039;
 }
 </style>
 </head>
@@ -119,21 +252,31 @@ $(document).ready(function() {
 			// Hiện danh sách user
         	if (!isset($_GET['action'])) {
 				echo '<h2>Chọn người dùng muốn cập nhật:</h2>';
-				
+				echo '<p class="userlisttitle">Tên đăng nhập</p>';
 				$strSQL = "SELECT * FROM users ORDER BY username ASC";
 				$db->connect();
 				$data = $db->query($strSQL);
+				
+				// Biến kiểm tra chẳn lẽ
+				$isEven = 0;
 				while ($row = pg_fetch_assoc($data)) {
-					echo '<a href="?action=user&userID=' . $row['id'] . '">' . $row['username'] . '</a><br />';
+					// Kiểm tra chẳn lẽ dùng cho mục đích trang trí
+					if ($isEven % 2 === 0) {
+						echo '<a class="userlist even" href="?action=user&userID=' . $row['id'] . '">' . $row['username'] . '</a>';
+					} else {
+						echo '<a class="userlist odd" href="?action=user&userID=' . $row['id'] . '">' . $row['username'] . '</a>';
+					}
+					$isEven++;
 				}
 			} elseif ($_GET['action'] == 'user' ) { // Hiện trang quản lý của người dùng đã chọn
 				$userAC = new AccessControl($_GET['userID']);
 				
-				echo '<h2>Cập nhật cho ' . $ac->getUsername($_GET['userID']) . ':</h2>';
+				echo '<h2>Cập nhật cho <span class="username">' . $ac->getUsername($_GET['userID']) . '</span>:</h2>';
 				
 				// TODO: Some form to edit user info here
 				
-				echo '<h3>Người dùng thuộc nhóm:   (<a href="?action=roles&userID=' . $_GET['userID'] . '">Quản lý nhóm</a>)</h3>';
+				echo '<ul>';
+				echo '<li>Người dùng thuộc nhóm:   (<a href="?action=roles&userID=' . $_GET['userID'] . '">Quản lý nhóm</a>)';
 				echo '<ul>';
 				$roles = $userAC->getUserRoles();
 				
@@ -143,7 +286,9 @@ $(document).ready(function() {
 				}
 				
 				echo '</ul>';
-				echo '<h3>Người dùng có quyền:   (<a href="?action=perms&userID=' . $_GET['userID'] . '">Quản lý quyền</a>)</h3>';
+				echo '</li>';
+				
+				echo '<li>Người dùng có quyền:   (<a href="?action=perms&userID=' . $_GET['userID'] . '">Quản lý quyền</a>)';
 				echo '<ul>';
 				$perms = $userAC->perms;
 				
@@ -159,16 +304,23 @@ $(document).ready(function() {
 					echo '</li>';
 				}
 				echo '</ul>';
+				echo '</li>';
+				echo '</ul>';
 			} elseif ($_GET['action'] == 'roles') { // Quản lý nhóm người dùng của người dùng đã chọn
-                echo '<h2>Quản lý nhóm người dùng: (' . $ac->getUsername($_GET['userID']) . ')</h2>';
+                echo '<h2>Quản lý nhóm người dùng: (<span class="username">' . $ac->getUsername($_GET['userID']) . '</span>)</h2>';
                 echo '<form action="update_user.php" method="post">';
                 echo '<table border="0" cellpadding="5" cellspacing="0">';
                 echo '<tr><th></th><th>Thành viên</th><th>Không phải thành viên</th></tr>';
 				
                 $roleAC = new AccessControl($_GET['userID']);
                 $roles = $roleAC->getAllRoles('full');
+				
+				// Biến chẳn lẽ dùng trang trí bảng
+				$isEven = 0;
                 foreach ($roles as $k => $v) {
-                    echo '<tr><td><label>' . $v['Name'] . '</label></td>';
+					// Thêm class chẳn lẽ cho từng dòng
+					$evenClass = ($isEven % 2 === 0) ? 'even' : 'odd';
+                    echo '<tr class="' . $evenClass . '"><td class="rowtitle"><label>' . $v['Name'] . '</label></td>';
                     echo '<td><input type="radio" name="role_' . $v['ID'] . '" id="role_' . $v['ID'] . '_1" value="1"';
                     if ($roleAC->userHasRole($v['ID'])) { // Nếu thuộc nhóm này
 						echo ' checked="checked"';
@@ -180,31 +332,40 @@ $(document).ready(function() {
 					}
                     echo ' /></td>';
                     echo '</tr>';
+					
+					// Tăng biến chẳn lẽ
+					$isEven++;
                 }
                 
 				// Form dùng cập nhật nhóm người dùng
                 echo '</table>';
                 echo '<input type="hidden" name="action" value="saveRoles" />';
                 echo '<input type="hidden" name="userID" value="' . $_GET['userID'] . '" />';
-                echo '<input type="submit" name="Submit" value="Cập nhật" />';
+                echo '<input type="submit" name="Submit" class="btnForm" value="Cập nhật" />';
                 echo '</form>';
 				
 				// Thoát không cập nhật
                 echo '<form action="update_user.php" method="post">';
-                echo '<input type="button" name="Cancel" onclick="window.location=' . "'?action=user&userID=" 
+                echo '<input type="button" name="Cancel" class="btnForm" onclick="window.location=' . "'?action=user&userID=" 
 					. $_GET['userID'] ."'" . '" value="Hũy bỏ" />';
                 echo '</form>';
 			} elseif ($_GET['action'] == 'perms') { // Quản lý quyền của người dùng đã chọn
-				echo '<h2>Quản lý quyền người dùng: (' . $ac->getUsername($_GET['userID']) . ')</h2>';
+				echo '<h2>Quản lý quyền người dùng: (<span class="username">' . $ac->getUsername($_GET['userID']) . '</span>)</h2>';
 				echo '<form action="update_user.php" method="post">';
 				echo '<table border="0" cellpadding="5" cellspacing="0">';
-				echo '<tr><th></th><th></th></tr>';
+				echo '<tr><th>Tên quyền</th><th>Quyền người dùng</th></tr>';
 				
 				$userAC = new AccessControl($_GET['userID']);
 				$rPerms = $userAC->perms;
 				$aPerms = $userAC->getAllPerms('full');
+				
+				// Biến chẳn lẽ dùng trang trí bảng
+				$isEven = 0;
 				foreach ($aPerms as $k => $v) {
-					echo '<tr><td>' . $v['Name'] . '</td>';
+					
+					// Thêm class chẳn lẽ cho từng dòng
+					$evenClass = ($isEven % 2 === 0) ? 'even' : 'odd';
+					echo '<tr class="' . $evenClass . '"><td class="rowtitle">' . $v['Name'] . '</td>';
 					echo '<td><select name="perm_' . $v['ID'] . '">';
 					echo '<option value="1"';
 					if (array_key_exists($v['Key'], $rPerms)) { // Nếu tồn tại khóa này trong danh sách quyền của người dùng
@@ -246,18 +407,21 @@ $(document).ready(function() {
 					}
 					echo '>Thừa hưởng ' . $iVal . '</option>';
 					echo '</select></td></tr>';
+					
+					// Tăng biến chẳn lẽ
+					$isEven++;
 				}
 				
 				// Form dùng cập nhật quyền
 				echo '</table>';
 				echo '<input type="hidden" name="action" value="savePerms" />';
 				echo '<input type="hidden" name="userID" value="'. $_GET['userID'] . '" />';
-				echo '<input type="submit" name="Submit" value="Cập nhật" />';
+				echo '<input type="submit" name="Submit" class="btnForm" value="Cập nhật" />';
 				echo '</form>';
 				
 				// Form dùng thoát không cập nhật
 				echo '<form action="update_user.php" method="post">';
-				echo '<input type="button" name="Cancel" onclick="window.location=' . "'?action=user&userID=" .
+				echo '<input type="button" name="Cancel" class="btnForm" onclick="window.location=' . "'?action=user&userID=" .
 					$_GET['userID'] . "'" . '" value="Hũy bỏ" />';
 				echo '</form>';
 			}
