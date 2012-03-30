@@ -1,3 +1,11 @@
 <div id="header">
     <a href="index.php"><img src="images/logo.png" width="583" height="100" alt="WebGIS Quản lý giao thông bộ" /></a>
+    <div id="login-info">
+    	<?php
+        	if (isset($_SESSION['userID'])) {
+            	echo '<span>Xin chào <span class="username">' . $ac->getUsername($ac->userID) . '</span></span>';
+            }
+        ?>
+    	<a id="logout" href="logout.php">Đăng xuất</a>
+	</div>
 </div><!--End Header-->

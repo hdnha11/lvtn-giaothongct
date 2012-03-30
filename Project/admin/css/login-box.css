@@ -1,0 +1,68 @@
+body {
+	background: url(../images/crossline-bg.gif);
+}
+
+form#login {
+	width: 435px;
+	height: 360px;
+	padding: 50px 0px 0px 50px;
+	margin: 100px auto;
+	color: #ebebeb;
+	font: 12px Arial, Helvetica, sans-serif;
+	background: url(../images/login-box-backg.png) no-repeat left top;
+}
+
+form#login h2 {
+	padding: 0px;
+	margin: 0px;
+	color: #ebebeb;
+	font: bold 44px "Calibri", Arial;
+}
+
+form#login p.first {
+	margin-top: 30px;
+}
+
+form#login label {
+	width: 100px;
+	float: left;
+	text-align: right;
+	height: 37px;
+	line-height: 37px;
+	margin: 0px 10px 0px 0px;
+	display: block;
+}
+
+form#login label.checkbox {
+	float: none;
+	display: inline;
+}
+
+form#login .submit input {
+	margin-left: 148px;
+	width: 103px;
+	height: 42px;
+	color: #ebebeb;
+	font: bold 16px "Calibri", Arial;
+	border: none;
+	background: transparent url(../images/login-btn.png) no-repeat top left;
+    cursor: pointer;
+    padding: 5px 10px 6px 7px;
+}
+
+form#login .submit input:hover {
+	background: transparent url(../images/login-btn-hover.png) no-repeat top left;
+}
+
+form#login #user, #pwd  {
+	width: 205px;
+	padding: 10px 4px 6px 3px;
+	border: 1px solid #0d2c52;
+	background-color:#1e4f8a;
+	font-size: 16px;
+	color: #ebebeb;
+}
+
+form#login input[type=checkbox] {
+	margin: 12px 0px 0px 120px;
+}

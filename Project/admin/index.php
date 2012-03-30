@@ -1,18 +1,20 @@
 <?php
+session_start();
 require_once dirname(__FILE__) . '/../lib/AccessControl.php';
+require_once dirname(__FILE__) . '/../lib/Login.php';
 
-// TODO: after has a login system, remove this parameter
-$ac = new AccessControl(1);
-
-if ($ac->hasPermission('quan_tri_nguoi_dung') != true && $ac->hasPermission('lap_bao_cao') != true &&
-	$ac->hasPermission('cap_nhat_du_lieu') != true
-) {
-	//header('Location: ../index.php');
-	// Mở trang ../index.php sau 5 giây
-	header("refresh:5;url=../index.php");
-	// Hiển thị thông báo truy cập trái phép
-	include dirname(__FILE__) . '/includes/message.html';
-} else {
+if (Login::isLoggedIn()) {
+	$ac = new AccessControl();
+	
+	if ($ac->hasPermission('quan_tri_nguoi_dung') != true && $ac->hasPermission('lap_bao_cao') != true &&
+		$ac->hasPermission('cap_nhat_du_lieu') != true
+	) {
+		//header('Location: ../index.php');
+		// Mở trang ../index.php sau 5 giây
+		header("refresh:5;url=login.php");
+		// Hiển thị thông báo truy cập trái phép
+		include dirname(__FILE__) . '/includes/message.html';
+	} else {
 ?>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
@@ -49,5 +51,9 @@ $(document).ready(function() {
 </body>
 </html>
 <?php
+	}
+} else {
+	// Chuyễn tới trang login
+	header("Location: login.php");
 }
 ?>

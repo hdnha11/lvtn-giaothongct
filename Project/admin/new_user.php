@@ -1,25 +1,27 @@
 <?php
+session_start();
 require_once dirname(__FILE__) . '/../lib/AccessControl.php';
+require_once dirname(__FILE__) . '/../lib/Login.php';
 
-// TODO: after has a login system, remove this parameter
-$ac = new AccessControl(1);
-$db = new PgSQL();
-
-// Nếu một trong các form cập nhật được submit
-if (isset($_POST['action'])) {
+if (Login::isLoggedIn()) {
+	$ac = new AccessControl();
+	$db = new PgSQL();
 	
-	$strSQL = sprintf("INSERT INTO users(username, password) VALUES('%s', '%s')", $_POST['userName'], md5($_POST['password']));
-	$db->connect();
-	$db->query($strSQL);
+	// Nếu một trong các form cập nhật được submit
+	if (isset($_POST['action'])) {
+		
+		$strSQL = sprintf("INSERT INTO users(username, password) VALUES('%s', '%s')", $_POST['userName'], md5($_POST['password']));
+		$db->connect();
+		$db->query($strSQL);
+		
+		// Load lại trang vừa submit
+		header("Location: new_user.php" . $redir);
+	}
 	
-	// Load lại trang vừa submit
-	header("Location: new_user.php" . $redir);
-}
-
-if ($ac->hasPermission('quan_tri_nguoi_dung') != true) {
-	header("refresh:5;url=index.php");
-	include dirname(__FILE__) . '/includes/message.html';
-} else {
+	if ($ac->hasPermission('quan_tri_nguoi_dung') != true) {
+		header("refresh:5;url=index.php");
+		include dirname(__FILE__) . '/includes/message.html';
+	} else {
 ?>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
@@ -44,6 +46,7 @@ $(document).ready(function() {
 	width: 732px;
 	margin: 10px 0px 0px 0px !important;
 	border: #c4c4c4 solid 1px;
+	background: #F7F7F7; /*Test*/
 }
 
 #newUserContent #content {
@@ -137,5 +140,9 @@ $(document).ready(function() {
 </body>
 </html>
 <?php
+	}
+} else {
+	// Chuyễn tới trang login với status=notlogin
+	header("Location: login.php?status=notlogin");
 }
 ?>
