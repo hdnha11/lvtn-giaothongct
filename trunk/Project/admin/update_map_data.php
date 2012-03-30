@@ -1,3 +1,20 @@
+<?php
+session_start();
+require_once dirname(__FILE__) . '/../lib/AccessControl.php';
+require_once dirname(__FILE__) . '/../lib/Login.php';
+
+if (Login::isLoggedIn()) {
+
+	$ac = new AccessControl();
+	$db = new PgSQL();
+	
+	if ($ac->hasPermission('cap_nhat_du_lieu') != true) {
+		header("refresh:5;url=index.php");
+		include dirname(__FILE__) . '/includes/message.html';
+	} else {
+
+?>
+
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
@@ -42,3 +59,10 @@ $(document).ready(function() {
 <div id="y" style="display:none"></div>
 </body>
 </html>
+<?php
+	}
+} else {
+	// Chuyễn tới trang login với status=notlogin
+	header("Location: login.php?status=notlogin");
+}
+?>

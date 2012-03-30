@@ -1,79 +1,82 @@
 <?php
+session_start();
 require_once dirname(__FILE__) . '/../lib/AccessControl.php';
+require_once dirname(__FILE__) . '/../lib/Login.php';
 
-// TODO: after has a login system, remove this parameter
-$ac = new AccessControl(1);
-$db = new PgSQL();
+if (Login::isLoggedIn()) {
 
-// Nếu một trong các form cập nhật được submit
-if (isset($_POST['action'])) {
-	switch($_POST['action']) {
-		
-		// Cập nhật user
-		case 'saveUser':
-			$strSQL = sprintf("SELECT replace_into_users(%u, '%s', '%s')", $_POST['userID'], $_POST['userName'], md5($_POST['password']));
-			$db->connect();
-			$db->query($strSQL);
-			break;
-			
-		// Xóa user
-		case 'delUser':
-			$strSQL = sprintf("DELETE FROM users WHERE id = %u", $_POST['userID']);
-			$db->connect();
-			$db->query($strSQL);
-			break;
-		
-		// Cập nhật nhóm người dùng
-		case 'saveRoles':
-			// Dùng load lại trang vừa submit
-			$redir = '?action=user&userID=' . $_POST['userID'];
-			
-			// Duyệt từng phần tử trên form
-			foreach ($_POST as $k => $v) {
-				//Nếu là các radio button tương ứng với từng nhóm người dùng
-				if (substr($k, 0, 5) == 'role_') {
-					// Lấy ID nhóm bằng cách bỏ đi role_
-					$roleID = str_replace('role_', '', $k);
-					// Nếu radio có giá trị 0 thì xóa bỏ record có ID nhóm và userid trong bảng user_roles 
-					if ($v == '0') {
-						$strSQL = sprintf("DELETE FROM user_roles WHERE userid = %u AND roleid = %u", $_POST['userID'], $roleID);
-					} else { // Chỉ cập nhật lại giá trị, replace_into_user_roles là hàm tự viết
-						$strSQL = sprintf("SELECT replace_into_user_roles(%u, %u, '%s')",
-											$_POST['userID'], $roleID, date ('Y-m-d H:i:s'));
-					}
-					$db->connect();
-					$data = $db->query($strSQL);
-				}
-			}			
-			break;
-		
-		// Cập nhật quyền
-		case 'savePerms':
-			$redir = '?action=user&userID=' . $_POST['userID'];
-			foreach ($_POST as $k => $v) {
-				if (substr($k, 0, 5) == 'perm_') {
-					$permID = str_replace('perm_', '', $k);
-					if ($v == 'x') {
-						$strSQL = sprintf("DELETE FROM user_perms WHERE userid = %u AND permid = %u", $_POST['userID'], $permID);
-					} else {
-						$strSQL = sprintf("SELECT replace_into_user_perms(%u, %u, '%s', '%s')",
-						$_POST['userID'], $permID, $v, date ("Y-m-d H:i:s"));
-					}
-					$db->connect();
-					$data = $db->query($strSQL);
-				}
-			}
-			break;
-	}
+	$ac = new AccessControl();
+	$db = new PgSQL();
 	
-	// Load lại trang vừa submit
-	header("Location: update_user.php" . $redir);
-}
-
-if ($ac->hasPermission('quan_tri_nguoi_dung') != true) {
-	header("refresh:5;url=index.php");
-	include dirname(__FILE__) . '/includes/message.html';
-} else {
+	if ($ac->hasPermission('quan_tri_nguoi_dung') != true) {
+		header("refresh:5;url=index.php");
+		include dirname(__FILE__) . '/includes/message.html';
+	} else {
+		
+		// Nếu một trong các form cập nhật được submit
+		if (isset($_POST['action'])) {
+			switch($_POST['action']) {
+				
+				// Cập nhật user
+				case 'saveUser':
+					$strSQL = sprintf("SELECT replace_into_users(%u, '%s', '%s')", $_POST['userID'], $_POST['userName'], md5($_POST['password']));
+					$db->connect();
+					$db->query($strSQL);
+					break;
+					
+				// Xóa user
+				case 'delUser':
+					$strSQL = sprintf("DELETE FROM users WHERE id = %u", $_POST['userID']);
+					$db->connect();
+					$db->query($strSQL);
+					break;
+				
+				// Cập nhật nhóm người dùng
+				case 'saveRoles':
+					// Dùng load lại trang vừa submit
+					$redir = '?action=user&userID=' . $_POST['userID'];
+					
+					// Duyệt từng phần tử trên form
+					foreach ($_POST as $k => $v) {
+						//Nếu là các radio button tương ứng với từng nhóm người dùng
+						if (substr($k, 0, 5) == 'role_') {
+							// Lấy ID nhóm bằng cách bỏ đi role_
+							$roleID = str_replace('role_', '', $k);
+							// Nếu radio có giá trị 0 thì xóa bỏ record có ID nhóm và userid trong bảng user_roles 
+							if ($v == '0') {
+								$strSQL = sprintf("DELETE FROM user_roles WHERE userid = %u AND roleid = %u", $_POST['userID'], $roleID);
+							} else { // Chỉ cập nhật lại giá trị, replace_into_user_roles là hàm tự viết
+								$strSQL = sprintf("SELECT replace_into_user_roles(%u, %u, '%s')",
+													$_POST['userID'], $roleID, date ('Y-m-d H:i:s'));
+							}
+							$db->connect();
+							$data = $db->query($strSQL);
+						}
+					}			
+					break;
+				
+				// Cập nhật quyền
+				case 'savePerms':
+					$redir = '?action=user&userID=' . $_POST['userID'];
+					foreach ($_POST as $k => $v) {
+						if (substr($k, 0, 5) == 'perm_') {
+							$permID = str_replace('perm_', '', $k);
+							if ($v == 'x') {
+								$strSQL = sprintf("DELETE FROM user_perms WHERE userid = %u AND permid = %u", $_POST['userID'], $permID);
+							} else {
+								$strSQL = sprintf("SELECT replace_into_user_perms(%u, %u, '%s', '%s')",
+								$_POST['userID'], $permID, $v, date ("Y-m-d H:i:s"));
+							}
+							$db->connect();
+							$data = $db->query($strSQL);
+						}
+					}
+					break;
+			}
+			
+			// Load lại trang vừa submit
+			header("Location: update_user.php" . $redir);
+		}
 ?>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
@@ -98,6 +101,7 @@ $(document).ready(function() {
 	width: 732px;
 	margin: 10px 0px 0px 0px !important;
 	border: #c4c4c4 solid 1px;
+	background: #F7F7F7; /*Test*/
 }
 
 #updateUserContent #content {
@@ -483,5 +487,9 @@ $(document).ready(function() {
 </body>
 </html>
 <?php
+	}
+} else {
+	// Chuyễn tới trang login với status=notlogin
+	header("Location: login.php?status=notlogin");
 }
 ?>

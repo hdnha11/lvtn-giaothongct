@@ -1,31 +1,34 @@
 <?php
+session_start();
 require_once dirname(__FILE__) . '/../lib/AccessControl.php';
+require_once dirname(__FILE__) . '/../lib/Login.php';
 
-// TODO: after has a login system, remove this parameter
-$ac = new AccessControl(1);
-$db = new PgSQL();
+if (Login::isLoggedIn()) {
 
-if (isset($_POST['action'])) {
-	switch($_POST['action']) {
-		case 'savePerm':
-			$strSQL = sprintf("SELECT replace_into_permissions(%u, '%s', '%s')", $_POST['permID'], $_POST['permKey'], $_POST['permName']);
-			$db->connect();
-			$db->query($strSQL);
-			break;
-		case 'delPerm':
-			$strSQL = sprintf("DELETE FROM permissions WHERE id = %u", $_POST['permID']);
-			$db->connect();
-			$db->query($strSQL);
-			break;
-	}
+	$ac = new AccessControl();
+	$db = new PgSQL();
 	
-	header("Location: update_perm.php");
-}
-
-if ($ac->hasPermission('quan_tri_nguoi_dung') != true) {
-	header("refresh:5;url=index.php");
-	include dirname(__FILE__) . '/includes/message.html';
-} else {
+	if ($ac->hasPermission('quan_tri_nguoi_dung') != true) {
+		header("refresh:5;url=index.php");
+		include dirname(__FILE__) . '/includes/message.html';
+	} else {
+		
+		if (isset($_POST['action'])) {
+			switch($_POST['action']) {
+				case 'savePerm':
+					$strSQL = sprintf("SELECT replace_into_permissions(%u, '%s', '%s')", $_POST['permID'], $_POST['permKey'], $_POST['permName']);
+					$db->connect();
+					$db->query($strSQL);
+					break;
+				case 'delPerm':
+					$strSQL = sprintf("DELETE FROM permissions WHERE id = %u", $_POST['permID']);
+					$db->connect();
+					$db->query($strSQL);
+					break;
+			}
+			
+			header("Location: update_perm.php");
+		}
 ?>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
@@ -50,6 +53,7 @@ $(document).ready(function() {
 	width: 732px;
 	margin: 10px 0px 0px 0px !important;
 	border: #c4c4c4 solid 1px;
+	background: #F7F7F7; /*Test*/
 }
 
 #updatePermContent #content {
@@ -201,5 +205,9 @@ $(document).ready(function() {
 </body>
 </html>
 <?php
+	}
+} else {
+	// Chuyễn tới trang login với status=notlogin
+	header("Location: login.php?status=notlogin");
 }
 ?>

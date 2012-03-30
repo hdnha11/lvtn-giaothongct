@@ -7,6 +7,7 @@ html, body {
 }
 body {	
 	font: 75%/120% Arial, Helvetica, sans-serif;
+	background: url(../images/crossline-bg.gif); /* Cross line background */
 }
 #container {
 	width: 1024px;
@@ -91,6 +92,25 @@ body {
 #sidebar div.slideContent ul li a:hover {
 	color:#069;
 	background: #fff url(../images/out-arrow-over.gif) no-repeat 5px 8px;
+}
+
+/* Thông tin người dùng và đăng xuất */
+div#header div#login-info {
+	color: #eee;
+	font-weight: bold;
+	position: absolute;
+	top: 0px;
+	right: 0px;
+	padding: 5px 10px;
+}
+
+div#header div#login-info a {
+	color: #FFFA51;
+	text-decoration: underline;
+}
+
+div#header div#login-info a:hover {
+	color: #eee;
 }
 
 /* Additional styles */

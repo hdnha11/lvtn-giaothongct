@@ -1,55 +1,58 @@
 <?php
+session_start();
 require_once dirname(__FILE__) . '/../lib/AccessControl.php';
+require_once dirname(__FILE__) . '/../lib/Login.php';
 
-// TODO: after has a login system, remove this parameter
-$ac = new AccessControl(1);
-$db = new PgSQL();
+if (Login::isLoggedIn()) {
 
-if (isset($_POST['action'])) {
-	switch($_POST['action']) {
-		case 'saveRole':
-			$strSQL = sprintf("SELECT replace_into_roles(%u, '%s')", $_POST['roleID'], $_POST['roleName']);
-			$db->connect();
-			$db->query($strSQL);
-			
-			$roleID = $_POST['roleID'];
-			
-			foreach ($_POST as $k => $v) {
-				if (substr($k, 0, 5) == 'perm_') {
-					$permID = str_replace('perm_', '', $k);
-					if ($v == 'X') {
-						$strSQL = sprintf("DELETE FROM role_perms WHERE roleid = %u AND permid = %u", $roleID, $permID);
-						$db->query($strSQL);
-						continue;
+	$ac = new AccessControl();
+	$db = new PgSQL();
+	
+	if ($ac->hasPermission('quan_tri_nguoi_dung') != true) {
+		header("refresh:5;url=index.php");
+		include dirname(__FILE__) . '/includes/message.html';
+	} else {
+		
+		if (isset($_POST['action'])) {
+			switch($_POST['action']) {
+				case 'saveRole':
+					$strSQL = sprintf("SELECT replace_into_roles(%u, '%s')", $_POST['roleID'], $_POST['roleName']);
+					$db->connect();
+					$db->query($strSQL);
+					
+					$roleID = $_POST['roleID'];
+					
+					foreach ($_POST as $k => $v) {
+						if (substr($k, 0, 5) == 'perm_') {
+							$permID = str_replace('perm_', '', $k);
+							if ($v == 'X') {
+								$strSQL = sprintf("DELETE FROM role_perms WHERE roleid = %u AND permid = %u", $roleID, $permID);
+								$db->query($strSQL);
+								continue;
+							}
+							
+							$strSQL = sprintf("SELECT replace_into_role_perms(%u, %u, '%s', '%s')",
+												$roleID, $permID, $v, date ("Y-m-d H:i:s"));
+							$db->query($strSQL);
+						}
 					}
 					
-					$strSQL = sprintf("SELECT replace_into_role_perms(%u, %u, '%s', '%s')",
-										$roleID, $permID, $v, date ("Y-m-d H:i:s"));
+					header("Location: update_role.php");
+					break;
+					
+				case 'delRole':
+					$db->connect();
+					$strSQL = sprintf("DELETE FROM roles WHERE id = %u", $_POST['roleID']);
 					$db->query($strSQL);
-				}
+					$strSQL = sprintf("DELETE FROM user_roles WHERE roleid = %u", $_POST['roleID']);
+					$db->query($strSQL);
+					$strSQL = sprintf("DELETE FROM role_perms WHERE roleid = %u", $_POST['roleID']);
+					$db->query($strSQL);
+					
+					header("Location: update_role.php");
+					break;
 			}
-			
-			header("Location: update_role.php");
-			break;
-			
-		case 'delRole':
-			$db->connect();
-			$strSQL = sprintf("DELETE FROM roles WHERE id = %u", $_POST['roleID']);
-			$db->query($strSQL);
-			$strSQL = sprintf("DELETE FROM user_roles WHERE roleid = %u", $_POST['roleID']);
-			$db->query($strSQL);
-			$strSQL = sprintf("DELETE FROM role_perms WHERE roleid = %u", $_POST['roleID']);
-			$db->query($strSQL);
-			
-			header("Location: update_role.php");
-			break;
-	}
-}
-
-if ($ac->hasPermission('quan_tri_nguoi_dung') != true) {
-	header("refresh:5;url=index.php");
-	include dirname(__FILE__) . '/includes/message.html';
-} else {
+		}
 ?>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
@@ -74,6 +77,7 @@ $(document).ready(function() {
 	width: 732px;
 	margin: 10px 0px 0px 0px !important;
 	border: #c4c4c4 solid 1px;
+	background: #F7F7F7; /*Test*/
 }
 
 #updateRoleContent #content {
@@ -290,5 +294,9 @@ $(document).ready(function() {
 </body>
 </html>
 <?php
+	}
+} else {
+	// Chuyễn tới trang login với status=notlogin
+	header("Location: login.php?status=notlogin");
 }
 ?>
