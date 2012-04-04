@@ -104,6 +104,25 @@ function init() {
 		}
 	);
 	
+	// Cau layer Constructor
+	var cau = new OpenLayers.Layer.WMS(
+		"Cầu",
+		"http://localhost:8088/geoserver/wms",
+		{
+			layers: 'luanvan:cau_polyline',
+			transparent: true,
+			styles: '',
+			format: format
+		},
+		{
+			singleTile: true,
+			ratio: 1,
+			isBaseLayer: false,
+			transitionEffect: 'resize',
+			yx : {'EPSG:4326' : true}
+		}
+	);
+	
 	// Ben_xe layer Constructor
 	var benXe = new OpenLayers.Layer.WMS(
 		"Bến xe",
@@ -123,8 +142,27 @@ function init() {
 		}
 	);
 	
+	// Ben_xe_buyt layer Constructor
+	var benXeBuyt = new OpenLayers.Layer.WMS(
+		"Bến xe buýt",
+		"http://localhost:8088/geoserver/wms",
+		{
+			layers: 'luanvan:ben_xe_buyt_point',
+			transparent: true,
+			styles: '',
+			format: format
+		},
+		{
+			singleTile: true,
+			ratio: 1,
+			isBaseLayer: false,
+			transitionEffect: 'resize',
+			yx : {'EPSG:4326' : true}
+		}
+	);
+	
 	// Add layers into Map
-	map.addLayers([background, tinhLo, quocLo, benXe]);
+	map.addLayers([background, tinhLo, quocLo, cau, benXe, benXeBuyt]);
 	
 	// Cong cu do khoang cach, dien tich (http://openlayers.org/dev/examples/measure.html)
 	// Trang tri cac net ve khi do
@@ -250,8 +288,10 @@ function init() {
 				X: x,
 				Y: y,
 				INFO_FORMAT: 'application/vnd.ogc.gml',
-				LAYERS: [map.layers[1].params.LAYERS, map.layers[2].params.LAYERS, map.layers[3].params.LAYERS],
-				QUERY_LAYERS: [map.layers[1].params.LAYERS, map.layers[2].params.LAYERS, map.layers[3].params.LAYERS],
+				LAYERS: [map.layers[5].params.LAYERS, map.layers[4].params.LAYERS,
+						map.layers[3].params.LAYERS, map.layers[2].params.LAYERS, map.layers[1].params.LAYERS],
+				QUERY_LAYERS: [map.layers[5].params.LAYERS, map.layers[4].params.LAYERS,
+								map.layers[3].params.LAYERS, map.layers[2].params.LAYERS, map.layers[1].params.LAYERS],
 				FEATURE_COUNT: 1,
 				WIDTH: map.size.w,
 				HEIGHT: map.size.h

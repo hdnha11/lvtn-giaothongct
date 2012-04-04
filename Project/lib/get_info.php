@@ -29,6 +29,12 @@ function getInfo($table, $id) {
 		case 'ben_xe_font_point':
 			return getBenXe($table, $id);
 			break;
+		case 'ben_xe_buyt_point':
+			return getBenXeBuyt($table, $id);
+			break;
+		case 'cau_polyline':
+			return getCau($table, $id);
+			break;
 	}
 }
 
@@ -155,6 +161,137 @@ function getBenXe($table, $id) {
 					<label for="thongben">Thông bến</label>
 					<input type="text" name="thongben" id="thongben" value="';
 		$html .= $row->thong_ben . '" />
+				</div>
+				<div>
+					<label for="diachi">Địa chỉ</label>
+					<textarea name="diachi" rows="4" id="diachi">';
+		$html .= $row->dia_chi . '</textarea>
+				</div>
+			</fieldset>
+		</form>';
+	}
+	
+	return $html;
+}
+
+/**
+ * Hàm lấy thông tin bến xe buýt
+ */
+function getBenXeBuyt($table, $id) {
+	$queryStr = "SELECT dien_giai, dia_chi, di_va_den
+				FROM {$table}
+				WHERE gid = {$id}";
+	
+	$pg = new PgSQL();
+	$pg->connect();
+	$result = $pg->query($queryStr);
+	
+	
+	$html = '<form id="benxebuyt" name="benxebuyt" method="post" action="">
+			<fieldset id="thongtinben">
+				<legend>Thông tin bến</legend>
+				<div>
+					<label for="diengiai">Diễn giải</label>
+					<input type="text" name="diengiai" id="diengiai" value="';
+	
+	while ($row = pg_fetch_object($result)) {
+		$html .= $row->dien_giai . '" />
+				</div>
+				<div>
+					<label for="divaden">Tuyến đi và đến</label>
+					<input type="text" name="divaden" id="divaden" value="';
+		$html .= $row->di_va_den . '" />
+				</div>
+				<div>
+					<label for="diachi">Địa chỉ</label>
+					<textarea name="diachi" rows="4" id="diachi">';
+		$html .= $row->dia_chi . '</textarea>
+				</div>
+			</fieldset>
+		</form>';
+	}
+	
+	return $html;
+}
+
+/**
+ * Hàm lấy thông tin cầu
+ */
+function getCau($table, $id) {
+	$queryStr = "SELECT c.ten AS ten_cau, loai, duong, chieu_dai, be_rong, tai_trong, mo_tru, so_nhip, su_dung, su_dung0, cq.ten, dia_chi
+				FROM cau_polyline AS c inner join co_quan_quan_ly AS cq
+				ON c.id_co_quan = cq.id_co_quan
+				WHERE gid = {$id}";
+	
+	//$pg = new PgSQL->setConnectionInfo('localhost', 'gth_cantho', 'postgres', 'postgres');
+	// Khởi tạo đối tượng PgSQL
+	$pg = new PgSQL();
+	$pg->connect();
+	$result = $pg->query($queryStr);
+		
+	// Sinh mã HTML
+	$html = '<form id="cau" name="cau" method="post" action="">
+			<fieldset id="thongtincau">
+				<legend>Thông tin cầu</legend>
+				<div>
+					<label for="tencau">Cầu</label>
+					<input type="text" name="tencau" id="tencau" value="';
+	
+	while ($row = pg_fetch_object($result)) {
+		$html .= $row->ten_cau . '" />
+				</div>
+				<div>
+					<label for="loai">Loại</label>
+					<input type="text" name="loai" id="loai" value="';
+		$html .= $row->loai . '" />
+				</div>
+				<div>
+					<label for="thuocduong">Thuộc đường</label>
+					<input type="text" name="thuocduong" id="thuocduong" value="';
+		$html .= $row->duong . '" />
+				</div>
+				<div>
+					<label for="chieudai">Chiều dài (m)</label>
+					<input type="text" name="chieudai" id="chieudai" value="';
+		$html .= $row->chieu_dai . '" />
+				</div>
+				<div>
+					<label for="berong">Bề rộng (m)</label>
+					<input type="text" name="berong" id="berong" value="';
+		$html .= $row->be_rong . '" />
+				</div>
+				<div>
+					<label for="taitrong">Tải trọng</label>
+					<input type="text" name="taitrong" id="taitrong" value="';
+		$html .= $row->tai_trong . '" />
+				</div>
+				<div>
+					<label for="motru">Mô trụ</label>
+					<input type="text" name="motru" id="motru" value="';
+		$html .= $row->mo_tru . '" />
+				</div>
+				<div>
+					<label for="sonhip">Số nhịp</label>
+					<input type="text" name="sonhip" id="sonhip" value="';
+		$html .= $row->so_nhip . '" />
+				</div>
+				<div>
+					<label for="tinhtrang">Tình trạng sử dụng</label>
+					<textarea name="tinhtrang" rows="4" id="tinhtrang">';
+		$html .= $row->su_dung . '</textarea>
+				</div>
+				<div>
+					<label for="tinhchat">Tính chất sử dụng</label>
+					<textarea name="tinhchat" rows="4" id="tinhchat">';
+		$html .= $row->su_dung0 . '</textarea>
+				</div>
+			</fieldset>
+			<fieldset id="coquan">
+				<legend>Cơ quan quản lý</legend>
+				<div>
+					<label for="tencq">Tên cơ quan</label>
+					<input type="text" name="tencq" id="tencq" value="';
+		$html .= $row->ten . '" />
 				</div>
 				<div>
 					<label for="diachi">Địa chỉ</label>
