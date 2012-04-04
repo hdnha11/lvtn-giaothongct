@@ -11,5 +11,6 @@ Definition Table
 begin_metadata
 "\IsReadOnly" = "FALSE"
 "\MapInfo" = ""
-"\MapInfo\TableID" = "879e9f3e-2f00-48a9-a782-07f81eda5b5a"
+"\MapInfo\TableID" = "1dce061e-e294-4972-8d4c-f5dc1fe4adee"
+"\MapInfo\ParentTableID" = "879e9f3e-2f00-48a9-a782-07f81eda5b5a"
 end_metadata
