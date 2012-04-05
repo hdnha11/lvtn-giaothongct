@@ -28,10 +28,45 @@ switch ($layers) {
 					ON ql.id_duong = db.id_duong
 					WHERE db.ten ILIKE '%{$query}%'";
 		break;
+	case 'cau':
+		$queryStr = "SELECT ten, ST_AsText(the_geom) AS wkt
+					FROM cau_polyline
+					WHERE ten ILIKE '%{$query}%'";
+		break;
 	case 'benXe':
 		$queryStr = "SELECT ten, ST_AsText(the_geom) AS wkt
 					FROM ben_xe_font_point
 					WHERE ten ILIKE '%{$query}%'";
+		break;
+	case 'benXeBuyt':
+		$queryStr = "SELECT dien_giai AS ten, ST_AsText(the_geom) AS wkt
+					FROM ben_xe_buyt_point
+					WHERE dien_giai ILIKE '%{$query}%'";
+		break;
+	case 'all':
+		$queryStr = "SELECT db.ten, ST_AsText(tl.the_geom) AS wkt
+					FROM tinh_lo_polyline tl
+					INNER JOIN duong_bo db
+					ON tl.id_duong = db.id_duong
+					WHERE db.ten ILIKE '%{$query}%'
+					UNION ALL
+					SELECT db.ten, ST_AsText(ql.the_geom) AS wkt
+					FROM quoc_lo_polyline ql
+					INNER JOIN duong_bo db
+					ON ql.id_duong = db.id_duong
+					WHERE db.ten ILIKE '%{$query}%'
+					UNION ALL
+					SELECT ten, ST_AsText(the_geom) AS wkt
+					FROM cau_polyline
+					WHERE ten ILIKE '%{$query}%'
+					UNION ALL
+					SELECT ten, ST_AsText(the_geom) AS wkt
+					FROM ben_xe_font_point
+					WHERE ten ILIKE '%{$query}%'
+					UNION ALL
+					SELECT dien_giai AS ten, ST_AsText(the_geom) AS wkt
+					FROM ben_xe_buyt_point
+					WHERE dien_giai ILIKE '%{$query}%'";
 		break;
 	default:
 		$queryStr = '';
