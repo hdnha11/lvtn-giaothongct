@@ -75,6 +75,7 @@ $(document).ready(function() {
 #updateRoleContent {
 	float: left;
 	width: 732px;
+	min-height: 82%;
 	margin: 10px 0px 0px 0px !important;
 	border: #c4c4c4 solid 1px;
 	background: #F7F7F7; /*Test*/
