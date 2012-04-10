@@ -2,11 +2,13 @@
 session_start();
 require_once dirname(__FILE__) . '/../lib/AccessControl.php';
 require_once dirname(__FILE__) . '/../lib/Login.php';
+require_once dirname(__FILE__) . '/../lib/Paging.php';
 
 if (Login::isLoggedIn()) {
-	
-	$ac = new AccessControl();
-	$db = new PgSQL();
+
+	$ac     = new AccessControl();
+	$db     = new PgSQL();
+	$paging = new Paging('update_cqql.php', 10);
 	
 	if ($ac->hasPermission('cap_nhat_du_lieu') != true) {
 		header("refresh:5;url=index.php");
@@ -16,18 +18,19 @@ if (Login::isLoggedIn()) {
 		if (isset($_POST['action'])) {
 			switch ($_POST['action']) {
 				case 'insert':
-					$strSQL = sprintf("INSERT INTO cap_duong(cap) VALUES ('%s')", $_POST['capDuong']);
+					$strSQL = sprintf("INSERT INTO co_quan_quan_ly(ten, dia_chi) VALUES ('%s', '%s')", $_POST['coQuan'], $_POST['diaChi']);
 					$db->connect();
 					$db->query($strSQL);
 					break;
 				case 'edit':
-					$strSQL = sprintf("UPDATE cap_duong SET cap='%s' WHERE id_cap=%u", $_POST['capDuong'], $_POST['id']);
+					$strSQL = sprintf("UPDATE co_quan_quan_ly SET ten='%s', dia_chi='%s' WHERE id_co_quan=%u",
+									  $_POST['coQuan'], $_POST['diaChi'], $_POST['id']);
 					$db->connect();
 					$db->query($strSQL);
 					break;
 				case 'delete':
-					$ids = isset($_POST['idCap']) ? $_POST['idCap'] : array();
-					$strSQL = "DELETE FROM cap_duong WHERE id_cap IN (";
+					$ids = isset($_POST['idCQ']) ? $_POST['idCQ'] : array();
+					$strSQL = "DELETE FROM co_quan_quan_ly WHERE id_co_quan IN (";
 					for ($i =  0; $i < count($ids); $i++) {
 						if ($i === (count($ids) - 1)) {
 							$strSQL .= $ids[$i] . ")";
@@ -50,7 +53,7 @@ if (Login::isLoggedIn()) {
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title>Quản lý cấp đường</title>
+<title>Quản lý cơ quan quản lý</title>
 <link type="text/css" rel="stylesheet" href="css/admin.css" />
 <script type="text/javascript" src="../js/jquery/jquery-1.7.1.min.js"></script>
 <script type="text/javascript" src="js/sidebar.js"></script>
@@ -76,7 +79,7 @@ $(document).ready(function() {
 });
 
 var check = function(list) {
-	if (document.dsCapDuong.checkAll.checked === true) {
+	if (document.dsCQ.checkAll.checked === true) {
 		for (i = 0; i < list.length; i++) {
 			list[i].checked = true ;
 		}
@@ -89,7 +92,7 @@ var check = function(list) {
 </script>
 
 <style type="text/css">
-#updateCapDuongContent {
+#updateCoQuanContent {
 	float: left;
 	width: 732px;
 	min-height: 82%;
@@ -98,14 +101,14 @@ var check = function(list) {
 	background: #F7F7F7; /*Test*/
 }
 
-#updateCapDuongContent #content {
+#updateCoQuanContent #content {
 	position: relative;
 	margin: 0px;
 	padding: 0px 20px 20px 20px;
 }
 
 /* Định dạng bảng */
-#updateCapDuongContent table {
+#updateCoQuanContent table {
 	/*font-family: "Lucida Sans Unicode", "Lucida Grande", Sans-Serif;
 	font-size: 12px;
 	margin: 45px;*/
@@ -115,7 +118,7 @@ var check = function(list) {
 	border-collapse: collapse;
 }
 
-#updateCapDuongContent table th {
+#updateCoQuanContent table th {
 	font-size: 14px;
 	font-weight: bold;
 	padding: 10px 8px;
@@ -124,16 +127,16 @@ var check = function(list) {
 	border-bottom: 2px solid #3A7ABE;
 }
 
-#updateCapDuongContent table td {
+#updateCoQuanContent table td {
 	padding: 8px;
 	color: #669;
 }
 
-#updateCapDuongContent table td.rowtitle {
+#updateCoQuanContent table td.rowtitle {
 	text-align: left;
 }
 
-#updateCapDuongContent table .even {
+#updateCoQuanContent table .even {
 	background: #e8edff; 
 }
 
@@ -182,14 +185,14 @@ ul.pageNav li.current:hover {
 }
 
 /* Định dạng form search */
-form#searchCap {
+form#searchCQ {
 	width: 256px;
 	position: absolute;
 	top: 52px;
 	right: 20px;
 }
 
-form#searchCap input#queryStr {
+form#searchCQ input#queryStr {
 	width: 230px;
 	height: 18px;
 	padding: 0px 0px 0px 24px;
@@ -265,14 +268,14 @@ form label {
     	<!-- SideBar include -->
         <?php include_once("includes/sidebar.html"); ?>
 		<!-- Content -->
-        <div id="updateCapDuongContent">
-            <h1 class="contentTitle">Cập nhật cấp đường</h1>
+        <div id="updateCoQuanContent">
+            <h1 class="contentTitle">Cập nhật cơ quan quản lý</h1>
             <div id="content">
             <?php
-			if (!isset($_GET['action'])) { // Hiện danh sách cấp đường
+			if (!isset($_GET['action'])) { // Hiện danh sách cơ quan quản lý
 				
 				// Form tìm kiếm
-				echo '<form name="searchCap" id="searchCap" method="get" action="update_cap_duong.php">';				
+				echo '<form name="searchCQ" id="searchCQ" method="get" action="update_cqql.php">';				
 				echo '<input type="hidden" name="action" id="action" value="search" />';
 				echo '<input type="text" name="queryStr" id="queryStr" value="Tìm kiếm" />';
 				echo '</form>';
@@ -281,82 +284,52 @@ form label {
 				echo '<div id="header-panel">';
 				echo '<ul>';
 				echo '<li>';
-				echo '<a class="add-link" href="update_cap_duong.php?action=addnew">Thêm cấp đường mới</a>';
+				echo '<a class="add-link" href="update_cqql.php?action=addnew">Thêm cơ quan quản lý</a>';
 				echo '</li>';
 				echo '<li>';
-				echo '<a class="remove-link" href="#" onclick="document.forms[' . "'dsCapDuong'". '].submit();">Xóa cấp đường đã chọn</a>';
+				echo '<a class="remove-link" href="#" onclick="document.forms[' . "'dsCQ'". '].submit();">Xóa cơ quan quản lý đã chọn</a>';
 				echo'</li>';
 				echo '</ul>';
 				echo '</div>';
 				
-				// Form hiển thị cấp đường
-            	echo '<form name="dsCapDuong" id="dsCapDuong" method="post" action="update_cap_duong.php">';
+				// Form hiển thị cơ quan
+            	echo '<form name="dsCQ" id="dsCQ" method="post" action="update_cqql.php">';
 				echo '<input type="hidden" name="action" value="delete" />';
 				
 				// Các biến dùng cho phân trang
 				$page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
-				$display = 10; // Số dòng trên một trang
-				$start = ($page - 1) * $display;
-				$end = $page * $display;
+				$str = "SELECT id_co_quan, ten, dia_chi FROM co_quan_quan_ly";
+				$paging->getNav($page, $str);
 				
-				$str = "SELECT id_cap, cap FROM cap_duong";
-				$db->connect();
-				$result = $db->query($str);
-				
-				// Sinh thanh điều hướng trang
-				$numberPages = ceil($db->numberRows() / $display);
-				
-				echo '<ul class="pageNav">';
-				if ($numberPages > 0) {
-					if ($page > 1) {
-						// Nút quay lui
-						echo '<li><a href="update_cap_duong.php?page=' . ($page - 1) . '"><</a></li>';
-					} else {
-						echo '<li class="disable"><</li>';
-					}
-					
-					for ($i = 1; $i <= $numberPages; $i++) {
-						if ($i !== $page) {
-							echo '<li><a href="update_cap_duong.php?page=' . $i .'">' . $i . '</a></li>';
-						} else {
-							echo '<li class="current">' . $i . '</li>';
-						}
-					}
-					
-					if ($page < $numberPages) {
-						echo '<li><a href="update_cap_duong.php?page=' . ($page + 1) . '">></a></li>';
-					} else {
-						echo '<li class="disable">></li>';
-					}
-				}
-				echo '</ul>';
-				
-				// Danh sách cấp đường phân trang
+				// Danh sách cơ quan quản lý phân trang
                 echo '<table>';
                 echo '<tr class="rowtitle">';
-				echo '<th><input type="checkbox" name="checkAll" onclick="check(document.dsCapDuong[\'idCap[]\']);" /></th>';
-				echo '<th>Cấp đường</th><th>Cập nhật</th></tr>';
+				echo '<th><input type="checkbox" name="checkAll" onclick="check(document.dsCQ[\'idCQ[]\']);" /></th>';
+				echo '<th>Cơ quan quản lý</th><th>Địa chỉ</th><th>Cập nhật</th></tr>';
 				
+				// lấy về trang $page
+				$result = $paging->getPage($page, $str);
+				
+				// In trang ra màn hình
 				$i = 0;
-				// Lặp trong khi còn dữ liệu và stt dòng hiện tại nhỏ hơn end
-				while (($row = pg_fetch_object($result)) && ($i < $end)) {
+				foreach ($result as $row) {
 					
-					// Bắt đầu xuất nội dung từ hàng thứ start
-					if ($i >= $start) {
-						$value = ($i % 2 === 0) ? 'even' : 'odd';
-						echo '<tr class="'. $value . '">';
-						echo '<td><input type="checkbox" name="idCap[]" id="idCap[]" value="' . $row->id_cap . '" /></td>';
-						echo '<td>' . $row->cap . '</td>';
-						echo '<td><a href="update_cap_duong.php?action=edit&id=' . $row->id_cap . '">Sửa</a></td>';
-						echo '</tr>';
-					}
+					$value = ($i % 2 === 0) ? 'even' : 'odd';
+					echo '<tr class="'. $value . '">';
+					echo '<td><input type="checkbox" name="idCQ[]" id="idCQ[]" value="' . $row->id_co_quan . '" /></td>';
+					echo '<td>' . $row->ten . '</td>';
+					echo '<td>' . $row->dia_chi . '</td>';
+					echo '<td><a href="update_cqql.php?action=edit&id=' . $row->id_co_quan . '">Sửa</a></td>';
+					echo '</tr>';
+					
 					$i++;
 				}
                 echo '</table>';
                 echo '</form>';
 			} elseif ($_GET['action'] === 'search') {
+				
 				// Form tìm kiếm
-				echo '<form name="searchCap" id="searchCap" method="get" action="update_cap_duong.php">';				
+				echo '<form name="searchCQ" id="searchCQ" method="get" action="update_cqql.php">';				
 				echo '<input type="hidden" name="action" id="action" value="search" />';
 				echo '<input type="text" name="queryStr" id="queryStr" value="' . $_GET['queryStr'] . '" />';
 				echo '</form>';
@@ -365,102 +338,74 @@ form label {
 				echo '<div id="header-panel">';
 				echo '<ul>';
 				echo '<li>';
-				echo '<a class="add-link" href="update_cap_duong.php?action=addnew">Thêm cấp đường mới</a>';
+				echo '<a class="add-link" href="update_cqql.php?action=addnew">Thêm cơ quan quản lý</a>';
 				echo '</li>';
 				echo '<li>';
-				echo '<a class="remove-link" href="#" onclick="document.forms[' . "'dsCapDuong'". '].submit();">Xóa cấp đường đã chọn</a>';
+				echo '<a class="remove-link" href="#" onclick="document.forms[' . "'dsCQ'". '].submit();">Xóa cơ quan quản lý đã chọn</a>';
 				echo'</li>';
 				echo '</ul>';
 				echo '</div>';
 				
-				// Form hiển thị cấp đường
-            	echo '<form name="dsCapDuong" id="dsCapDuong" method="post" action="update_cap_duong.php">';
+				// Form hiển thị cơ quan
+            	echo '<form name="dsCQ" id="dsCQ" method="post" action="update_cqql.php">';
 				echo '<input type="hidden" name="action" value="delete" />';
 				
 				// Các biến dùng cho phân trang
-				$page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
-				$display = 10; // Số dòng trên một trang
-				$start = ($page - 1) * $display;
-				$end = $page * $display;
-				
-				$str = "SELECT id_cap, cap FROM cap_duong WHERE cap ILIKE '%" . $_GET['queryStr'] . "%'";
-				$db->connect();
-				$result = $db->query($str);
-				
-				// Sinh thanh điều hướng trang
-				$numberPages = ceil($db->numberRows() / $display);
-				
-				echo '<ul class="pageNav">';
-				if ($numberPages > 0) {
-					if ($page > 1) {
-						// Nút quay lui
-						echo '<li><a href="update_cap_duong.php?page=' . ($page - 1) . '"><</a></li>';
-					} else {
-						echo '<li class="disable"><</li>';
-					}
-					
-					for ($i = 1; $i <= $numberPages; $i++) {
-						if ($i !== $page) {
-							echo '<li><a href="update_cap_duong.php?page=' . $i .'">' . $i . '</a></li>';
-						} else {
-							echo '<li class="current">' . $i . '</li>';
-						}
-					}
-					
-					if ($page < $numberPages) {
-						echo '<li><a href="update_cap_duong.php?page=' . ($page + 1) . '">></a></li>';
-					} else {
-						echo '<li class="disable">></li>';
-					}
-				}
-				echo '</ul>';
-				
-				// Danh sách cấp đường phân trang
+				$page = isset($_GET['page']) ? (int)$_GET['page'] : 1;				
+				$str = "SELECT id_co_quan, ten, dia_chi FROM co_quan_quan_ly WHERE ten ILIKE '%" . $_GET['queryStr'] . "%'";
+				$paging->getNav($page, $str);
+								
+				// Danh sách cơ quan quản lý phân trang
                 echo '<table>';
                 echo '<tr class="rowtitle">';
-				echo '<th><input type="checkbox" name="checkAll" onclick="check(document.dsCapDuong[\'idCap[]\']);" /></th>';
-				echo '<th>Cấp đường</th><th>Cập nhật</th></tr>';
+				echo '<th><input type="checkbox" name="checkAll" onclick="check(document.dsCQ[\'idCQ[]\']);" /></th>';
+				echo '<th>Cơ quan quản lý</th><th>Địa chỉ</th><th>Cập nhật</th></tr>';
 				
+				// lấy về trang $page
+				$result = $paging->getPage($page, $str);
+				
+				// In trang ra màn hình
 				$i = 0;
-				// Lặp trong khi còn dữ liệu và stt dòng hiện tại nhỏ hơn end
-				while (($row = pg_fetch_object($result)) && ($i < $end)) {
+				foreach ($result as $row) {
 					
-					// Bắt đầu xuất nội dung từ hàng thứ start
-					if ($i >= $start) {
-						$value = ($i % 2 === 0) ? 'even' : 'odd';
-						echo '<tr class="'. $value . '">';
-						echo '<td><input type="checkbox" name="idCap[]" id="idCap[]" value="' . $row->id_cap . '" /></td>';
-						echo '<td>' . $row->cap . '</td>';
-						echo '<td><a href="update_cap_duong.php?action=edit&id=' . $row->id_cap . '">Sửa</a></td>';
-						echo '</tr>';
-					}
+					$value = ($i % 2 === 0) ? 'even' : 'odd';
+					echo '<tr class="'. $value . '">';
+					echo '<td><input type="checkbox" name="idCQ[]" id="idCQ[]" value="' . $row->id_co_quan . '" /></td>';
+					echo '<td>' . $row->ten . '</td>';
+					echo '<td>' . $row->dia_chi . '</td>';
+					echo '<td><a href="update_cqql.php?action=edit&id=' . $row->id_co_quan . '">Sửa</a></td>';
+					echo '</tr>';
+					
 					$i++;
 				}
                 echo '</table>';
                 echo '</form>';
-			} elseif ($_GET['action'] === 'addnew') { // Thêm cấp đường
-				echo '<form name="addNew" id="addNew" action="update_cap_duong.php" method="post">';
-				echo '<p><label for="capDuong">Cấp đường:</label><input type="text" name="capDuong" id="capDuong" /></p>';
+			} elseif ($_GET['action'] === 'addnew') { // Thêm cơ quan
+				echo '<form name="addNew" id="addNew" action="update_cqql.php" method="post">';
+				echo '<p><label for="coQuan">Tên cơ quan:</label><input type="text" name="coQuan" id="coQuan" /></p>';
+				echo '<p><label for="diaChi">Địa chỉ:</label><textarea name="diaChi" id="diaChi" rows="4"></textarea></p>';
 				echo '<input type="hidden" name="action" value="insert" />';
 				echo '<input type="submit" name="Submit" class="btnForm" value="Thêm mới" />';
-				echo '<input type="button" name="Cancel" class="btnForm" value="Hũy bỏ" onclick="window.location=\'update_cap_duong.php\'" />';
+				echo '<input type="button" name="Cancel" class="btnForm" value="Hũy bỏ" onclick="window.location=\'update_cqql.php\'" />';
 				echo '</form>';
-			} elseif ($_GET['action'] === 'edit') { // Cập nhật cấp đường
-				$strSQL = sprintf("SELECT cap FROM cap_duong WHERE id_cap=%u", $_GET['id']);
+			} elseif ($_GET['action'] === 'edit') { // Cập nhật cơ quan
+				$strSQL = sprintf("SELECT ten, dia_chi FROM co_quan_quan_ly WHERE id_co_quan=%u", $_GET['id']);
 				$db->connect();
 				$result = $db->query($strSQL);
 				$row = pg_fetch_object($result);
-				echo '<form name="edit" id="edit" action="update_cap_duong.php" method="post">';
-				echo '<p><label for="capDuong">Cấp đường:</label>';
-				echo '<input type="text" name="capDuong" id="capDuong" value="' . $row->cap . '" /></p>';
+				echo '<form name="edit" id="edit" action="update_cqql.php" method="post">';
+				echo '<p><label for="coQuan">Tên cơ quan:</label>';
+				echo '<input type="text" name="coQuan" id="coQuan" value="' . $row->ten . '" /></p>';
+				echo '<p><label for="diaChi">Địa chỉ:</label>';
+				echo '<textarea name="diaChi" id="diaChi" rows="4">' . $row->dia_chi . '</textarea></p>';
 				echo '<input type="hidden" name="action" value="edit" />';
 				echo '<input type="hidden" name="id" value="' . $_GET['id'] . '" />';
 				echo '<input type="submit" name="Submit" class="btnForm" value="Cập nhật" />';
-				echo '<input type="button" name="Cancel" class="btnForm" value="Hũy bỏ" onclick="window.location=\'update_cap_duong.php\'" />';
+				echo '<input type="button" name="Cancel" class="btnForm" value="Hũy bỏ" onclick="window.location=\'update_cqql.php\'" />';
 			}
 			?>
             </div>
-        </div><!--End updateCapDuongContent-->
+        </div><!--End updateCoQuanContent-->
 	</div><!--End Wrapper-->
 	
 </div><!--End Container-->
