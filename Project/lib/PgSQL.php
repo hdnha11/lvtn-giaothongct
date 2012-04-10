@@ -68,7 +68,7 @@ class PgSQL {
 		try {
 			$this->result = @pg_query($this->conn, $query);
 			if (!$this->result) {
-				throw new Exception('Khong the truy van CSDL' . pg_last_error($this->conn));
+				throw new Exception('<p>Khong the truy van CSDL</p><p>' . pg_last_error($this->conn) . '</p>');
 			}
 			return $this->result;
 		} catch (Exception $ex) {
