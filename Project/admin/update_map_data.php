@@ -21,11 +21,13 @@ if (Login::isLoggedIn()) {
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>Quản trị GIS - Cập nhật dữ liệu thuộc tính</title>
 <link type="text/css" rel="stylesheet" href="../css/ui-lightness/jquery-ui-1.8.18.custom.css" />
+<link type="text/css" rel="stylesheet" href="../css/jquery.autocomplete.css" />
 <link type="text/css" rel="stylesheet" href="css/admin.css" />
 <link rel="stylesheet" type="text/css" href="css/admin-infobox.css" />
 <link rel="stylesheet" type="text/css" href="css/map.css" />
 <script type="text/javascript" src="../js/jquery/jquery-1.7.1.min.js"></script>
 <script type="text/javascript" src="../js/jquery/jquery-ui-1.8.18.custom.min.js"></script>
+<script type="text/javascript" src="../js/jquery/jquery.autocomplete.pack.js"></script>
 <script type="text/javascript" src="../js/OpenLayers-2.11/OpenLayers.js"></script>
 <script type="text/javascript" src="../js/OpenLayers-2.11/lang/vi.js"></script>
 <script type="text/javascript" src="js/sidebar.js"></script>
@@ -37,6 +39,31 @@ $(document).ready(function() {
     $("#sidebar h3#updateDate").addClass("active");
 	$("#sidebar div:not(#updateDateCT)").hide();
 });
+
+var updateDuong = function() {
+	
+	$.post("lib/map_update_duong.php", $("#duonglo").serialize(), function(data) {
+		$("div#info").html(data);
+		// Refresh layer tinhLo
+		tinhLo.redraw(true);
+	});
+	
+	return false;
+}
+
+var setAutocomplete = function() {
+	// Autocomplete đường tỉnh
+	$("#duong").autocomplete('lib/autocomplete_tinh_lo.php', {
+		formatItem: function(data, i, n, value) {
+			return value.split(":")[1];
+		},
+		formatResult: function(data, value) {
+			var details = value.split(":");
+			$('#id_duong').val(details[0]);
+			return details[1];
+		}
+	});
+}
 </script>
 </head>
 

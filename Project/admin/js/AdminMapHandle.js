@@ -5,6 +5,11 @@ var map;
 // Layer hien thi ket qua tim kiem
 var showSearchResult;
 
+// Các layer tren ban do
+var tinhLo;
+var quocLo;
+var benXe;
+
 // pink tile avoidance
 OpenLayers.IMAGE_RELOAD_ATTEMPTS = 5;
 
@@ -64,7 +69,7 @@ function init() {
 	);
 	
 	// Tinh_lo layer Constructor
-	var tinhLo = new OpenLayers.Layer.WMS(
+	tinhLo = new OpenLayers.Layer.WMS(
 		"Tỉnh lộ",
 		"http://localhost:8088/geoserver/wms",
 		{
@@ -83,7 +88,7 @@ function init() {
 	);
 	
 	// Quoc_lo layer Constructor
-	var quocLo = new OpenLayers.Layer.WMS(
+	quocLo = new OpenLayers.Layer.WMS(
 		"Quốc lộ",
 		"http://localhost:8088/geoserver/wms",
 		{
@@ -102,7 +107,7 @@ function init() {
 	);
 	
 	// Ben_xe layer Constructor
-	var benXe = new OpenLayers.Layer.WMS(
+	benXe = new OpenLayers.Layer.WMS(
 		"Bến xe",
 		"http://localhost:8088/geoserver/wms",
 		{
@@ -196,7 +201,7 @@ function setHTML(response) {
 	var features = g.read(response.responseText);
 	
 	// Dung Ajax lay thong tin doi tuong nho FID
-	OpenLayers.loadURL("../lib/get_info.php?fid=" + features[0].fid, '', this, showInfo, showInfo);
+	OpenLayers.loadURL("lib/admin_get_info.php?fid=" + features[0].fid, '', this, showInfo, showInfo);
 };
 
 // Hien thi thong tin len cua so Popup
@@ -209,13 +214,15 @@ function showInfo(response) {
 	var x = eval($("div#x").html());
 	var y = eval($("div#y").html());
 	
+	setAutocomplete();
+	
 	// Hien Popup, zIndex = 1000 cho phep hien tren cung
 	var $dialog = $('div#info').dialog({
 						autoOpen: true,
 						width: 'auto',
 						position: [x, y],
 						zIndex: 10000,
-						title: 'Thông tin'
+						title: 'Cập nhật'
 					});
 }
 /********* Het phan xu ly GetFeatureInfo ********/
