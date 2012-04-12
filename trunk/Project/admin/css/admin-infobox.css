@@ -19,7 +19,7 @@ div#info form fieldset div {
 
 div#info form label {
 	float: left;
-	width: 130px !important;
+	width: 100px !important;
 	text-align: right;
 	margin: 0px 15px 0px 0px !important;
 }
@@ -38,7 +38,7 @@ div#info form legend {
 
 div#info form input {
 	padding: 2.5px !important;
-	width: 260px !important;
+	width: 260px;
 	border: 1px solid #ddd;
 	background: #fafafa;
 	font: normal 14px arial, sans-serif !important;
@@ -60,4 +60,33 @@ div#info form textarea {
 div#info form input:hover, input:focus {
 	border-color: #c5c5c5;
 	background: #f6f6f6;
+}
+
+/* Form button */
+div#info form input.btnForm {
+	cursor: pointer !important;
+	width: 80px !important;
+	height: 29px !important;
+	line-height: 25px !important;
+	font-size: 12px !important;
+	font-weight: bold !important;
+	color: #fff !important;
+	background: #3c85fe !important;
+	border: 1px solid #3079ED !important;
+	margin: 5px 5px 0px 0px !important;
+	-moz-border-radius: 2px !important;
+	-webkit-border-radius: 2px !important;
+}
+
+/* Link Edit detail */
+div#info form a#editDetail {
+	float: right;
+	color: #0b77b7;	
+	font-size: 14px;
+	height: 29px !important;
+	line-height: 29px !important;
+}
+
+div#info form a#editDetail:hover {
+	color: orange;
 }
