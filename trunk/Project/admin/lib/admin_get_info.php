@@ -56,7 +56,7 @@ function getDuong($table, $id) {
 	if ($pg->numberRows() != 0) {
 		
 		// Sinh mã HTML
-		$html = '<form id="duonglo" name="duonglo" method="post" action="">
+		$html = '<form id="update_info" name="update_info" method="post" action="">
 				<fieldset id="duong">
 					<legend>Thông tin đường</legend>
 					<div>
@@ -65,6 +65,7 @@ function getDuong($table, $id) {
 		
 		while ($row = pg_fetch_object($result)) {
 			$html .= $row->duong . '" />
+						<a href="#" id="getTenDuong" class="functionLink">Lấy tên</a>
 					</div>
 					<div>
 						<label for="duong">Thuộc đường:</label>
@@ -80,13 +81,14 @@ function getDuong($table, $id) {
 			}
 			
 			$html .= $tenDuong . '" />
+						<a href="#" id="deleteDuong" class="functionLink">Xóa</a>
 						<input type="hidden" name="id_duong" id="id_duong" value="' . $row->id_duong . '" />
 					</div>
 				</fieldset>
 				
 				<input type="hidden" name="action" value="edit" />
 				<input type="hidden" name="id" value="' . $row->gid . '" />
-				<input type="hidden" name="table" value="' . $table . '" />
+				<input type="hidden" name="table" id="table" value="' . $table . '" />
 				<input type="submit" name="Submit" class="btnForm" value="Cập nhật" onclick="return updateDuong();" />';
 			
 			// Nếu đã gán đường bộ cho đối tượng thì hiện Cập nhật chi tiết
@@ -116,7 +118,7 @@ function getBenXe($table, $id) {
 	$result = $pg->query($queryStr);
 	
 	
-	$html = '<form id="benxe" name="benxe" method="post" action="">
+	$html = '<form id="update_info" name="update_info" method="post" action="">
 			<fieldset id="thongtinben">
 				<legend>Thông tin bến</legend>
 				<div>
@@ -166,7 +168,7 @@ function getBenXeBuyt($table, $id) {
 	$result = $pg->query($queryStr);
 	
 	
-	$html = '<form id="benxebuyt" name="benxebuyt" method="post" action="">
+	$html = '<form id="update_info" name="update_info" method="post" action="">
 			<fieldset id="thongtinben">
 				<legend>Thông tin bến</legend>
 				<div>
@@ -209,7 +211,7 @@ function getCau($table, $id) {
 	$result = $pg->query($queryStr);
 		
 	// Sinh mã HTML
-	$html = '<form id="cau" name="cau" method="post" action="">
+	$html = '<form id="update_info" name="update_info" method="post" action="">
 			<fieldset id="thongtincau">
 				<legend>Thông tin cầu</legend>
 				<div>

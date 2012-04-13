@@ -17,7 +17,7 @@ if (isset($_POST['action'])) {
 		$sqlStr = sprintf("UPDATE %s SET duong='%s', id_duong=%u WHERE gid=%u",
 						  $_POST['table'], $_POST['nhan'], $_POST['id_duong'], $_POST['id']);
 	} else {
-		$sqlStr = sprintf("UPDATE %s SET duong='%s' WHERE gid=%u",
+		$sqlStr = sprintf("UPDATE %s SET duong='%s', id_duong=NULL WHERE gid=%u",
 						  $_POST['table'], $_POST['nhan'], $_POST['id']);
 	}
 	

@@ -42,28 +42,85 @@ $(document).ready(function() {
 
 var updateDuong = function() {
 	
-	$.post("lib/map_update_duong.php", $("#duonglo").serialize(), function(data) {
+	$.post("lib/map_update_duong.php", $("#update_info").serialize(), function(data) {
 		$("div#info").html(data);
 		// Refresh layer tinhLo
 		tinhLo.redraw(true);
+		quocLo.redraw(true);
 	});
 	
 	return false;
-}
+};
+
+var setResult = function() {
+	$("div#info input#duong").result(function(event, data, formatted) {
+		$("div#info input#id_duong").val(data[0]);
+	});
+};
 
 var setAutocomplete = function() {
-	// Autocomplete đường tỉnh
-	$("#duong").autocomplete('lib/autocomplete_tinh_lo.php', {
-		formatItem: function(data, i, n, value) {
-			return value.split(":")[1];
-		},
-		formatResult: function(data, value) {
-			var details = value.split(":");
-			$('#id_duong').val(details[0]);
-			return details[1];
-		}
-	});
-}
+	var tableName = $('div#info form#update_info input#table').val();
+	switch (tableName) {
+		case 'tinh_lo_polyline':
+			// Autocomplete đường tỉnh
+			$("div#info input#duong").autocomplete('lib/autocomplete_tinh_lo.php', {
+				formatItem: function(data) {
+					return data[1];
+				},
+				formatResult: function(data) {
+					return data[1];
+				}
+			});
+				
+			// Xóa đường liên kết với tỉnh lộ
+			$("div#info a#deleteDuong").click(function() {
+				$("div#info input#duong").val('');
+				$("div#info input#id_duong").val('');
+				
+				return false;
+			});
+			
+			// Lấy tên đường gán cho nhãn
+			$("div#info a#getTenDuong").click(function() {
+				if ($("div#info input#duong").val() !== '') {
+					$("div#info input#nhan").val($("div#info input#duong").val());
+				}
+				
+				return false;
+			});
+			break;
+			
+		case 'quoc_lo_polyline':
+			// Autocomplete đường tỉnh
+			$("div#info input#duong").autocomplete('lib/autocomplete_quoc_lo.php', {
+				formatItem: function(data) {
+					return data[1];
+				},
+				formatResult: function(data) {
+					return data[1];
+				}
+			});
+				
+			// Xóa đường liên kết với tỉnh lộ
+			$("div#info a#deleteDuong").click(function() {
+				$("div#info input#duong").val('');
+				$("div#info input#id_duong").val('');
+				
+				return false;
+			});
+			
+			// Lấy tên đường gán cho nhãn
+			$("div#info a#getTenDuong").click(function() {
+				if ($("div#info input#duong").val() !== '') {
+					$("div#info input#nhan").val($("div#info input#duong").val());
+				}
+				
+				return false;
+			});
+			break;
+	
+	}
+};
 </script>
 </head>
 
