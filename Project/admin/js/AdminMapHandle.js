@@ -214,8 +214,6 @@ function showInfo(response) {
 	var x = eval($("div#x").html());
 	var y = eval($("div#y").html());
 	
-	setAutocomplete();
-	
 	// Hien Popup, zIndex = 1000 cho phep hien tren cung
 	var $dialog = $('div#info').dialog({
 						autoOpen: true,
@@ -224,5 +222,9 @@ function showInfo(response) {
 						zIndex: 10000,
 						title: 'Cập nhật'
 					});
+					
+	// Autocomplete
+	setAutocomplete();
+	setResult();
 }
 /********* Het phan xu ly GetFeatureInfo ********/

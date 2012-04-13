@@ -79,9 +79,18 @@ div#info form input.btnForm {
 }
 
 /* Link Edit detail */
+div#info form a.functionLink {
+	color: #0b77b7;
+}
+
+div#info form a.functionLink:hover {
+	color: orange;
+}
+
+/* Link Edit detail */
 div#info form a#editDetail {
 	float: right;
-	color: #0b77b7;	
+	color: #0b77b7;
 	font-size: 14px;
 	height: 29px !important;
 	line-height: 29px !important;
