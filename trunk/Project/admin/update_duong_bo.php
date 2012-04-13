@@ -423,7 +423,11 @@ form label {
 				
 				echo '<p><label for="coQuan">Cơ quan quản lý:</label><select name="coQuan" id="coQuan">';
 				while ($row = pg_fetch_object($coquan)) {
-					echo '<option value="' . $row->id_co_quan . '">' . $row->ten . '</option>';
+					if (intval($row->id_co_quan) === 0) {
+						echo '<option value="' . $row->id_co_quan . '" selected="selected">' . $row->ten . '</option>';
+					} else {
+						echo '<option value="' . $row->id_co_quan . '">' . $row->ten . '</option>';
+					}
 				}				
 				echo '</select></p>';
 				
@@ -437,7 +441,11 @@ form label {
 				
 				echo '<p><label for="capDuong">Cấp đường:</label><select name="capDuong" id="capDuong">';
 				while ($row = pg_fetch_object($cap)) {
-					echo '<option value="' . $row->id_cap . '">' . $row->cap . '</option>';
+					if (intval($row->id_cap) === 0) {
+						echo '<option value="' . $row->id_cap . '" selected="selected">' . $row->cap . '</option>';
+					} else {
+						echo '<option value="' . $row->id_cap . '">' . $row->cap . '</option>';
+					}
 				}				
 				echo '</select></p>';
 				
@@ -447,7 +455,11 @@ form label {
 				
 				echo '<p><label for="loaiDuong">Loại đường:</label><select name="loaiDuong" id="loaiDuong">';
 				while ($row = pg_fetch_object($loai)) {
-					echo '<option value="' . $row->id_loai . '">' . $row->loai . '</option>';
+					if (intval($row->id_loai) === 0) {
+						echo '<option value="' . $row->id_loai . '" selected="selected">' . $row->loai . '</option>';
+					} else {
+						echo '<option value="' . $row->id_loai . '">' . $row->loai . '</option>';
+					}
 				}				
 				echo '</select></p>';
 				

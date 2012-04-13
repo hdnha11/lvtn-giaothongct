@@ -7,6 +7,7 @@ CREATE TABLE permissions
   id serial NOT NULL,
   permkey character varying(30) NOT NULL,
   permname character varying(30) NOT NULL,
+  "default" boolean DEFAULT false,
   CONSTRAINT permissions_pkey PRIMARY KEY (id),
   CONSTRAINT permissions_permkey_key UNIQUE (permkey)
 )
@@ -59,6 +60,7 @@ CREATE TABLE users
   id serial NOT NULL,
   username character varying(20) NOT NULL,
   "password" character varying(32) NOT NULL,
+  "default" boolean DEFAULT false,
   CONSTRAINT users_pkey PRIMARY KEY (id),
   CONSTRAINT users_username_key UNIQUE (username)
 )
