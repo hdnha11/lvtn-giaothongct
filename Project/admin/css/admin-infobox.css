@@ -99,3 +99,8 @@ div#info form a#editDetail {
 div#info form a#editDetail:hover {
 	color: orange;
 }
+
+/* Float div */
+div#info div.floatDiv a {
+	margin-left: 115px;
+}

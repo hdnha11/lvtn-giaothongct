@@ -232,7 +232,8 @@ function getBenXeBuyt($table, $id) {
  * Hàm lấy thông tin cầu
  */
 function getCau($table, $id) {
-	$queryStr = "SELECT c.ten AS ten_cau, d.ten AS thuoc_duong, loai, chieu_dai, be_rong, tai_trong, mo_tru, so_nhip, su_dung, su_dung0
+	$queryStr = "SELECT c.ten AS ten_cau, d.ten AS thuoc_duong, loai, chieu_dai::numeric(38, 2), be_rong::numeric(38, 2),
+						tai_trong::numeric(38, 2), mo_tru, so_nhip::numeric(38, 2), su_dung, su_dung0
 				FROM {$table} AS c
 				LEFT JOIN duong_bo AS d
 				ON c.id_duong = d.id_duong

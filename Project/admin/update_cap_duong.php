@@ -2,11 +2,13 @@
 session_start();
 require_once dirname(__FILE__) . '/../lib/AccessControl.php';
 require_once dirname(__FILE__) . '/../lib/Login.php';
+require_once dirname(__FILE__) . '/../lib/Paging.php';
 
 if (Login::isLoggedIn()) {
 	
-	$ac = new AccessControl();
-	$db = new PgSQL();
+	$ac     = new AccessControl();
+	$db     = new PgSQL();
+	$paging = new Paging('update_cap_duong.php?', 10);
 	
 	if ($ac->hasPermission('cap_nhat_du_lieu') != true) {
 		header("refresh:5;url=index.php");
@@ -294,42 +296,9 @@ form label {
 				echo '<input type="hidden" name="action" value="delete" />';
 				
 				// Các biến dùng cho phân trang
-				$page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
-				$display = 10; // Số dòng trên một trang
-				$start = ($page - 1) * $display;
-				$end = $page * $display;
-				
+				$page = isset($_GET['page']) ? (int)$_GET['page'] : 1;				
 				$str = "SELECT id_cap, cap FROM cap_duong";
-				$db->connect();
-				$result = $db->query($str);
-				
-				// Sinh thanh điều hướng trang
-				$numberPages = ceil($db->numberRows() / $display);
-				
-				echo '<ul class="pageNav">';
-				if ($numberPages > 0) {
-					if ($page > 1) {
-						// Nút quay lui
-						echo '<li><a href="update_cap_duong.php?page=' . ($page - 1) . '"><</a></li>';
-					} else {
-						echo '<li class="disable"><</li>';
-					}
-					
-					for ($i = 1; $i <= $numberPages; $i++) {
-						if ($i !== $page) {
-							echo '<li><a href="update_cap_duong.php?page=' . $i .'">' . $i . '</a></li>';
-						} else {
-							echo '<li class="current">' . $i . '</li>';
-						}
-					}
-					
-					if ($page < $numberPages) {
-						echo '<li><a href="update_cap_duong.php?page=' . ($page + 1) . '">></a></li>';
-					} else {
-						echo '<li class="disable">></li>';
-					}
-				}
-				echo '</ul>';
+				$paging->getNav($page, $str, 4);
 				
 				// Danh sách cấp đường phân trang
                 echo '<table>';
@@ -337,19 +306,20 @@ form label {
 				echo '<th><input type="checkbox" name="checkAll" onclick="check(document.dsCapDuong[\'idCap[]\']);" /></th>';
 				echo '<th>Cấp đường</th><th>Cập nhật</th></tr>';
 				
+				// lấy về trang $page
+				$result = $paging->getPage($page, $str);
+				
+				// In trang ra màn hình
 				$i = 0;
-				// Lặp trong khi còn dữ liệu và stt dòng hiện tại nhỏ hơn end
-				while (($row = pg_fetch_object($result)) && ($i < $end)) {
+				foreach ($result as $row) {
 					
-					// Bắt đầu xuất nội dung từ hàng thứ start
-					if ($i >= $start) {
-						$value = ($i % 2 === 0) ? 'even' : 'odd';
-						echo '<tr class="'. $value . '">';
-						echo '<td><input type="checkbox" name="idCap[]" id="idCap[]" value="' . $row->id_cap . '" /></td>';
-						echo '<td>' . $row->cap . '</td>';
-						echo '<td><a href="update_cap_duong.php?action=edit&id=' . $row->id_cap . '">Sửa</a></td>';
-						echo '</tr>';
-					}
+					$value = ($i % 2 === 0) ? 'even' : 'odd';
+					echo '<tr class="'. $value . '">';
+					echo '<td><input type="checkbox" name="idCap[]" id="idCap[]" value="' . $row->id_cap . '" /></td>';
+					echo '<td>' . $row->cap . '</td>';
+					echo '<td><a href="update_cap_duong.php?action=edit&id=' . $row->id_cap . '">Sửa</a></td>';
+					echo '</tr>';
+					
 					$i++;
 				}
                 echo '</table>';
@@ -379,41 +349,10 @@ form label {
 				
 				// Các biến dùng cho phân trang
 				$page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
-				$display = 10; // Số dòng trên một trang
-				$start = ($page - 1) * $display;
-				$end = $page * $display;
-				
 				$str = "SELECT id_cap, cap FROM cap_duong WHERE cap ILIKE '%" . $_GET['queryStr'] . "%'";
-				$db->connect();
-				$result = $db->query($str);
-				
-				// Sinh thanh điều hướng trang
-				$numberPages = ceil($db->numberRows() / $display);
-				
-				echo '<ul class="pageNav">';
-				if ($numberPages > 0) {
-					if ($page > 1) {
-						// Nút quay lui
-						echo '<li><a href="update_cap_duong.php?page=' . ($page - 1) . '"><</a></li>';
-					} else {
-						echo '<li class="disable"><</li>';
-					}
-					
-					for ($i = 1; $i <= $numberPages; $i++) {
-						if ($i !== $page) {
-							echo '<li><a href="update_cap_duong.php?page=' . $i .'">' . $i . '</a></li>';
-						} else {
-							echo '<li class="current">' . $i . '</li>';
-						}
-					}
-					
-					if ($page < $numberPages) {
-						echo '<li><a href="update_cap_duong.php?page=' . ($page + 1) . '">></a></li>';
-					} else {
-						echo '<li class="disable">></li>';
-					}
-				}
-				echo '</ul>';
+				// Fixed Paging when searching
+				$paging = new Paging('update_cap_duong.php?action=search&queryStr=' . $_GET['queryStr'] . '&', 10);
+				$paging->getNav($page, $str, 4);
 				
 				// Danh sách cấp đường phân trang
                 echo '<table>';
@@ -421,19 +360,20 @@ form label {
 				echo '<th><input type="checkbox" name="checkAll" onclick="check(document.dsCapDuong[\'idCap[]\']);" /></th>';
 				echo '<th>Cấp đường</th><th>Cập nhật</th></tr>';
 				
+				// lấy về trang $page
+				$result = $paging->getPage($page, $str);
+				
+				// In trang ra màn hình
 				$i = 0;
-				// Lặp trong khi còn dữ liệu và stt dòng hiện tại nhỏ hơn end
-				while (($row = pg_fetch_object($result)) && ($i < $end)) {
+				foreach ($result as $row) {
 					
-					// Bắt đầu xuất nội dung từ hàng thứ start
-					if ($i >= $start) {
-						$value = ($i % 2 === 0) ? 'even' : 'odd';
-						echo '<tr class="'. $value . '">';
-						echo '<td><input type="checkbox" name="idCap[]" id="idCap[]" value="' . $row->id_cap . '" /></td>';
-						echo '<td>' . $row->cap . '</td>';
-						echo '<td><a href="update_cap_duong.php?action=edit&id=' . $row->id_cap . '">Sửa</a></td>';
-						echo '</tr>';
-					}
+					$value = ($i % 2 === 0) ? 'even' : 'odd';
+					echo '<tr class="'. $value . '">';
+					echo '<td><input type="checkbox" name="idCap[]" id="idCap[]" value="' . $row->id_cap . '" /></td>';
+					echo '<td>' . $row->cap . '</td>';
+					echo '<td><a href="update_cap_duong.php?action=edit&id=' . $row->id_cap . '">Sửa</a></td>';
+					echo '</tr>';
+					
 					$i++;
 				}
                 echo '</table>';

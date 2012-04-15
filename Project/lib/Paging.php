@@ -24,9 +24,9 @@ class Paging {
 	}
 	
 	/**
-	 * In ra thanh Navigation cho trang
+	 * In ra thanh Navigation cho trang, voi do rong <= $range
 	 */
-	public function getNav($currentPage, $sqlStr) {
+	public function getNav($currentPage, $sqlStr, $range) {
 		
 		$this->db->connect();
 		$result = $this->db->query($sqlStr);
@@ -35,26 +35,77 @@ class Paging {
 		$numberPages = ceil($this->db->numberRows() / $this->display);
 		
 		echo '<ul class="pageNav">';
-		if ($numberPages > 0) {
+		if ($numberPages > 0) {			
+			
+			// Nút trang đầu tiên
+			if ($currentPage != 1) {
+				echo '<li><a href="' . $this->url . 'page=1"><<</a></li>';
+			} else {
+				echo '<li class="disable"><<</li>';
+			}
+			
+			// Nút quay lui
 			if ($currentPage > 1) {
-				// Nút quay lui
-				echo '<li><a href="' . $this->url . '?page=' . ($currentPage - 1) . '"><</a></li>';
+				echo '<li><a href="' . $this->url . 'page=' . ($currentPage - 1) . '"><</a></li>';
 			} else {
 				echo '<li class="disable"><</li>';
 			}
 			
-			for ($i = 1; $i <= $numberPages; $i++) {
-				if ($i !== $currentPage) {
-					echo '<li><a href="' . $this->url . '?page=' . $i .'">' . $i . '</a></li>';
-				} else {
-					echo '<li class="current">' . $i . '</li>';
+			// We need the sliding effect only if there are more pages than is the sliding range
+			if ($numberPages > $range) {
+			
+				if ($currentPage < $range) { // When closer to the beginning
+					
+					for ($i = 1; $i <= ($range + 1); $i++) {
+						if ($i != $currentPage) {
+							echo '<li><a href="' . $this->url . 'page=' . $i .'">' . $i . '</a></li>';
+						} else {
+							echo '<li class="current">' . $i . '</li>';
+						}
+					}
+				} elseif ($currentPage >= ($numberPages - ceil(($range / 2)))) { // When closer to the end
+				
+					for ($i = $numberPages - $range; $i <= $numberPages; $i++) {
+						if ($i != $currentPage) {
+							echo '<li><a href="' . $this->url . 'page=' . $i .'">' . $i . '</a></li>';
+						} else {
+							echo '<li class="current">' . $i . '</li>';
+						}
+					}
+				} elseif ($currentPage >= $range && $currentPage < ($numberPages - ceil(($range  /2)))) { // Somewhere in the middle
+				
+					for ($i = ($currentPage - ceil($range / 2)); $i <= ($currentPage + ceil(($range / 2))); $i++) {
+						if ($i != $currentPage) {
+							echo '<li><a href="' . $this->url . 'page=' . $i .'">' . $i . '</a></li>';
+						} else {
+							echo '<li class="current">' . $i . '</li>';
+						}
+					}
+				}
+				
+			} else { // Less pages than the range, no sliding effect needed
+					
+				for ($i = 1; $i <= $numberPages; $i++) {
+					if ($i != $currentPage) {
+						echo '<li><a href="' . $this->url . 'page=' . $i .'">' . $i . '</a></li>';
+					} else {
+						echo '<li class="current">' . $i . '</li>';
+					}
 				}
 			}
 			
+			// Nút trang kế tiếp
 			if ($currentPage < $numberPages) {
-				echo '<li><a href="' . $this->url . '?page=' . ($currentPage + 1) . '">></a></li>';
+				echo '<li><a href="' . $this->url . 'page=' . ($currentPage + 1) . '">></a></li>';
 			} else {
 				echo '<li class="disable">></li>';
+			}
+			
+			// Nút trang cuối cùng
+			if ($currentPage != $numberPages) {
+				echo '<li><a href="' . $this->url . 'page=' . $numberPages . '">>></a></li>';
+			} else {
+				echo '<li class="disable">>></li>';
 			}
 		}
 		echo '</ul>';

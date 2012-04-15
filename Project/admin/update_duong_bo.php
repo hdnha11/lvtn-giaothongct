@@ -8,7 +8,7 @@ if (Login::isLoggedIn()) {
 
 	$ac     = new AccessControl();
 	$db     = new PgSQL();
-	$paging = new Paging('update_duong_bo.php', 10);
+	$paging = new Paging('update_duong_bo.php?', 10);
 	
 	if ($ac->hasPermission('cap_nhat_du_lieu') != true) {
 		header("refresh:5;url=index.php");
@@ -97,6 +97,15 @@ var check = function(list) {
 		}
 	}
 };
+
+var getTSCau = function() {
+	var id = $('form#edit input#id').val();
+	$.get('lib/get_ts_cau.php?id_duong=' + id, function(data) {
+		$('form#edit input#tsCau').val(data);
+	});
+	
+	return false;
+}
 </script>
 
 <style type="text/css">
@@ -312,7 +321,7 @@ form label {
 						INNER JOIN cap_duong AS c ON d.id_cap = c.id_cap
 						INNER JOIN loai_duong AS l ON d.id_loai = l.id_loai
 						INNER JOIN co_quan_quan_ly AS cq ON d.id_co_quan = cq.id_co_quan";
-				$paging->getNav($page, $str);
+				$paging->getNav($page, $str, 4);
 				
 				// Danh sách đường phân trang
                 echo '<table>';
@@ -379,7 +388,8 @@ form label {
 						INNER JOIN loai_duong AS l ON d.id_loai = l.id_loai
 						INNER JOIN co_quan_quan_ly AS cq ON d.id_co_quan = cq.id_co_quan
 						WHERE d.ten ILIKE '%" . $_GET['queryStr'] . "%'";
-				$paging->getNav($page, $str);
+				$paging = new Paging('update_duong_bo.php?action=search&queryStr=' . $_GET['queryStr'] . '&', 10);
+				$paging->getNav($page, $str, 4);
 				
 				// Danh sách đường phân trang
                 echo '<table>';
@@ -502,7 +512,8 @@ form label {
 				echo '<textarea name="diemCuoi" id="diemCuoi" rows="3">' . $duong->diem_cuoi . '</textarea></p>';
 				
 				echo '<p><label for="tsCau">Tổng số cầu:</label>';
-				echo '<input type="text" name="tsCau" id="tsCau" value="' . $duong->tong_so_cau . '" /></p>';
+				echo '<input type="text" name="tsCau" id="tsCau" value="' . $duong->tong_so_cau . '" />';
+				echo '<a href="#" id="getTSCau" class="functionLink" onclick="return getTSCau();">Lấy tổng số cầu</a></p>';
 				
 				// Lấy thông tin cấp đường
 				$db->connect();
@@ -536,7 +547,7 @@ form label {
 				echo '<textarea name="tinhTrang" id="tinhTrang" rows="4">' . $duong->tinh_trang_su_dung . '</textarea></p>';
 				
 				echo '<input type="hidden" name="action" value="edit" />';
-				echo '<input type="hidden" name="id" value="' . $_GET['id'] . '" />';
+				echo '<input type="hidden" name="id" id="id" value="' . $_GET['id'] . '" />';
 				echo '<input type="submit" name="Submit" class="btnForm" value="Cập nhật" />';
 				echo '<input type="button" name="Cancel" class="btnForm" value="Hũy bỏ" onclick="window.location=\'update_duong_bo.php\'" />';
 			}

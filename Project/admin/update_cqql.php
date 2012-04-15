@@ -8,7 +8,7 @@ if (Login::isLoggedIn()) {
 
 	$ac     = new AccessControl();
 	$db     = new PgSQL();
-	$paging = new Paging('update_cqql.php', 10);
+	$paging = new Paging('update_cqql.php?', 10);
 	
 	if ($ac->hasPermission('cap_nhat_du_lieu') != true) {
 		header("refresh:5;url=index.php");
@@ -299,7 +299,7 @@ form label {
 				// Các biến dùng cho phân trang
 				$page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
 				$str = "SELECT id_co_quan, ten, dia_chi FROM co_quan_quan_ly";
-				$paging->getNav($page, $str);
+				$paging->getNav($page, $str, 4);
 				
 				// Danh sách cơ quan quản lý phân trang
                 echo '<table>';
@@ -353,7 +353,8 @@ form label {
 				// Các biến dùng cho phân trang
 				$page = isset($_GET['page']) ? (int)$_GET['page'] : 1;				
 				$str = "SELECT id_co_quan, ten, dia_chi FROM co_quan_quan_ly WHERE ten ILIKE '%" . $_GET['queryStr'] . "%'";
-				$paging->getNav($page, $str);
+				$paging = new Paging('update_cqql.php?action=search&queryStr=' . $_GET['queryStr'] . '&', 10);
+				$paging->getNav($page, $str, 4);
 								
 				// Danh sách cơ quan quản lý phân trang
                 echo '<table>';

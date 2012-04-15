@@ -8,7 +8,7 @@ if (Login::isLoggedIn()) {
 	
 	$ac     = new AccessControl();
 	$db     = new PgSQL();
-	$paging = new Paging('update_loai_duong.php', 10);
+	$paging = new Paging('update_loai_duong.php?', 10);
 	
 	if ($ac->hasPermission('cap_nhat_du_lieu') != true) {
 		header("refresh:5;url=index.php");
@@ -298,7 +298,7 @@ form label {
 				// Các biến dùng cho phân trang
 				$page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
 				$str = "SELECT id_loai, loai FROM loai_duong";
-				$paging->getNav($page, $str);
+				$paging->getNav($page, $str, 4);
 				
 				// Danh sách loại đường phân trang
                 echo '<table>';
@@ -350,7 +350,8 @@ form label {
 				// Các biến dùng cho phân trang
 				$page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
 				$str = "SELECT id_loai, loai FROM loai_duong WHERE loai ILIKE '%" . $_GET['queryStr'] . "%'";
-				$paging->getNav($page, $str);
+				$paging = new Paging('update_loai_duong.php?action=search&queryStr=' . $_GET['queryStr'] . '&', 10);
+				$paging->getNav($page, $str, 4);
 				
 				// Danh sách cấp đường phân trang
                 echo '<table>';
