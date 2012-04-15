@@ -1,0 +1,167 @@
+/* CSS Document */
+
+#updateLichSuXDContent {
+	float: left;
+	width: 732px;
+	min-height: 82%;
+	margin: 10px 0px 0px 0px !important;
+	border: #c4c4c4 solid 1px;
+	background: #F7F7F7; /*Test*/
+}
+
+#updateLichSuXDContent #content {
+	position: relative;
+	margin: 0px;
+	padding: 0px 20px 20px 20px;
+}
+
+/* Định dạng bảng */
+#updateLichSuXDContent table {
+	/*font-family: "Lucida Sans Unicode", "Lucida Grande", Sans-Serif;
+	font-size: 12px;
+	margin: 45px;*/
+	width: 692px;
+	margin: 0px auto;
+	text-align: left;
+	border-collapse: collapse;
+}
+
+#updateLichSuXDContent table th {
+	font-size: 14px;
+	font-weight: bold;
+	padding: 10px 8px;
+	color: #039;
+	background: #8AB1FE;
+	border-bottom: 2px solid #3A7ABE;
+}
+
+#updateLichSuXDContent table td {
+	padding: 8px;
+	color: #669;
+}
+
+#updateLichSuXDContent table td.rowtitle {
+	text-align: left;
+}
+
+#updateLichSuXDContent table .even {
+	background: #e8edff; 
+}
+
+/* Định dạng thanh điều hướng trang */
+ul.pageNav {
+	height: 20px;
+	overflow: hidden;
+	padding: 0px;
+	margin: 12px 0px 5px 0px;
+}
+
+ul.pageNav li {
+	display: inline;
+	float: left;
+	margin: 0px 5px 0px 0px;
+	background: #8AB1FE;
+}
+
+ul.pageNav li a {
+	color: white;
+	text-decoration: none;
+	display: block;
+	padding: 3px 8px;
+}
+
+ul.pageNav li:hover {
+	background: #3A7ABE;
+}
+
+ul.pageNav li.current {
+	font-weight: bold;
+	padding: 3px 8px;
+}
+
+ul.pageNav li.disable {
+	font-weight: bold;
+	padding: 3px 8px;
+}
+
+ul.pageNav li.disable:hover {
+	background: #8AB1FE;
+}
+
+ul.pageNav li.current:hover {
+	background: #8AB1FE;
+}
+
+/* Định dạng form search */
+form#searchLS {
+	width: 256px;
+	position: absolute;
+	top: 52px;
+	right: 20px;
+}
+
+form#searchLS input#queryStr {
+	width: 230px;
+	height: 18px;
+	padding: 0px 0px 0px 24px;
+	border: 1px solid #BFBFBF;
+	background: url(../images/search.png) 4px 2px no-repeat;
+}
+
+/* Định dạng header-panel */
+div#header-panel {
+	margin: 0px;
+	padding: 0px;
+}
+
+div#header-panel ul {
+	list-style-type: none;
+	margin: 14px 2px 2px 2px;
+	padding: 0px;
+}
+
+div#header-panel ul li {
+	height: 18px;
+	line-height: 18px;
+}
+
+div#header-panel ul a {
+	color: #0076A1;
+	text-decoration: none;
+}
+
+div#header-panel ul a.add-link {
+	background: transparent url(../images/add.png) scroll no-repeat left center;
+	padding: 2px 0px 2px 20px;
+}
+
+div#header-panel ul a.remove-link {
+	background: transparent url(../images/delete.png) scroll no-repeat left center;
+	padding: 2px 0px 2px 20px;
+}
+
+/* Định dạng các nút bấm */
+form input.btnForm {
+	cursor: pointer;
+	width: 80px;
+	height: 29px;
+	line-height: 25px;
+	font-size: 12px;
+	font-weight: bold;
+	color: #fff;
+	background: #3c85fe;
+	border: 1px solid #3079ED;
+	margin: 5px 5px 0px 0px;
+	-moz-border-radius: 2px;
+	-webkit-border-radius: 2px;
+}
+
+/* Định dạng label */
+form label {
+	display: block;
+	width: 80px;
+	height: 22px;
+	line-height: 22px;
+	float: left;
+	color: #039;
+}
