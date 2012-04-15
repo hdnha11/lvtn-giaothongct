@@ -268,5 +268,8 @@ function showInfo(response) {
 	// Autocomplete
 	setAutocomplete();
 	setResult();
+	
+	// Dang ky su kien click cho cac lien ket
+	setEventClick();
 }
 /********* Het phan xu ly GetFeatureInfo ********/

@@ -40,17 +40,104 @@ $(document).ready(function() {
 	$("#sidebar div:not(#updateDateCT)").hide();
 });
 
+// Update đường
 var updateDuong = function() {
 	
 	$.post("lib/map_update_duong.php", $("#update_info").serialize(), function(data) {
 		$("div#info").html(data);
-		// Refresh layer tinhLo
+		// Refresh layer tinhLo, quocLo
 		tinhLo.redraw(true);
 		quocLo.redraw(true);
 	});
 	
 	return false;
 };
+
+// Update cầu
+var updateCau = function() {
+	
+	$.post("lib/map_update_cau.php", $("#update_info").serialize(), function(data) {
+		$("div#info").html(data);
+		// Refresh layer cau
+		cau.redraw(true);
+	});
+	
+	return false;
+};
+
+// Update bến xe
+var updateBenXe = function() {
+	
+	$.post("lib/map_update_ben_xe.php", $("#update_info").serialize(), function(data) {
+		$("div#info").html(data);
+		// Refresh layer benXe
+		benXe.redraw(true);
+	});
+	
+	return false;
+};
+
+// Update bến xe buýt
+var updateBenXeBuyt = function() {
+	
+	$.post("lib/map_update_ben_xe_buyt.php", $("#update_info").serialize(), function(data) {
+		$("div#info").html(data);
+		// Refresh layer benXeBuyt
+		benXeBuyt.redraw(true);
+	});
+	
+	return false;
+};
+
+var setEventClick = function() {
+	var tableName = $('div#info form#update_info input#table').val();
+	switch (tableName) {
+		case 'cau_polyline':
+			// Lấy tên đường có giao với cầu
+			$("div#info a#getSuggestDuong").click(function() {
+				var id = $("div#info form#update_info input#id").val();
+				
+				$.get("lib/get_duong_giao_cau.php?id=" + id, function(data) {
+					var duong = data.split(':');
+					$("div#info input#id_duong").val(duong[0]);
+					$("div#info input#duong").val(duong[1]);
+				});
+				
+				return false;
+			});
+			break;
+			
+		case 'ben_xe_font_point':
+			// Lấy tên đường gần bến xe nhất
+			$("div#info a#getSuggestDuong").click(function() {
+				var id = $("div#info form#update_info input#id").val();
+				
+				$.get("lib/get_duong_gan_bxe.php?id=" + id, function(data) {
+					var duong = data.split(':');
+					$("div#info input#id_duong").val(duong[0]);
+					$("div#info input#duong").val(duong[1]);
+				});
+				
+				return false;
+			});
+			break;
+			
+		case 'ben_xe_buyt_point':
+			// Lấy tên đường gần bến xe buýt nhất
+			$("div#info a#getSuggestDuong").click(function() {
+				var id = $("div#info form#update_info input#id").val();
+				
+				$.get("lib/get_duong_gan_bxe_buyt.php?id=" + id, function(data) {
+					var duong = data.split(':');
+					$("div#info input#id_duong").val(duong[0]);
+					$("div#info input#duong").val(duong[1]);
+				});
+				
+				return false;
+			});
+			break;
+	}
+}
 
 var setResult = function() {
 	$("div#info input#duong").result(function(event, data, formatted) {
@@ -91,7 +178,7 @@ var setAutocomplete = function() {
 			break;
 			
 		case 'quoc_lo_polyline':
-			// Autocomplete đường tỉnh
+			// Autocomplete đường quốc lộ
 			$("div#info input#duong").autocomplete('lib/autocomplete_quoc_lo.php', {
 				formatItem: function(data) {
 					return data[1];
@@ -101,7 +188,7 @@ var setAutocomplete = function() {
 				}
 			});
 				
-			// Xóa đường liên kết với tỉnh lộ
+			// Xóa đường liên kết với quốc lộ
 			$("div#info a#deleteDuong").click(function() {
 				$("div#info input#duong").val('');
 				$("div#info input#id_duong").val('');
@@ -118,7 +205,28 @@ var setAutocomplete = function() {
 				return false;
 			});
 			break;
-	
+			
+		case 'ben_xe_buyt_point':
+		case 'ben_xe_font_point':
+		case 'cau_polyline':
+				// Autocomplete đường bộ
+				$("div#info input#duong").autocomplete('lib/autocomplete_duong_bo.php', {
+					formatItem: function(data) {
+						return data[1];
+					},
+					formatResult: function(data) {
+						return data[1];
+					}
+				});
+					
+				// Xóa đường liên kết
+				$("div#info a#deleteDuong").click(function() {
+					$("div#info input#duong").val('');
+					$("div#info input#id_duong").val('');
+					
+					return false;
+				});
+				break;
 	}
 };
 </script>

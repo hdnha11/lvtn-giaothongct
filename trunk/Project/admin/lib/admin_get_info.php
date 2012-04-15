@@ -109,7 +109,7 @@ function getDuong($table, $id) {
  * Hàm lấy thông tin bến xe
  */
 function getBenXe($table, $id) {
-	$queryStr = "SELECT ten, dia_chi, dien_thoai, so_dau_xe, thong_ben
+	$queryStr = "SELECT gid, ten, dia_chi, dien_thoai, so_dau_xe, thong_ben, id_duong
 				FROM {$table}
 				WHERE gid = {$id}";
 	
@@ -127,6 +127,27 @@ function getBenXe($table, $id) {
 	
 	while ($row = pg_fetch_object($result)) {
 		$html .= $row->ten . '" />
+				</div>
+				<div>
+					<label for="duong">Thuộc đường</label>
+					<input type="text" name="duong" id="duong" value="';
+		$tenDuong = '';
+		if ($row->id_duong != '') {
+			// Lấy tên đường
+			$pg->connect();
+			$kq = $pg->query("SELECT ten FROM duong_bo WHERE id_duong={$row->id_duong}");
+			$duong = pg_fetch_object($kq);
+			$tenDuong = $duong->ten;
+		}
+		
+		$html .= $tenDuong . '" />
+					<a href="#" id="deleteDuong" class="functionLink">Xóa</a>
+					<input type="hidden" name="id_duong" id="id_duong" value="';
+		$html .= $row->id_duong . '" />
+				</div>
+				<div class="floatDiv">
+					<a href="#" id="getSuggestDuong" class="functionLink">Lấy tên đường dựa theo không gian</a>
+				</div>
 				</div>
 				<div>
 					<label for="dienthoai">Số điện thoại</label>
@@ -149,6 +170,10 @@ function getBenXe($table, $id) {
 		$html .= $row->dia_chi . '</textarea>
 				</div>
 			</fieldset>
+			<input type="hidden" name="action" value="edit" />
+			<input type="hidden" name="id" id="id" value="' . $row->gid . '" />
+			<input type="hidden" name="table" id="table" value="' . $table . '" />
+			<input type="submit" name="Submit" class="btnForm" value="Cập nhật" onclick="return updateBenXe();" />
 		</form>';
 	}
 	
@@ -159,7 +184,7 @@ function getBenXe($table, $id) {
  * Hàm lấy thông tin bến xe buýt
  */
 function getBenXeBuyt($table, $id) {
-	$queryStr = "SELECT dien_giai, dia_chi, di_va_den
+	$queryStr = "SELECT gid, dien_giai, dia_chi, di_va_den, id_duong
 				FROM {$table}
 				WHERE gid = {$id}";
 	
@@ -179,6 +204,26 @@ function getBenXeBuyt($table, $id) {
 		$html .= $row->dien_giai . '" />
 				</div>
 				<div>
+					<label for="duong">Thuộc đường</label>
+					<input type="text" name="duong" id="duong" value="';
+		$tenDuong = '';
+		if ($row->id_duong != '') {
+			// Lấy tên đường
+			$pg->connect();
+			$kq = $pg->query("SELECT ten FROM duong_bo WHERE id_duong={$row->id_duong}");
+			$duong = pg_fetch_object($kq);
+			$tenDuong = $duong->ten;
+		}
+		
+		$html .= $tenDuong . '" />
+					<a href="#" id="deleteDuong" class="functionLink">Xóa</a>
+					<input type="hidden" name="id_duong" id="id_duong" value="';
+		$html .= $row->id_duong . '" />
+				</div>
+				<div class="floatDiv">
+					<a href="#" id="getSuggestDuong" class="functionLink">Lấy tên đường dựa theo không gian</a>
+				</div>
+				<div>
 					<label for="divaden">Tuyến đi và đến</label>
 					<input type="text" name="divaden" id="divaden" value="';
 		$html .= $row->di_va_den . '" />
@@ -189,6 +234,10 @@ function getBenXeBuyt($table, $id) {
 		$html .= $row->dia_chi . '</textarea>
 				</div>
 			</fieldset>
+			<input type="hidden" name="action" value="edit" />
+			<input type="hidden" name="id" id="id" value="' . $row->gid . '" />
+			<input type="hidden" name="table" id="table" value="' . $table . '" />
+			<input type="submit" name="Submit" class="btnForm" value="Cập nhật" onclick="return updateBenXeBuyt();" />
 		</form>';
 	}
 	
@@ -199,9 +248,9 @@ function getBenXeBuyt($table, $id) {
  * Hàm lấy thông tin cầu
  */
 function getCau($table, $id) {
-	$queryStr = "SELECT c.ten AS ten_cau, loai, duong, chieu_dai, be_rong, tai_trong, mo_tru, so_nhip, su_dung, su_dung0, cq.ten, dia_chi
-				FROM cau_polyline AS c inner join co_quan_quan_ly AS cq
-				ON c.id_co_quan = cq.id_co_quan
+	$queryStr = "SELECT gid, ten, loai, chieu_dai::numeric(38, 2), be_rong::numeric(38, 2), tai_trong::numeric(38, 2),
+						mo_tru, so_nhip::numeric(38, 2), su_dung, su_dung0, id_duong
+				FROM cau_polyline AS c
 				WHERE gid = {$id}";
 	
 	//$pg = new PgSQL->setConnectionInfo('localhost', 'gth_cantho', 'postgres', 'postgres');
@@ -219,7 +268,7 @@ function getCau($table, $id) {
 					<input type="text" name="tencau" id="tencau" value="';
 	
 	while ($row = pg_fetch_object($result)) {
-		$html .= $row->ten_cau . '" />
+		$html .= $row->ten . '" />
 				</div>
 				<div>
 					<label for="loai">Loại</label>
@@ -227,9 +276,25 @@ function getCau($table, $id) {
 		$html .= $row->loai . '" />
 				</div>
 				<div>
-					<label for="thuocduong">Thuộc đường</label>
-					<input type="text" name="thuocduong" id="thuocduong" value="';
-		$html .= $row->duong . '" />
+					<label for="duong">Thuộc đường</label>
+					<input type="text" name="duong" id="duong" value="';
+		
+		$tenDuong = '';
+		if ($row->id_duong != '') {
+			// Lấy tên đường
+			$pg->connect();
+			$kq = $pg->query("SELECT ten FROM duong_bo WHERE id_duong={$row->id_duong}");
+			$duong = pg_fetch_object($kq);
+			$tenDuong = $duong->ten;
+		}
+		
+		$html .= $tenDuong . '" />
+					<a href="#" id="deleteDuong" class="functionLink">Xóa</a>
+					<input type="hidden" name="id_duong" id="id_duong" value="';
+		$html .= $row->id_duong . '" />
+				</div>
+				<div class="floatDiv">
+					<a href="#" id="getSuggestDuong" class="functionLink">Lấy tên đường dựa theo không gian</a>
 				</div>
 				<div>
 					<label for="chieudai">Chiều dài (m)</label>
@@ -267,19 +332,10 @@ function getCau($table, $id) {
 		$html .= $row->su_dung0 . '</textarea>
 				</div>
 			</fieldset>
-			<fieldset id="coquan">
-				<legend>Cơ quan quản lý</legend>
-				<div>
-					<label for="tencq">Tên cơ quan</label>
-					<input type="text" name="tencq" id="tencq" value="';
-		$html .= $row->ten . '" />
-				</div>
-				<div>
-					<label for="diachi">Địa chỉ</label>
-					<textarea name="diachi" rows="4" id="diachi">';
-		$html .= $row->dia_chi . '</textarea>
-				</div>
-			</fieldset>
+			<input type="hidden" name="action" value="edit" />
+			<input type="hidden" name="id" id="id" value="' . $row->gid . '" />
+			<input type="hidden" name="table" id="table" value="' . $table . '" />
+			<input type="submit" name="Submit" class="btnForm" value="Cập nhật" onclick="return updateCau();" />
 		</form>';
 	}
 	
