@@ -248,8 +248,8 @@ function getBenXeBuyt($table, $id) {
  * Hàm lấy thông tin cầu
  */
 function getCau($table, $id) {
-	$queryStr = "SELECT gid, ten, loai, chieu_dai::numeric(38, 2), be_rong::numeric(38, 2), tai_trong::numeric(38, 2),
-						mo_tru, so_nhip::numeric(38, 2), su_dung, su_dung0, id_duong
+	$queryStr = "SELECT gid, ten, loai, chieu_dai::numeric(38, 3), be_rong::numeric(38, 3), tai_trong::numeric(38, 3),
+						mo_tru, so_nhip::numeric(38, 3), su_dung, su_dung0, id_duong
 				FROM cau_polyline AS c
 				WHERE gid = {$id}";
 	
