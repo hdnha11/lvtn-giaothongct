@@ -18,12 +18,23 @@ if (Login::isLoggedIn()) {
 		if (isset($_POST['action'])) {
 			switch ($_POST['action']) {
 				case 'insert':
-					$strSQL = sprintf("");
+					$strSQL = sprintf("INSERT INTO lich_su_xay_dung(chieu_dai, rong_nen, rong_mat, chieu_dai_rai_nhua,
+											quy_mo, tai_trong, noi_dung_xay_dung, tong_kinh_phi, ngay_hoan_thanh, id_duong)
+									   VALUES (%.3f, %.3f, %.3f, %.3f, '%s', %.3f, '%s', %.3f, to_date('%s', 'DD/MM/YYYY'), %u)",
+									   $_POST['chieuDai'], $_POST['rongNen'], $_POST['rongMat'], $_POST['chieuDaiRaiNhua'],
+									   $_POST['quyMo'], $_POST['taiTrong'], $_POST['noiDung'], $_POST['tongKinhPhi'],
+									   $_POST['ngayHoanThanh'], $_POST['idDuong']);
 					$db->connect();
 					$db->query($strSQL);
 					break;
 				case 'edit':
-					$strSQL = sprintf("");
+					$strSQL = sprintf("UPDATE lich_su_xay_dung SET chieu_dai=%.3f, rong_nen=%.3f, rong_mat=%.3f, chieu_dai_rai_nhua=%.3f,
+																   quy_mo='%s', tai_trong=%.3f, noi_dung_xay_dung='%s', tong_kinh_phi=%.3f,
+																   ngay_hoan_thanh=to_date('%s', 'DD/MM/YYYY'), id_duong=%u
+									   WHERE id_lich_su=%u",
+									   $_POST['chieuDai'], $_POST['rongNen'], $_POST['rongMat'], $_POST['chieuDaiRaiNhua'],
+									   $_POST['quyMo'], $_POST['taiTrong'], $_POST['noiDung'], $_POST['tongKinhPhi'],
+									   $_POST['ngayHoanThanh'], $_POST['idDuong'], $_POST['id']);
 					$db->connect();
 					$db->query($strSQL);
 					break;
@@ -53,9 +64,13 @@ if (Login::isLoggedIn()) {
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>Quản lý lịch sử xây dựng</title>
+<link type="text/css" rel="stylesheet" href="../css/ui-lightness/jquery-ui-1.8.18.custom.css" />
+<link type="text/css" rel="stylesheet" href="../css/jquery.autocomplete.css" />
 <link type="text/css" rel="stylesheet" href="css/admin.css" />
 <link type="text/css" rel="stylesheet" href="css/lich-su-xd.css" />
 <script type="text/javascript" src="../js/jquery/jquery-1.7.1.min.js"></script>
+<script type="text/javascript" src="../js/jquery/jquery-ui-1.8.18.custom.min.js"></script>
+<script type="text/javascript" src="../js/jquery/jquery.autocomplete.pack.js"></script>
 <script type="text/javascript" src="js/sidebar.js"></script>
 <script type="text/javascript">
 $(document).ready(function() {
@@ -89,6 +104,49 @@ var check = function(list) {
 		}
 	}
 };
+
+// DatePicker
+var setDatePicker = function() {
+	$('#ngayHoanThanh').datepicker({ dateFormat: 'dd/mm/yy' });
+}
+
+// AutoComplete
+var setAutocomplete = function() {
+	$("#tenDuong").autocomplete('lib/autocomplete_duong_bo.php', {
+		formatItem: function(data) {
+			return data[1];
+		},
+		formatResult: function(data) {
+			return data[1];
+		}
+	});
+		
+	// Xóa đường liên kết với quốc lộ
+	$("a#deleteDuong").click(function() {
+		$("input#tenDuong").val('');
+		$("input#idDuong").val('');
+		
+		return false;
+	});
+}
+
+var setResult = function() {
+	$("#tenDuong").result(function(event, data, formatted) {
+		$("#idDuong").val(data[0]);
+	});
+};
+
+// Kiểm tra bắt buộc chọn đường
+var checkForm = function() {
+	if ($("#idDuong").val() == '') {
+		alert('Tên đường không được để trống. Vui lòng chọn đường!');
+		$('#tenDuong').focus();
+		
+		return false;
+	}
+	
+	return true;
+}
 </script>
 </head>
 
@@ -131,7 +189,7 @@ var check = function(list) {
 				// Các biến dùng cho phân trang
 				$page = isset($_GET['page']) ? (int)$_GET['page'] : 1;				
 				$str = "SELECT id_lich_su, chieu_dai, rong_nen, rong_mat, chieu_dai_rai_nhua, quy_mo, tai_trong,
-							   noi_dung_xay_dung, tong_kinh_phi, ngay_hoan_thanh, d.ten AS ten_duong
+							   noi_dung_xay_dung, tong_kinh_phi, to_char(ngay_hoan_thanh, 'DD/MM/YYYY') AS ngay_hoan_thanh, d.ten AS ten_duong
 						FROM lich_su_xay_dung AS l
 						INNER JOIN duong_bo AS d
 						ON l.id_duong = d.id_duong";
@@ -198,7 +256,7 @@ var check = function(list) {
 				// Các biến dùng cho phân trang
 				$page = isset($_GET['page']) ? (int)$_GET['page'] : 1;				
 				$str = "SELECT id_lich_su, chieu_dai, rong_nen, rong_mat, chieu_dai_rai_nhua, quy_mo, tai_trong,
-							   noi_dung_xay_dung, tong_kinh_phi, ngay_hoan_thanh, d.ten AS ten_duong
+							   noi_dung_xay_dung, tong_kinh_phi, to_char(ngay_hoan_thanh, 'DD/MM/YYYY') AS ngay_hoan_thanh, d.ten AS ten_duong
 						FROM lich_su_xay_dung AS l
 						INNER JOIN duong_bo AS d
 						ON l.id_duong = d.id_duong
@@ -243,17 +301,40 @@ var check = function(list) {
                 echo '</table>';
                 echo '</form>';
 			} elseif ($_GET['action'] === 'addnew') { // Thêm lịch sử xây dựng
-				echo '<form name="addNew" id="addNew" action="update_lich_su_xd.php" method="post">';
+				echo '<form name="addNew" id="addNew" action="update_lich_su_xd.php" method="post" onsubmit="return checkForm();">';
 				
 				echo '<p><label for="chieuDai">Chiều dài:</label><input type="text" name="chieuDai" id="chieuDai" /></p>';
-				
+				echo '<p><label for="rongNen">Rộng nền:</label><input type="text" name="rongNen" id="rongNen" /></p>';
+				echo '<p><label for="rongMat">Rộng mặt:</label><input type="text" name="rongMat" id="rongMat" /></p>';
+				echo '<p><label for="chieuDaiRaiNhua">Chiều dài rải nhựa:</label>';
+				echo '<input type="text" name="chieuDaiRaiNhua" id="chieuDaiRaiNhua" /></p>';
+				echo '<p><label for="quyMo">Quy mô:</label><input type="text" name="quyMo" id="quyMo" /></p>';
+				echo '<p><label for="taiTrong">Tải trọng:</label><input type="text" name="taiTrong" id="taiTrong" /></p>';
+				echo '<p><label for="noiDung">Nội dung xây dựng:</label><textarea name="noiDung" id="noiDung" rows="3"></textarea></p>';
+				echo '<p><label for="tongKinhPhi">Tổng kinh phí:</label><input type="text" name="tongKinhPhi" id="tongKinhPhi" /></p>';
+				echo '<p><label for="ngayHoanThanh">Ngày hoàn thành:</label>';
+				echo '<input type="text" name="ngayHoanThanh" id="ngayHoanThanh" />(dd/mm/yyyy)</p>';
+				echo '<p><label for="tenDuong">Tên đường:</label><input type="text" name="tenDuong" id="tenDuong" />';
+				echo '<a href="#" id="deleteDuong" class="functionLink">Xóa</a></p>';
+				echo '<input type="hidden" name="idDuong" id="idDuong" value="" />';
+		
 				echo '<input type="hidden" name="action" value="insert" />';
 				echo '<input type="submit" name="Submit" class="btnForm" value="Thêm mới" />';
 				echo '<input type="button" name="Cancel" class="btnForm" value="Hũy bỏ" onclick="window.location=\'update_lich_su_xd.php\'" />';
 				echo '</form>';
+				
+				// Đăng ký đối tượng datepicker cho ngayHoanThanh
+				echo '<script type="text/javascript">setDatePicker();</script>';
+				
+				// Đăng ký autocomplete cho đường
+				echo '<script type="text/javascript">';
+				echo 'setAutocomplete();';
+				echo 'setResult();';
+				echo '</script>';
+				
 			} elseif ($_GET['action'] === 'edit') { // Cập nhật lịch sử xây dựng
-				$strSQL = sprintf("SELECT chieu_dai, rong_nen, rong_mat, chieu_dai_rai_nhua, quy_mo, tai_trong,
-									      noi_dung_xay_dung, tong_kinh_phi, ngay_hoan_thanh, l.id_duong, d.ten AS ten_duong
+				$strSQL = sprintf("SELECT chieu_dai, rong_nen, rong_mat, chieu_dai_rai_nhua, quy_mo, tai_trong, noi_dung_xay_dung,
+										  tong_kinh_phi, to_char(ngay_hoan_thanh, 'DD/MM/YYYY') AS ngay_hoan_thanh, l.id_duong, d.ten AS ten_duong
 								   FROM lich_su_xay_dung AS l
 								   INNER JOIN duong_bo AS d
 								   ON l.id_duong = d.id_duong
@@ -261,15 +342,45 @@ var check = function(list) {
 				$db->connect();
 				$result = $db->query($strSQL);
 				$row = pg_fetch_object($result);
-				echo '<form name="edit" id="edit" action="update_lich_su_xd.php" method="post">';
+				echo '<form name="edit" id="edit" action="update_lich_su_xd.php" method="post" onsubmit="return checkForm();">';
 				
 				echo '<p><label for="chieuDai">Chiều dài:</label>';
 				echo '<input type="text" name="chieuDai" id="chieuDai" value="' . $row->chieu_dai . '" /></p>';
+				echo '<p><label for="rongNen">Rộng nền:</label>';
+				echo '<input type="text" name="rongNen" id="rongNen" value="' . $row->rong_nen . '" /></p>';
+				echo '<p><label for="rongMat">Rộng mặt:</label>';
+				echo '<input type="text" name="rongMat" id="rongMat" value="' . $row->rong_mat . '" /></p>';
+				echo '<p><label for="chieuDaiRaiNhua">Chiều dài rải nhựa:</label>';
+				echo '<input type="text" name="chieuDaiRaiNhua" id="chieuDaiRaiNhua" value="' . $row->chieu_dai_rai_nhua . '" /></p>';
+				echo '<p><label for="quyMo">Quy mô:</label>';
+				echo '<input type="text" name="quyMo" id="quyMo" value="' . $row->quy_mo . '" /></p>';
+				echo '<p><label for="taiTrong">Tải trọng:</label>';
+				echo '<input type="text" name="taiTrong" id="taiTrong" value="' . $row->tai_trong . '" /></p>';
+				echo '<p><label for="noiDung">Nội dung xây dựng:</label>';
+				echo '<textarea name="noiDung" id="noiDung" rows="3">' . $row->noi_dung_xay_dung . '</textarea></p>';
+				echo '<p><label for="tongKinhPhi">Tổng kinh phí:</label>';
+				echo '<input type="text" name="tongKinhPhi" id="tongKinhPhi" value="' . $row->tong_kinh_phi . '" /></p>';
+				echo '<p><label for="ngayHoanThanh">Ngày hoàn thành:</label>';
+				echo '<input type="text" name="ngayHoanThanh" id="ngayHoanThanh" value="' . $row->ngay_hoan_thanh . '" />(dd/mm/yyyy)</p>';
+				echo '<p><label for="tenDuong">Tên đường:</label>';
+				echo '<input type="text" name="tenDuong" id="tenDuong" value="' . $row->ten_duong . '" />';
+				echo '<a href="#" id="deleteDuong" class="functionLink">Xóa</a></p>';
+				echo '<input type="hidden" name="idDuong" id="idDuong" value="' . $row->id_duong . '" />';
 				
 				echo '<input type="hidden" name="action" value="edit" />';
 				echo '<input type="hidden" name="id" value="' . $_GET['id'] . '" />';
 				echo '<input type="submit" name="Submit" class="btnForm" value="Cập nhật" />';
 				echo '<input type="button" name="Cancel" class="btnForm" value="Hũy bỏ" onclick="window.location=\'update_lich_su_xd.php\'" />';
+				echo '</form>';
+				
+				// Đăng ký đối tượng datepicker cho ngayHoanThanh
+				echo '<script type="text/javascript">setDatePicker();</script>';
+				
+				// Đăng ký autocomplete cho đường
+				echo '<script type="text/javascript">';
+				echo 'setAutocomplete();';
+				echo 'setResult();';
+				echo '</script>';
 			}
 			?>
             </div>
