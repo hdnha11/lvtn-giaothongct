@@ -5,7 +5,7 @@
  * Khoa CNTT & Truyền thông
  * Trường Đại học Cần Thơ
  * Email: hdnha11@gmail.com
- * Xuất báo cáo PDF
+ * Xuất báo cáo hiện trạng đường bộ PDF
  */
  
 require_once dirname(__FILE__) . '/../../lib/tcpdf/config/lang/eng.php';
@@ -47,11 +47,11 @@ SQL;
 		$reportContent = '';
 		$sttCQ = 1;
 		while ($cq = pg_fetch_object($cqql)) {
-			$reportContent .= '<p class="rtContentTitle">' . $sttCQ . '. ' . $cq->ten . '</p>';
+			$reportContent .= '<div class="rtContentTitle">' . $sttCQ . '. ' . $cq->ten . '</div>';
 			$reportContent .= <<<TABLE
 			<table border="1" cellpadding="5">
 				<thead>
-					<tr>
+					<tr class="bold" align="center" bgcolor="#99CCFF">
 						<th>STT</th>
 						<th>Tên đường</th>
 						<th>Chiều dài</th>
@@ -70,16 +70,16 @@ TABLE;
 			$stt = 1;
 			while ($duong = pg_fetch_object($dsDuong)) {
 				$reportContent .= '<tr>';
-				$reportContent .= "<td>$stt</td>";
-				$reportContent .= "<td>$duong->ten</td>";
-				$reportContent .= "<td>$duong->chieu_dai</td>";
-				$reportContent .= "<td>$duong->rong_nen</td>";
-				$reportContent .= "<td>$duong->rong_mat</td>";
-				$reportContent .= "<td>$duong->quy_mo</td>";
-				$reportContent .= "<td>$duong->tai_trong</td>";
-				$reportContent .= "<td>$duong->loai</td>";
-				$reportContent .= "<td>$duong->cap</td>";
-				$reportContent .= "<td>$duong->tinh_trang_su_dung</td>";
+				$reportContent .= '<td align="center">' . $stt . '</td>';
+				$reportContent .= '<td align="left">' . $duong->ten . '</td>';
+				$reportContent .= '<td align="right">' . $duong->chieu_dai . '</td>';
+				$reportContent .= '<td align="right">' . $duong->rong_nen . '</td>';
+				$reportContent .= '<td align="right">' . $duong->rong_mat . '</td>';
+				$reportContent .= '<td align="left">' . $duong->quy_mo . '</td>';
+				$reportContent .= '<td align="right">' . $duong->tai_trong . '</td>';
+				$reportContent .= '<td align="left">' . $duong->loai . '</td>';
+				$reportContent .= '<td align="left">' . $duong->cap . '</td>';
+				$reportContent .= '<td align="left">' . $duong->tinh_trang_su_dung . '</td>';
 				$reportContent .= '</tr>';
 				
 				$stt++;
@@ -116,11 +116,11 @@ SQL;
 		$reportContent = '';
 		$sttLoai = 1;
 		while ($loai = pg_fetch_object($dsLoai)) {
-			$reportContent .= '<p class="rtContentTitle">' . $sttLoai . '. ' . $loai->loai . '</p>';
+			$reportContent .= '<div class="rtContentTitle">' . $sttLoai . '. ' . $loai->loai . '</div>';
 			$reportContent .= <<<TABLE
 			<table border="1" cellpadding="5">
 				<thead>
-					<tr>
+					<tr class="bold" align="center" bgcolor="#99CCFF">
 						<th>STT</th>
 						<th>Tên đường</th>
 						<th>Chiều dài</th>
@@ -139,16 +139,16 @@ TABLE;
 			$stt = 1;
 			while ($duong = pg_fetch_object($dsDuong)) {
 				$reportContent .= '<tr>';
-				$reportContent .= "<td>$stt</td>";
-				$reportContent .= "<td>$duong->ten</td>";
-				$reportContent .= "<td>$duong->chieu_dai</td>";
-				$reportContent .= "<td>$duong->rong_nen</td>";
-				$reportContent .= "<td>$duong->rong_mat</td>";
-				$reportContent .= "<td>$duong->quy_mo</td>";
-				$reportContent .= "<td>$duong->tai_trong</td>";
-				$reportContent .= "<td>$duong->loai</td>";
-				$reportContent .= "<td>$duong->cap</td>";
-				$reportContent .= "<td>$duong->tinh_trang_su_dung</td>";
+				$reportContent .= '<td align="center">' . $stt . '</td>';
+				$reportContent .= '<td align="left">' . $duong->ten . '</td>';
+				$reportContent .= '<td align="right">' . $duong->chieu_dai . '</td>';
+				$reportContent .= '<td align="right">' . $duong->rong_nen . '</td>';
+				$reportContent .= '<td align="right">' . $duong->rong_mat . '</td>';
+				$reportContent .= '<td align="left">' . $duong->quy_mo . '</td>';
+				$reportContent .= '<td align="right">' . $duong->tai_trong . '</td>';
+				$reportContent .= '<td align="left">' . $duong->loai . '</td>';
+				$reportContent .= '<td align="left">' . $duong->cap . '</td>';
+				$reportContent .= '<td align="left">' . $duong->tinh_trang_su_dung . '</td>';
 				$reportContent .= '</tr>';
 				
 				$stt++;
@@ -170,6 +170,10 @@ TABLE;
 			
 			.italic {
 				font-style: italic;
+			}
+			
+			.rtContentTitle {
+				font-weight: bold;
 			}
 			</style>
 			
@@ -235,7 +239,16 @@ HTMLCLOSE;
 	// ---------------------------------------------------------
 	
 	// set font
-	$pdf->SetFont('dejavusans', '', 12, '', true);
+	//$pdf->SetFont('pdfatimes', '', 12, '', true);
+	//$pdf->SetFont('aealarabiya', '', 12, '', true);
+	//$pdf->SetFont('aefurat', '', 12, '', true);
+	//$pdf->SetFont('dejavusanscondensed', '', 12, '', true);
+	//$pdf->SetFont('dejavuserif', '', 12, '', true);
+	//$pdf->SetFont('dejavuserifcondensed', '', 12, '', true);
+	//$pdf->SetFont('dejavusans', '', 12, '', true);
+	//$pdf->SetFont('freemono', '', 12, '', true);
+	$pdf->SetFont('freeserif', '', 12, '', true);
+	//$pdf->SetFont('freesans', '', 12, '', true);
 	
 	// add a page
 	$pdf->AddPage();

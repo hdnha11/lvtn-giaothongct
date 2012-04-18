@@ -32,9 +32,10 @@ SQL;
 		$reportContent = '';
 		$sttCQ = 1;
 		while ($cq = pg_fetch_object($cqql)) {
-			$reportContent .= '<p class="rtContentTitle">' . $sttCQ . '. ' . $cq->ten . '</p>';
+			//$reportContent .= '<p class="rtContentTitle">' . $sttCQ . '. ' . $cq->ten . '</p>';
 			$reportContent .= <<<TABLE
 			<table>
+				<caption>{$sttCQ}. {$cq->ten}</caption>
 				<thead>
 					<tr>
 						<th>STT</th>
@@ -101,9 +102,10 @@ SQL;
 		$reportContent = '';
 		$sttLoai = 1;
 		while ($loai = pg_fetch_object($dsLoai)) {
-			$reportContent .= '<p class="rtContentTitle">' . $sttLoai . '. ' . $loai->loai . '</p>';
+			//$reportContent .= '<p class="rtContentTitle">' . $sttLoai . '. ' . $loai->loai . '</p>';
 			$reportContent .= <<<TABLE
 			<table>
+				<caption>{$sttLoai}. {$loai->loai}</caption>
 				<thead>
 					<tr>
 						<th>STT</th>
@@ -223,6 +225,11 @@ body {
 /* Định kích thước bảng */
 table {
 	width: 1024px;
+}
+
+/* Khoảng cách trên tiêu đề bảng */
+caption {
+	margin: 20px 0px 0px 0px;
 }
 </style>
 </head>
