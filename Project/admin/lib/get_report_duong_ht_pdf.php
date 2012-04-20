@@ -52,16 +52,16 @@ SQL;
 			<table border="1" cellpadding="5">
 				<thead>
 					<tr class="bold" align="center" bgcolor="#99CCFF">
-						<th>STT</th>
-						<th>Tên đường</th>
-						<th>Chiều dài</th>
-						<th>Rộng nền</th>
-						<th>Rộng mặt</th>
-						<th>Quy mô</th>
-						<th>Tải trọng</th>
-						<th>Loại đường</th>
-						<th>Cấp đường</th>
-						<th>Trình trạng sử dụng</th>
+						<th width="6%">STT</th>
+						<th width="10%">Đường</th>
+						<th width="11%">Chiều dài</th>
+						<th width="11%">Rộng nền</th>
+						<th width="11%">Rộng mặt</th>
+						<th width="10%">Quy mô</th>
+						<th width="11%">Tải trọng</th>
+						<th width="10%">Loại</th>
+						<th width="10%">Cấp</th>
+						<th width="10%">TTSD</th>
 					</tr>
 				</thead>
 				<tbody>
@@ -70,16 +70,16 @@ TABLE;
 			$stt = 1;
 			while ($duong = pg_fetch_object($dsDuong)) {
 				$reportContent .= '<tr>';
-				$reportContent .= '<td align="center">' . $stt . '</td>';
-				$reportContent .= '<td align="left">' . $duong->ten . '</td>';
-				$reportContent .= '<td align="right">' . $duong->chieu_dai . '</td>';
-				$reportContent .= '<td align="right">' . $duong->rong_nen . '</td>';
-				$reportContent .= '<td align="right">' . $duong->rong_mat . '</td>';
-				$reportContent .= '<td align="left">' . $duong->quy_mo . '</td>';
-				$reportContent .= '<td align="right">' . $duong->tai_trong . '</td>';
-				$reportContent .= '<td align="left">' . $duong->loai . '</td>';
-				$reportContent .= '<td align="left">' . $duong->cap . '</td>';
-				$reportContent .= '<td align="left">' . $duong->tinh_trang_su_dung . '</td>';
+				$reportContent .= '<td width="6%" align="center">' . $stt . '</td>';
+				$reportContent .= '<td width="10%" align="left">' . $duong->ten . '</td>';
+				$reportContent .= '<td width="11%" align="right">' . $duong->chieu_dai . '</td>';
+				$reportContent .= '<td width="11%" align="right">' . $duong->rong_nen . '</td>';
+				$reportContent .= '<td width="11%" align="right">' . $duong->rong_mat . '</td>';
+				$reportContent .= '<td width="10%" align="left">' . $duong->quy_mo . '</td>';
+				$reportContent .= '<td width="11%" align="right">' . $duong->tai_trong . '</td>';
+				$reportContent .= '<td width="10%" align="left">' . $duong->loai . '</td>';
+				$reportContent .= '<td width="10%" align="left">' . $duong->cap . '</td>';
+				$reportContent .= '<td width="10%" align="left">' . $duong->tinh_trang_su_dung . '</td>';
 				$reportContent .= '</tr>';
 				
 				$stt++;
@@ -121,16 +121,16 @@ SQL;
 			<table border="1" cellpadding="5">
 				<thead>
 					<tr class="bold" align="center" bgcolor="#99CCFF">
-						<th>STT</th>
-						<th>Tên đường</th>
-						<th>Chiều dài</th>
-						<th>Rộng nền</th>
-						<th>Rộng mặt</th>
-						<th>Quy mô</th>
-						<th>Tải trọng</th>
-						<th>Loại đường</th>
-						<th>Cấp đường</th>
-						<th>Trình trạng sử dụng</th>
+						<th width="6%">STT</th>
+						<th width="10%">Đường</th>
+						<th width="11%">Chiều dài</th>
+						<th width="11%">Rộng nền</th>
+						<th width="11%">Rộng mặt</th>
+						<th width="10%">Quy mô</th>
+						<th width="11%">Tải trọng</th>
+						<th width="10%">Loại</th>
+						<th width="10%">Cấp</th>
+						<th width="10%">TTSD</th>
 					</tr>
 				</thead>
 				<tbody>
@@ -139,16 +139,16 @@ TABLE;
 			$stt = 1;
 			while ($duong = pg_fetch_object($dsDuong)) {
 				$reportContent .= '<tr>';
-				$reportContent .= '<td align="center">' . $stt . '</td>';
-				$reportContent .= '<td align="left">' . $duong->ten . '</td>';
-				$reportContent .= '<td align="right">' . $duong->chieu_dai . '</td>';
-				$reportContent .= '<td align="right">' . $duong->rong_nen . '</td>';
-				$reportContent .= '<td align="right">' . $duong->rong_mat . '</td>';
-				$reportContent .= '<td align="left">' . $duong->quy_mo . '</td>';
-				$reportContent .= '<td align="right">' . $duong->tai_trong . '</td>';
-				$reportContent .= '<td align="left">' . $duong->loai . '</td>';
-				$reportContent .= '<td align="left">' . $duong->cap . '</td>';
-				$reportContent .= '<td align="left">' . $duong->tinh_trang_su_dung . '</td>';
+				$reportContent .= '<td width="6%" align="center">' . $stt . '</td>';
+				$reportContent .= '<td width="10%" align="left">' . $duong->ten . '</td>';
+				$reportContent .= '<td width="11%" align="right">' . $duong->chieu_dai . '</td>';
+				$reportContent .= '<td width="11%" align="right">' . $duong->rong_nen . '</td>';
+				$reportContent .= '<td width="11%" align="right">' . $duong->rong_mat . '</td>';
+				$reportContent .= '<td width="10%" align="left">' . $duong->quy_mo . '</td>';
+				$reportContent .= '<td width="11%" align="right">' . $duong->tai_trong . '</td>';
+				$reportContent .= '<td width="10%" align="left">' . $duong->loai . '</td>';
+				$reportContent .= '<td width="10%" align="left">' . $duong->cap . '</td>';
+				$reportContent .= '<td width="10%" align="left">' . $duong->tinh_trang_su_dung . '</td>';
 				$reportContent .= '</tr>';
 				
 				$stt++;
@@ -225,10 +225,12 @@ HTMLCLOSE;
 	$pdf->SetDefaultMonospacedFont(PDF_FONT_MONOSPACED);
 	
 	//set margins
-	$pdf->SetMargins(PDF_MARGIN_LEFT, PDF_MARGIN_TOP, PDF_MARGIN_RIGHT);
+	//$pdf->SetMargins(PDF_MARGIN_LEFT, PDF_MARGIN_TOP, PDF_MARGIN_RIGHT);
+	$pdf->SetMargins(8, 10, 8);
 	
 	//set auto page breaks
-	$pdf->SetAutoPageBreak(TRUE, PDF_MARGIN_BOTTOM);
+	//$pdf->SetAutoPageBreak(TRUE, PDF_MARGIN_BOTTOM);
+	$pdf->SetAutoPageBreak(TRUE, 10);
 	
 	//set image scale factor
 	$pdf->setImageScale(PDF_IMAGE_SCALE_RATIO);

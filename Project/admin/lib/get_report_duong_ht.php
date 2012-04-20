@@ -47,7 +47,7 @@ SQL;
 						<th>Tải trọng</th>
 						<th>Loại đường</th>
 						<th>Cấp đường</th>
-						<th>Trình trạng sử dụng</th>
+						<th>Tình trạng sử dụng</th>
 					</tr>
 				</thead>
 				<tbody>
@@ -117,7 +117,7 @@ SQL;
 						<th>Tải trọng</th>
 						<th>Loại đường</th>
 						<th>Cấp đường</th>
-						<th>Trình trạng sử dụng</th>
+						<th>Tình trạng sử dụng</th>
 					</tr>
 				</thead>
 				<tbody>
