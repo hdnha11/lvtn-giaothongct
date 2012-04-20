@@ -52,3 +52,22 @@ GROUP BY id_duong;
 
 SELECT id_lich_su, id_duong, ngay_hoan_thanh
 FROM lich_su_xay_dung;
+
+--bao cao thong ke xay moi, duy tu, sua chua nang cap theo qui va nam
+SELECT d.ten, l.loai, c.cap, ls.noi_dung_xay_dung, ls.tong_kinh_phi, d.tinh_trang_su_dung
+FROM duong_bo AS d
+INNER JOIN lich_su_xay_dung AS ls ON d.id_duong = ls.id_duong
+INNER JOIN loai_duong AS l ON d.id_loai = l.id_loai
+INNER JOIN cap_duong AS c ON d.id_cap = c.id_cap
+WHERE extract(QUARTER FROM ls.ngay_hoan_thanh) = 2 AND
+      extract(YEAR FROM ls.ngay_hoan_thanh) = 2010;
+
+--lay qui va thang tu kieu date
+SELECT ls.id_duong, extract(QUARTER FROM ls.ngay_hoan_thanh) AS qui, extract(MONTH FROM ls.ngay_hoan_thanh) AS thang
+FROM lich_su_xay_dung AS ls; 
+
+--bao cao hien trang cau
+SELECT c.ten AS ten_cau, d.ten AS ten_duong, c.chieu_dai, c.be_rong, c.tai_trong, c.mo_tru, c.so_nhip, c.loai, c.su_dung
+FROM cau_polyline AS c
+INNER JOIN duong_bo AS d ON c.id_duong = d.id_duong
+WHERE d.id_duong = 1;
