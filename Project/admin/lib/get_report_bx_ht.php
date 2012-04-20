@@ -6,26 +6,23 @@ $db = new PgSQL;
 if (isset($_POST['reportOption'])) {
 	if ($_POST['reportOption'] === 'all') {
 		$reportSQL = <<<SQL
-			SELECT c.ten AS ten_cau, d.ten AS ten_duong, c.chieu_dai, c.be_rong, c.tai_trong, c.mo_tru, c.so_nhip, c.loai, c.su_dung
-			FROM cau_polyline AS c
-			INNER JOIN duong_bo AS d ON c.id_duong = d.id_duong
+			SELECT b.ten AS ten_ben, d.ten AS ten_duong, b.dia_chi, b.dien_thoai, b.so_dau_xe, b.thong_ben
+			FROM ben_xe_font_point AS b
+			INNER JOIN duong_bo AS d ON b.id_duong = d.id_duong
 SQL;
 		
 		$reportContent = <<<TABLE
 		<table>
-			<caption>Danh sách cầu đường bộ</caption>
+			<caption>Danh sách bến xe</caption>
 			<thead>
 				<tr>
 					<th>STT</th>
-					<th>Tên cầu</th>
+					<th>Tên bến</th>
 					<th>Thuộc đường</th>
-					<th>Chiều dài</th>
-					<th>Bề rộng</th>
-					<th>Tải trọng</th>
-					<th>Loại mô trụ</th>
-					<th>Số nhịp</th>
-					<th>Loại cầu</th>
-					<th>Tình trạng sử dụng</th>
+					<th>Địa chỉ</th>
+					<th>Số ĐT</th>
+					<th>Số đầu xe</th>
+					<th>Năng lực thông bến</th>
 				</tr>
 			</thead>
 			<tbody>
@@ -37,15 +34,12 @@ TABLE;
 		while ($duong = pg_fetch_object($dsDuong)) {
 			$reportContent .= '<tr>';
 			$reportContent .= "<td>$stt</td>";
-			$reportContent .= "<td>$duong->ten_cau</td>";
+			$reportContent .= "<td>$duong->ten_ben</td>";
 			$reportContent .= "<td>$duong->ten_duong</td>";
-			$reportContent .= "<td>$duong->chieu_dai</td>";
-			$reportContent .= "<td>$duong->be_rong</td>";
-			$reportContent .= "<td>$duong->tai_trong</td>";
-			$reportContent .= "<td>$duong->mo_tru</td>";
-			$reportContent .= "<td>$duong->so_nhip</td>";
-			$reportContent .= "<td>$duong->loai</td>";
-			$reportContent .= "<td>$duong->su_dung</td>";
+			$reportContent .= "<td>$duong->dia_chi</td>";
+			$reportContent .= "<td>$duong->dien_thoai</td>";
+			$reportContent .= "<td>$duong->so_dau_xe</td>";
+			$reportContent .= "<td>$duong->thong_ben</td>";
 			$reportContent .= '</tr>';
 			
 			$stt++;
@@ -56,27 +50,24 @@ TABLE;
 
 	} else {
 		$reportSQL = <<<SQL
-			SELECT c.ten AS ten_cau, d.ten AS ten_duong, c.chieu_dai, c.be_rong, c.tai_trong, c.mo_tru, c.so_nhip, c.loai, c.su_dung
-			FROM cau_polyline AS c
-			INNER JOIN duong_bo AS d ON c.id_duong = d.id_duong
+			SELECT b.ten AS ten_ben, d.ten AS ten_duong, b.dia_chi, b.dien_thoai, b.so_dau_xe, b.thong_ben
+			FROM ben_xe_font_point AS b
+			INNER JOIN duong_bo AS d ON b.id_duong = d.id_duong
 			WHERE d.id_duong = {$_POST['reportOption']}
 SQL;
 		
 		$reportContent = <<<TABLE
 		<table>
-			<caption>Danh sách cầu đường bộ</caption>
+			<caption>Danh sách bến xe</caption>
 			<thead>
 				<tr>
 					<th>STT</th>
-					<th>Tên cầu</th>
+					<th>Tên bến</th>
 					<th>Thuộc đường</th>
-					<th>Chiều dài</th>
-					<th>Bề rộng</th>
-					<th>Tải trọng</th>
-					<th>Loại mô trụ</th>
-					<th>Số nhịp</th>
-					<th>Loại cầu</th>
-					<th>Tình trạng sử dụng</th>
+					<th>Địa chỉ</th>
+					<th>Số ĐT</th>
+					<th>Số đầu xe</th>
+					<th>Năng lực thông bến</th>
 				</tr>
 			</thead>
 			<tbody>
@@ -87,15 +78,12 @@ TABLE;
 		while ($duong = pg_fetch_object($dsDuong)) {
 			$reportContent .= '<tr>';
 			$reportContent .= "<td>$stt</td>";
-			$reportContent .= "<td>$duong->ten_cau</td>";
+			$reportContent .= "<td>$duong->ten_ben</td>";
 			$reportContent .= "<td>$duong->ten_duong</td>";
-			$reportContent .= "<td>$duong->chieu_dai</td>";
-			$reportContent .= "<td>$duong->be_rong</td>";
-			$reportContent .= "<td>$duong->tai_trong</td>";
-			$reportContent .= "<td>$duong->mo_tru</td>";
-			$reportContent .= "<td>$duong->so_nhip</td>";
-			$reportContent .= "<td>$duong->loai</td>";
-			$reportContent .= "<td>$duong->su_dung</td>";
+			$reportContent .= "<td>$duong->dia_chi</td>";
+			$reportContent .= "<td>$duong->dien_thoai</td>";
+			$reportContent .= "<td>$duong->so_dau_xe</td>";
+			$reportContent .= "<td>$duong->thong_ben</td>";
 			$reportContent .= '</tr>';
 			
 			$stt++;
@@ -112,7 +100,7 @@ TABLE;
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title>Báo cáo hiện trạng cầu đường bộ</title>
+<title>Báo cáo hiện trạng bến xe</title>
 <link type="text/css" rel="stylesheet" href="../css/report-table.css" />
 <style type="text/css">
 body {
@@ -207,7 +195,7 @@ caption {
 	<p class="italic">Cần Thơ, ngày <?php echo date('d'); ?> tháng <?php echo date('m'); ?> năm <?php echo date('Y'); ?></p>
 </div>
 <div id="title">
-	<p>BÁO CÁO HIỆN TRẠNG CẦU ĐƯỜNG BỘ</p>
+	<p>BÁO CÁO HIỆN TRẠNG BẾN XE</p>
     <p>NĂM <?php echo date('Y'); ?></p>
     <?php
 		$subTitle = '';
