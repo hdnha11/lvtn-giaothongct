@@ -71,6 +71,11 @@ form input.btnForm {
 	-webkit-border-radius: 2px;
 }
 
+/* Fix IE and Firefox button position */
+#btnPanel {
+	clear: both;
+}
+
 /* Định dạng label */
 form label {
 	display: block;
@@ -101,8 +106,8 @@ form label {
                         	<option value="cqql">Cơ quan quản lý</option>
                             <option value="loaiDuong">Loại đường</option>
                         </select>
-                    <div>
-                    <div>
+                    </div>
+                    <div id="btnPanel">
                     	<input type="submit" name="btnReport" id="btnReport" class="btnForm" value="Tạo bản in" />
                         <input type="button" name="btnPDF" id="btnPDF" class="btnForm" value="Báo cáo dạng PDF" />
                     </div>

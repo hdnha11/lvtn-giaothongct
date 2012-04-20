@@ -17,7 +17,7 @@ if (Login::isLoggedIn()) {
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title>Báo cáo hiện trạng cầu đường bộ</title>
+<title>Báo cáo hiện trạng bến xe</title>
 <link type="text/css" rel="stylesheet" href="css/admin.css" />
 <script type="text/javascript" src="../js/jquery/jquery-1.7.1.min.js"></script>
 <script type="text/javascript" src="js/sidebar.js"></script>
@@ -26,17 +26,17 @@ $(document).ready(function() {
 	
 	// Mở menu tương ứng với trang, ẩn các menu khác
     $("#sidebar h3#admin").addClass("active");
-	$("#sidebar div:not(#bridgeReportCT)").hide();
+	$("#sidebar div:not(#otherReport)").hide();
 	
 	// Tạo báo cáo dạng PDF
 	$('#btnPDF').click(function() {
-		$.post('lib/get_report_cau_ht_pdf.php', $('#reportCauHT').serialize());
+		$.post('lib/get_report_bx_ht_pdf.php', $('#reportBXHT').serialize());
 	});
 });
 </script>
 
 <style type="text/css">
-#bridgeReportContent {
+#otherReportContent {
 	float: left;
 	width: 732px;
 	min-height: 82%;
@@ -45,13 +45,13 @@ $(document).ready(function() {
 	background: #F7F7F7; /*Test*/
 }
 
-#bridgeReportContent #content {
+#otherReportContent #content {
 	position: relative;
 	margin: 0px;
 	padding: 0px 20px 20px 20px;
 }
 
-#bridgeReportContent #reportCauHT {
+#otherReportContent #reportBXHT {
 	padding: 40px 0px 0px 20px;
 }
 
@@ -96,10 +96,10 @@ form label {
     	<!-- SideBar include -->
         <?php include_once("includes/sidebar.html"); ?>
 		<!-- Content -->
-        <div id="bridgeReportContent">
-            <h1 class="contentTitle">Báo cáo hiện trạng cầu đường bộ</h1>
+        <div id="otherReportContent">
+            <h1 class="contentTitle">Báo cáo hiện trạng bến xe</h1>
             <div id="content">
-            	<form name="reportCauHT" id="reportCauHT" action="lib/get_report_cau_ht.php" method="post" target="_blank">
+            	<form name="reportBXHT" id="reportBXHT" action="lib/get_report_bx_ht.php" method="post" target="_blank">
                 	<div>
                     	<label for="reportOption">Tạo báo cáo theo tuyến đường:</label>
                         <select name="reportOption" id="reportOption">
@@ -120,7 +120,7 @@ form label {
                     </div>
                 </form>
             </div>
-		</div><!--End bridgeReportContent-->
+		</div><!--End otherReportContent-->
 	</div><!--End Wrapper-->
 	
 </div><!--End Container-->

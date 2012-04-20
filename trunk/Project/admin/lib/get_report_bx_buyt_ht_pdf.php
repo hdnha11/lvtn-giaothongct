@@ -5,7 +5,7 @@
  * Khoa CNTT & Truyền thông
  * Trường Đại học Cần Thơ
  * Email: hdnha11@gmail.com
- * Xuất báo cáo hiện trạng cầu đường bộ PDF
+ * Xuất báo cáo hiện trạng bến xe buýt PDF
  */
  
 require_once dirname(__FILE__) . '/../../lib/tcpdf/config/lang/eng.php';
@@ -21,26 +21,21 @@ if (isset($_POST['reportOption'])) {
 	
 	if ($_POST['reportOption'] === 'all') {
 		$reportSQL = <<<SQL
-			SELECT c.ten AS ten_cau, d.ten AS ten_duong, c.chieu_dai, c.be_rong, c.tai_trong, c.mo_tru, c.so_nhip, c.loai, c.su_dung
-			FROM cau_polyline AS c
-			INNER JOIN duong_bo AS d ON c.id_duong = d.id_duong
+			SELECT b.dien_giai AS ten_ben, d.ten AS ten_duong, b.dia_chi, b.di_va_den
+			FROM ben_xe_buyt_point AS b
+			INNER JOIN duong_bo AS d ON b.id_duong = d.id_duong
 SQL;
 		
-		$reportContent .= '<div class="rtContentTitle">Danh sách cầu đường bộ</div>';
+		$reportContent .= '<div class="rtContentTitle">Danh sách bến xe buýt</div>';
 		$reportContent .= <<<TABLE
 		<table border="1" cellpadding="5">
 			<thead>
 				<tr class="bold" align="center" bgcolor="#99CCFF">
 					<th width="6%">STT</th>
-					<th width="10%">Cầu</th>
-					<th width="11%">Đường</th>
-					<th width="11%">Dài</th>
-					<th width="11%">Rộng</th>
-					<th width="11%">Tải trọng</th>
-					<th width="10%">Mô trụ</th>
-					<th width="10%">Số nhịp</th>
-					<th width="10%">Loại</th>
-					<th width="10%">TTSD</th>
+					<th width="18%">Tên bến</th>
+					<th width="18%">Thuộc đường</th>
+					<th width="24%">Địa chỉ</th>
+					<th width="34%">Tuyến đi và đến</th>
 				</tr>
 			</thead>
 			<tbody>
@@ -52,15 +47,10 @@ TABLE;
 		while ($duong = pg_fetch_object($dsDuong)) {
 			$reportContent .= '<tr>';
 			$reportContent .= '<td width="6%" align="center">' . $stt . '</td>';
-			$reportContent .= '<td width="10%" align="left">' . $duong->ten_cau . '</td>';
-			$reportContent .= '<td width="11%" align="left">' . $duong->ten_duong . '</td>';
-			$reportContent .= '<td width="11%" align="right">' . $duong->chieu_dai . '</td>';
-			$reportContent .= '<td width="11%" align="right">' . $duong->be_rong . '</td>';
-			$reportContent .= '<td width="11%" align="right">' . $duong->tai_trong . '</td>';
-			$reportContent .= '<td width="10%" align="left">' . $duong->mo_tru . '</td>';
-			$reportContent .= '<td width="10%" align="right">' . $duong->so_nhip . '</td>';
-			$reportContent .= '<td width="10%" align="left">' . $duong->loai . '</td>';
-			$reportContent .= '<td width="10%" align="left">' . $duong->su_dung . '</td>';
+			$reportContent .= '<td width="18%" align="left">' . $duong->ten_ben . '</td>';
+			$reportContent .= '<td width="18%" align="left">' . $duong->ten_duong . '</td>';
+			$reportContent .= '<td width="24%" align="left">' . $duong->dia_chi . '</td>';
+			$reportContent .= '<td width="34%" align="left">' . $duong->di_va_den . '</td>';
 			$reportContent .= '</tr>';
 			
 			$stt++;
@@ -71,27 +61,22 @@ TABLE;
 			
 	} else {
 		$reportSQL = <<<SQL
-			SELECT c.ten AS ten_cau, d.ten AS ten_duong, c.chieu_dai, c.be_rong, c.tai_trong, c.mo_tru, c.so_nhip, c.loai, c.su_dung
-			FROM cau_polyline AS c
-			INNER JOIN duong_bo AS d ON c.id_duong = d.id_duong
+			SELECT b.dien_giai AS ten_ben, d.ten AS ten_duong, b.dia_chi, b.di_va_den
+			FROM ben_xe_buyt_point AS b
+			INNER JOIN duong_bo AS d ON b.id_duong = d.id_duong
 			WHERE d.id_duong = {$_POST['reportOption']}
 SQL;
 
-		$reportContent .= '<div class="rtContentTitle">Danh sách cầu đường bộ</div>';
+		$reportContent .= '<div class="rtContentTitle">Danh sách bến xe buýt</div>';
 		$reportContent .= <<<TABLE
 		<table border="1" cellpadding="5">
 			<thead>
 				<tr class="bold" align="center" bgcolor="#99CCFF">
 					<th width="6%">STT</th>
-					<th width="10%">Cầu</th>
-					<th width="11%">Đường</th>
-					<th width="11%">Dài</th>
-					<th width="11%">Rộng</th>
-					<th width="11%">Tải trọng</th>
-					<th width="10%">Mô trụ</th>
-					<th width="10%">Số nhịp</th>
-					<th width="10%">Loại</th>
-					<th width="10%">TTSD</th>
+					<th width="18%">Tên bến</th>
+					<th width="18%">Thuộc đường</th>
+					<th width="24%">Địa chỉ</th>
+					<th width="34%">Tuyến đi và đến</th>
 				</tr>
 			</thead>
 			<tbody>
@@ -103,15 +88,10 @@ TABLE;
 		while ($duong = pg_fetch_object($dsDuong)) {
 			$reportContent .= '<tr>';
 			$reportContent .= '<td width="6%" align="center">' . $stt . '</td>';
-			$reportContent .= '<td width="10%" align="left">' . $duong->ten_cau . '</td>';
-			$reportContent .= '<td width="11%" align="left">' . $duong->ten_duong . '</td>';
-			$reportContent .= '<td width="11%" align="right">' . $duong->chieu_dai . '</td>';
-			$reportContent .= '<td width="11%" align="right">' . $duong->be_rong . '</td>';
-			$reportContent .= '<td width="11%" align="right">' . $duong->tai_trong . '</td>';
-			$reportContent .= '<td width="10%" align="left">' . $duong->mo_tru . '</td>';
-			$reportContent .= '<td width="10%" align="right">' . $duong->so_nhip . '</td>';
-			$reportContent .= '<td width="10%" align="left">' . $duong->loai . '</td>';
-			$reportContent .= '<td width="10%" align="left">' . $duong->su_dung . '</td>';
+			$reportContent .= '<td width="18%" align="left">' . $duong->ten_ben . '</td>';
+			$reportContent .= '<td width="18%" align="left">' . $duong->ten_duong . '</td>';
+			$reportContent .= '<td width="24%" align="left">' . $duong->dia_chi . '</td>';
+			$reportContent .= '<td width="34%" align="left">' . $duong->di_va_den . '</td>';
 			$reportContent .= '</tr>';
 			
 			$stt++;
@@ -152,7 +132,7 @@ TABLE;
 			</table>
 			<p align="right" class="italic">Cần Thơ, ngày ' . date('d') . ' tháng ' . date('m') . ' năm ' . date('Y') . '</p>
 			<div id="title" class="bold">
-				<p align="center">BÁO CÁO HIỆN TRẠNG CẦU ĐƯỜNG BỘ<br />
+				<p align="center">BÁO CÁO HIỆN TRẠNG BẾN XE BUÝT<br />
 				NĂM ' . date('Y') . '</p>';
 				
 	$subTitle = '';
@@ -184,7 +164,7 @@ HTMLCLOSE;
 	// set document information
 	$pdf->SetCreator(PDF_CREATOR);
 	$pdf->SetAuthor('Hoàng Đức Nhã');
-	$pdf->SetTitle('Báo cáo hiện trạng cầu đường bộ');
+	$pdf->SetTitle('Báo cáo hiện trạng bến xe buýt');
 	$pdf->SetSubject('Luận văn tốt nghiệp');
 	$pdf->SetKeywords('GIS, Geo, OpenGIS, PostGIS, OpenLayers');
 	
@@ -303,5 +283,5 @@ HTMLCLOSE;
 	// ---------------------------------------------------------
 	
 	//Close and output PDF document
-	$pdf->Output('bcht_cau_duong_bo_' . date('dmYHis') . '.pdf', 'I');
+	$pdf->Output('bcht_ben_xe_buyt_' . date('dmYHis') . '.pdf', 'I');
 }

@@ -137,3 +137,10 @@ h1.contentTitle {
 span.username {
 	color: #FF0019;
 }
+
+/* Fix Firefox line-height */
+input::-moz-focus-inner /*Remove button padding in FF*/
+{ 
+    border: 0;
+    padding: 0;
+}

@@ -109,7 +109,7 @@ form label {
 							}
 						?>
                         </select>
-                    <div>
+                    </div>
                     <div>
                     	<input type="submit" name="btnReport" id="btnReport" class="btnForm" value="Tạo bản in" />
                         <input type="button" name="btnPDF" id="btnPDF" class="btnForm" value="Báo cáo dạng PDF" />

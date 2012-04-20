@@ -71,3 +71,13 @@ SELECT c.ten AS ten_cau, d.ten AS ten_duong, c.chieu_dai, c.be_rong, c.tai_trong
 FROM cau_polyline AS c
 INNER JOIN duong_bo AS d ON c.id_duong = d.id_duong
 WHERE d.id_duong = 1;
+
+--bao cao hien trang ben xe
+SELECT b.ten AS ten_ben, d.ten AS ten_duong, b.dia_chi, b.dien_thoai, b.so_dau_xe, b.thong_ben
+FROM ben_xe_font_point AS b
+INNER JOIN duong_bo AS d ON b.id_duong = d.id_duong;
+
+--bao cao hien trang ben xe buyt
+SELECT b.dien_giai AS ten_ben, d.ten AS ten_duong, b.dia_chi, b.di_va_den
+FROM ben_xe_buyt_point AS b
+INNER JOIN duong_bo AS d ON b.id_duong = d.id_duong;
