@@ -77,6 +77,7 @@ $(document).ready(function() {
 	});
 });
 
+// Check all
 var check = function(list) {
 	if (document.dsLoaiDuong.checkAll.checked === true) {
 		for (i = 0; i < list.length; i++) {
@@ -87,6 +88,21 @@ var check = function(list) {
 			list[i].checked = false ;
 		}
 	}
+};
+
+// Kiểm tra form
+var checkForm = function() {
+	
+	// Kiểm tra không nhập liệu
+	var loaiInput = $('#loaiDuong');
+	if (loaiInput.val() == '') {
+		alert('Bạn phải nhập loại đường');
+		loaiInput.focus();
+		
+		return false;
+	}
+	
+	return true;
 };
 </script>
 
@@ -378,7 +394,7 @@ form label {
                 echo '</table>';
                 echo '</form>';
 			} elseif ($_GET['action'] === 'addnew') { // Thêm loại đường
-				echo '<form name="addNew" id="addNew" action="update_loai_duong.php" method="post">';
+				echo '<form name="addNew" id="addNew" action="update_loai_duong.php" method="post" onsubmit="return checkForm();">';
 				echo '<p><label for="loaiDuong">Loại đường:</label><input type="text" name="loaiDuong" id="loaiDuong" /></p>';
 				echo '<input type="hidden" name="action" value="insert" />';
 				echo '<input type="submit" name="Submit" class="btnForm" value="Thêm mới" />';
@@ -389,7 +405,7 @@ form label {
 				$db->connect();
 				$result = $db->query($strSQL);
 				$row = pg_fetch_object($result);
-				echo '<form name="edit" id="edit" action="update_loai_duong.php" method="post">';
+				echo '<form name="edit" id="edit" action="update_loai_duong.php" method="post" onsubmit="return checkForm();">';
 				echo '<p><label for="loaiDuong">Loại đường:</label>';
 				echo '<input type="text" name="loaiDuong" id="loaiDuong" value="' . $row->loai . '" /></p>';
 				echo '<input type="hidden" name="action" value="edit" />';

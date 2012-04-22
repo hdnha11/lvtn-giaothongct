@@ -56,6 +56,43 @@ var updateDuong = function() {
 // Update cầu
 var updateCau = function() {
 	
+	// Kiểm tra form
+	// Biểu thức chính qui kiểm tra số dương
+	var floatPattern = /^([0-9]*|[0-9]+\.[0-9]+)$/;
+	var daiInput = $('#chieudai');
+	var rongInput = $('#berong');
+	var taiTrongInput = $('#taitrong');
+	var soNhipInput = $('#sonhip');
+	
+	if (!floatPattern.test(daiInput.val())) {
+		alert('Bạn phải nhập số dương vào ô chiều dài');
+		daiInput.focus();
+		
+		return false;
+	}
+	
+	if (!floatPattern.test(rongInput.val())) {
+		alert('Bạn phải nhập số dương vào ô bề rộng');
+		rongInput.focus();
+		
+		return false;
+	}
+	
+	if (!floatPattern.test(taiTrongInput.val())) {
+		alert('Bạn phải nhập số dương vào ô tải trọng');
+		taiTrongInput.focus();
+		
+		return false;
+	}
+	
+	if (!floatPattern.test(soNhipInput.val())) {
+		alert('Bạn phải nhập số dương vào ô số nhịp');
+		soNhipInput.focus();
+		
+		return false;
+	}
+	
+	// Nếu tất cả hợp lệ thì tiến hành cập nhật thông tin cầu
 	$.post("lib/map_update_cau.php", $("#update_info").serialize(), function(data) {
 		$("div#info").html(data);
 		// Refresh layer cau
@@ -68,6 +105,25 @@ var updateCau = function() {
 // Update bến xe
 var updateBenXe = function() {
 	
+	// Kiểm tra form
+	var phonePattern = /^[0-9.]{0,11}$/;
+	var intPattern = /^[0-9]*$/;
+	
+	if (!phonePattern.test($('#dienthoai').val())) {
+		alert('Số điện thoại chỉ được chứa 11 ký tự bao gồm số và dấu "."');
+		$('#dienthoai').focus();
+		
+		return false;
+	}
+	
+	if (!intPattern.test($('#sodauxe').val())) {
+		alert('Số đầu xe phải nhập một số nguyên dương');
+		$('#sodauxe').focus();
+		
+		return false;
+	}
+	
+	// Nếu hợp lệ tiến hành update
 	$.post("lib/map_update_ben_xe.php", $("#update_info").serialize(), function(data) {
 		$("div#info").html(data);
 		// Refresh layer benXe
@@ -89,6 +145,7 @@ var updateBenXeBuyt = function() {
 	return false;
 };
 
+// Lấy về đường theo các quan hệ không gian
 var setEventClick = function() {
 	var tableName = $('div#info form#update_info input#table').val();
 	switch (tableName) {
@@ -137,14 +194,16 @@ var setEventClick = function() {
 			});
 			break;
 	}
-}
+};
 
+// Gán id_duong cho input ẩn với tên đường đã chọn từ autocomplete
 var setResult = function() {
 	$("div#info input#duong").result(function(event, data, formatted) {
 		$("div#info input#id_duong").val(data[0]);
 	});
 };
 
+// Tự động gợi ý tên đường khi nhập các ký tự
 var setAutocomplete = function() {
 	var tableName = $('div#info form#update_info input#table').val();
 	switch (tableName) {
