@@ -86,6 +86,7 @@ $(document).ready(function() {
 	});
 });
 
+// Check all
 var check = function(list) {
 	if (document.dsDuong.checkAll.checked === true) {
 		for (i = 0; i < list.length; i++) {
@@ -98,6 +99,7 @@ var check = function(list) {
 	}
 };
 
+// Lấy tổng số cầu trên đường
 var getTSCau = function() {
 	var id = $('form#edit input#id').val();
 	$.get('lib/get_ts_cau.php?id_duong=' + id, function(data) {
@@ -105,7 +107,33 @@ var getTSCau = function() {
 	});
 	
 	return false;
-}
+};
+
+// Kiểm tra form
+var checkForm = function() {
+	
+	var duongInput = $('#tenDuong');
+	var tsCauInput = $('#tsCau');
+	
+	// Kiểm tra không nhập liệu
+	if (duongInput.val() == '') {
+		alert('Bạn phải nhập tên đường');
+		duongInput.focus();
+		
+		return false;
+	}
+	
+	// Kiểm tra nhập tổng số cầu là số nguyên
+	var intPattern = /^[0-9]*$/;
+	if (!intPattern.test(tsCauInput.val())) {
+		alert('Bạn phải tổng số cầu là số nguyên dương');
+		tsCauInput.focus();
+		
+		return false;
+	}
+	
+	return true;
+};
 </script>
 
 <style type="text/css">
@@ -424,7 +452,7 @@ form label {
                 echo '</table>';
                 echo '</form>';
 			} elseif ($_GET['action'] === 'addnew') { // Thêm đường
-				echo '<form name="addNew" id="addNew" action="update_duong_bo.php" method="post">';
+				echo '<form name="addNew" id="addNew" action="update_duong_bo.php" method="post" onsubmit="return checkForm();">';
 				echo '<p><label for="tenDuong">Tên đường:</label><input type="text" name="tenDuong" id="tenDuong" /></p>';
 				
 				// Lấy thông tin cơ quan quản lý
@@ -486,7 +514,7 @@ form label {
 				$db->connect();
 				$result = $db->query($strSQL);
 				$duong = pg_fetch_object($result);
-				echo '<form name="edit" id="edit" action="update_duong_bo.php" method="post">';
+				echo '<form name="edit" id="edit" action="update_duong_bo.php" method="post" onsubmit="return checkForm();">';
 				
 				echo '<p><label for="tenDuong">Tên đường:</label>';
 				echo '<input type="text" name="tenDuong" id="tenDuong" value="' . $duong->ten . '" /></p>';

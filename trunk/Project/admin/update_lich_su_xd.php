@@ -136,11 +136,68 @@ var setResult = function() {
 	});
 };
 
-// Kiểm tra bắt buộc chọn đường
+// Kiểm tra form
 var checkForm = function() {
+	
+	// Kiểm tra bắt buộc nhập đường
 	if ($("#idDuong").val() == '') {
 		alert('Tên đường không được để trống. Vui lòng chọn đường!');
 		$('#tenDuong').focus();
+		
+		return false;
+	}
+	
+	// Kiểm tra nhập số dương
+	var floatPattern = /^([0-9]*|[0-9]+\.[0-9]+)$/;
+	
+	if (!floatPattern.test($("#chieuDai").val())) {
+		alert('Chiều dài phải nhập số dương');
+		$('#chieuDai').focus();
+		
+		return false;
+	}
+	
+	if (!floatPattern.test($("#rongNen").val())) {
+		alert('Rộng nền phải nhập số dương');
+		$('#rongNen').focus();
+		
+		return false;
+	}
+	
+	if (!floatPattern.test($("#rongMat").val())) {
+		alert('Rộng mặt phải nhập số dương');
+		$('#rongMat').focus();
+		
+		return false;
+	}
+	
+	if (!floatPattern.test($("#chieuDaiRaiNhua").val())) {
+		alert('Chiều dài rải nhựa phải nhập số dương');
+		$('#chieuDaiRaiNhua').focus();
+		
+		return false;
+	}
+	
+	if (!floatPattern.test($("#taiTrong").val())) {
+		alert('Tải trọng phải nhập số dương');
+		$('#taiTrong').focus();
+		
+		return false;
+	}
+	
+	if (!floatPattern.test($("#tongKinhPhi").val())) {
+		alert('Tổng kinh phí phải nhập số dương');
+		$('#tongKinhPhi').focus();
+		
+		return false;
+	}
+	
+	// Kiểm tra nhập ngày tháng
+	var datePattern = /^[0-9]{1,2}\/[0-9]{1,2}\/[0-9]{4}$/;
+	
+	if (!datePattern.test($("#ngayHoanThanh").val())) {
+		alert('Ngày nhập không đúng định dạng');
+		$('#ngayHoanThanh').focus();
 		
 		return false;
 	}

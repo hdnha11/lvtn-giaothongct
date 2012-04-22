@@ -78,6 +78,7 @@ $(document).ready(function() {
 	});
 });
 
+// Check all
 var check = function(list) {
 	if (document.dsCQ.checkAll.checked === true) {
 		for (i = 0; i < list.length; i++) {
@@ -88,6 +89,21 @@ var check = function(list) {
 			list[i].checked = false ;
 		}
 	}
+};
+
+// Kiểm tra form
+var checkForm = function() {
+	
+	// Kiểm tra không nhập liệu
+	var cqInput = $('#coQuan');
+	if (cqInput.val() == '') {
+		alert('Bạn phải nhập tên cơ quan');
+		cqInput.focus();
+		
+		return false;
+	}
+	
+	return true;
 };
 </script>
 
@@ -382,7 +398,7 @@ form label {
                 echo '</table>';
                 echo '</form>';
 			} elseif ($_GET['action'] === 'addnew') { // Thêm cơ quan
-				echo '<form name="addNew" id="addNew" action="update_cqql.php" method="post">';
+				echo '<form name="addNew" id="addNew" action="update_cqql.php" method="post" onsubmit="return checkForm();">';
 				echo '<p><label for="coQuan">Tên cơ quan:</label><input type="text" name="coQuan" id="coQuan" /></p>';
 				echo '<p><label for="diaChi">Địa chỉ:</label><textarea name="diaChi" id="diaChi" rows="4"></textarea></p>';
 				echo '<input type="hidden" name="action" value="insert" />';
@@ -394,7 +410,7 @@ form label {
 				$db->connect();
 				$result = $db->query($strSQL);
 				$row = pg_fetch_object($result);
-				echo '<form name="edit" id="edit" action="update_cqql.php" method="post">';
+				echo '<form name="edit" id="edit" action="update_cqql.php" method="post" onsubmit="return checkForm();">';
 				echo '<p><label for="coQuan">Tên cơ quan:</label>';
 				echo '<input type="text" name="coQuan" id="coQuan" value="' . $row->ten . '" /></p>';
 				echo '<p><label for="diaChi">Địa chỉ:</label>';
