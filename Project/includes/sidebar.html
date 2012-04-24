@@ -57,8 +57,23 @@
 				</form>                
             </div>
         <h3>Tìm đường đi</h3>
-            <div class="slideContent">
-                <p>Tính năng đang phát triển.</p>
+            <div id="routingdiv" class="slideContent">
+            	<p class="none">
+                    <input type="radio" name="control" id="routingNoneToggle"
+                         onclick="routingToggleControl(this);" checked="checked" />
+                    <label for="routingNoneToggle">Di chuyển</label>
+                </p>
+                <p class="start">
+                    <input type="radio" name="control" value="start" id="routingStartToggle"
+                         onclick="routingToggleControl(this);" />
+                    <label for="routingStartToggle">Điểm bắt đầu</label>
+                </p>    
+                <p class="stop">
+                    <input type="radio" name="control" value="stop" id="routingStopToggle"
+                         onclick="routingToggleControl(this);" />
+                    <label for="routingStopToggle">Điểm kết thúc</label>
+                </p>
+                <button name="routing" id="routing" onclick="compute();">Tìm đường</button>
             </div>
         <h3>In bản đồ</h3>
             <div class="slideContent" id="printarea">

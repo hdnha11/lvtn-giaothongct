@@ -20,6 +20,44 @@ OpenLayers.ProxyHost = 'lib/geoproxy.php?url=';
 // Su dung tieng Viet
 OpenLayers.Lang.setCode('vi');
 
+/***********Tim duong khai bao*****************/
+
+var SinglePoint = OpenLayers.Class(OpenLayers.Handler.Point, {
+	createFeature: function(pixel) {
+		if (this.control.layer.features.length > 1) {
+			this.control.layer.removeFeatures(this.control.layer.features);
+		}
+		OpenLayers.Handler.Point.prototype.createFeature.apply(this, arguments);
+	}
+});
+
+var start_style = OpenLayers.Util.applyDefaults({
+	externalGraphic: "images/start.png",
+	graphicWidth: 18,
+	graphicHeight: 26,
+	graphicYOffset: -26,
+	graphicOpacity: 1
+}, OpenLayers.Feature.Vector.style['default']);
+
+var stop_style = OpenLayers.Util.applyDefaults({
+	externalGraphic: "images/stop.png",
+	graphicWidth: 18,
+	graphicHeight: 26,
+	graphicYOffset: -26,
+	graphicOpacity: 1
+}, OpenLayers.Feature.Vector.style['default']);
+
+var result_style = OpenLayers.Util.applyDefaults({
+	strokeWidth: 3,
+	strokeColor: "#ff0000",
+	fillOpacity: 0
+}, OpenLayers.Feature.Vector.style['default']);
+
+// global variables
+var parser, start, stop, result, controls;
+
+/***********Tim duong khai bao*****************/
+
 // Ham khoi tao ban do
 function init() {
 	
@@ -326,7 +364,31 @@ function init() {
 		}
 	);
 	
-	map.addLayer(showSearchResult);
+	map.addLayer(showSearchResult);	
+	
+	/********Tim duong*********/
+	
+	start = new OpenLayers.Layer.Vector("Điểm bắt đầu", {style: start_style, displayInLayerSwitcher: false});
+	stop = new OpenLayers.Layer.Vector("Điểm kết thúc", {style: stop_style, displayInLayerSwitcher: false});	
+	result = new OpenLayers.Layer.Vector("Kết quả tìm đường", {style: result_style});
+	
+	map.addLayers([start, stop, result]);
+	
+	// controls
+	controls = {
+		start: new OpenLayers.Control.DrawFeature(start, SinglePoint),
+		stop: new OpenLayers.Control.DrawFeature(stop, SinglePoint)
+	}
+	
+	for (var key in controls) {
+		map.addControl(controls[key]);
+	}
+	
+	// create a parser for WKT that we will get back
+	// in the results XML
+	parser = new OpenLayers.Format.WKT();
+	
+	/********Tim duong*********/
 	
 }// End init()
 
@@ -410,3 +472,46 @@ function showInfo(response) {
 					});
 }
 /********* Het phan xu ly GetFeatureInfo ********/
+
+/********* Phan xu ly tim duong *****************/
+
+function routingToggleControl(element) {
+	for (key in controls) {
+		if (element.value == key && element.checked) {
+			controls[key].activate();
+		} else {
+			controls[key].deactivate();
+		}
+	}
+}
+
+function compute() {
+	var startPoint = start.features[0];
+	var stopPoint = stop.features[0];
+
+	if (startPoint && stopPoint) {
+		
+		OpenLayers.loadURL("lib/ax_routing.php?startpoint=" + startPoint.geometry.x + " " + startPoint.geometry.y
+							+ "&finalpoint=" + stopPoint.geometry.x + " " + stopPoint.geometry.y
+							+ "&region=roads_polyline&srid=4326",
+						   null, null, displayRoute, null);
+	}
+}
+
+function displayRoute(response) {
+	if (response && response.responseXML) {
+		// erase the previous results
+		result.removeFeatures(result.features);
+
+		// parse the features
+		var edges = response.responseXML.getElementsByTagName('edge');
+		var features = [];
+		for (var i = 0; i < edges.length; i++) {
+			var g = parser.read(edges[i].getElementsByTagName('wkt')[0].textContent);
+			features.push(g);
+		}
+		result.addFeatures(features);
+	}
+}
+		
+/********* Het phan xu ly tim duong *****************/

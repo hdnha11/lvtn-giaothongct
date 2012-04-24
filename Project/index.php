@@ -6,6 +6,7 @@
 <link type="text/css" rel="stylesheet" href="css/ui-lightness/jquery-ui-1.8.18.custom.css" />
 <link type="text/css" rel="stylesheet" href="css/main.css" />
 <link rel="stylesheet" type="text/css" href="css/infobox.css" />
+<link rel="stylesheet" type="text/css" href="css/route-tools.css" />
 <script type="text/javascript" src="js/jquery/jquery-1.7.1.min.js"></script>
 <script type="text/javascript" src="js/jquery/jquery-ui-1.8.18.custom.min.js"></script>
 <script type="text/javascript" src="js/effects.js"></script>
@@ -14,6 +15,16 @@
 <script type="text/javascript" src="js/MapHandle.js"></script>
 <script type="text/javascript" src="js/PrintMap.js"></script>
 <script type="text/javascript" src="js/SearchInMap.js"></script>
+<script type="text/javascript" src="js/custom_radio_checkbox.js"></script>
+<script type="text/javascript">
+$(document).ready(function() {
+	
+	// Đổi hình nền Radio Button Tìm đường
+	$(".none").dgStyle();
+	$(".start").dgStyle();
+	$(".stop").dgStyle();
+});
+</script>
 </head>
 
 <body onload="init();">

@@ -1,0 +1,83 @@
+.start {
+	height: 25px;
+	width: 25px;
+	margin: 0 0 3px;
+	padding: 0 0 0 26px;
+	background: url("../images/startbt.png");
+	background-repeat: no-repeat;
+	cursor: default;
+}
+.start input {
+	display: none;
+}
+.start input.show {
+	display: inline;
+}
+.start label {
+	display: block;
+	padding-left: 15px;
+	height: 25px;
+	width: 100px;
+	line-height: 25px;
+}
+
+.stop {
+	height: 25px;
+	width: 25px;
+	margin: 0 0 3px;
+	padding: 0 0 0 26px;
+	background: url("../images/stopbt.png");
+	background-repeat: no-repeat;
+	cursor: default;
+}
+.stop input {
+	display: none;
+}
+.stop input.show {
+	display: inline;
+}
+.stop label {
+	display: block;
+	padding-left: 15px;
+	height: 25px;
+	width: 100px;
+	line-height: 25px;
+}
+
+.none {
+	height: 25px;
+	width: 25px;
+	margin: 0 0 3px;
+	padding: 0 0 0 26px;
+	background: url("../images/nonebt.png");
+	background-repeat: no-repeat;
+	cursor: default;
+}
+.none input {
+	display: none;
+}
+.none input.show {
+	display: inline;
+}
+.none label {
+	display: block;
+	padding-left: 15px;
+	height: 25px;
+	width: 100px;
+	line-height: 25px;
+}
+
+button#routing {
+	cursor: pointer;
+	width: 80px;
+	height: 29px;
+	line-height: 25px;
+	font-size: 12px;
+	font-weight: bold;
+	color: #fff;
+	background: #3c85fe;
+	border: 1px solid #3079ED;
+	margin: 5px 5px 0px 15px;
+	-moz-border-radius: 2px;
+	-webkit-border-radius: 2px;
+}
