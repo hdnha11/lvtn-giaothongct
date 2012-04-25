@@ -23,7 +23,7 @@ if (isset($_POST['reportOption'])) {
 		$reportSQL = <<<SQL
 			SELECT b.dien_giai AS ten_ben, d.ten AS ten_duong, b.dia_chi, b.di_va_den
 			FROM ben_xe_buyt_point AS b
-			INNER JOIN duong_bo AS d ON b.id_duong = d.id_duong
+			LEFT JOIN duong_bo AS d ON b.id_duong = d.id_duong
 SQL;
 		
 		$reportContent .= '<div class="rtContentTitle">Danh sách bến xe buýt</div>';

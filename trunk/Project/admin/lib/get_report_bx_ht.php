@@ -8,7 +8,7 @@ if (isset($_POST['reportOption'])) {
 		$reportSQL = <<<SQL
 			SELECT b.ten AS ten_ben, d.ten AS ten_duong, b.dia_chi, b.dien_thoai, b.so_dau_xe, b.thong_ben
 			FROM ben_xe_font_point AS b
-			INNER JOIN duong_bo AS d ON b.id_duong = d.id_duong
+			LEFT JOIN duong_bo AS d ON b.id_duong = d.id_duong
 SQL;
 		
 		$reportContent = <<<TABLE
