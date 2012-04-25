@@ -26,7 +26,7 @@ $(document).ready(function() {
 	
 	// Mở menu tương ứng với trang, ẩn các menu khác
     $("#sidebar h3#admin").addClass("active");
-	$("#sidebar div:not(#otherReport)").hide();
+	$("#sidebar div:not(#otherReportCT)").hide();
 	
 	// Tạo báo cáo dạng PDF
 	$('#btnPDF').click(function() {
