@@ -86,6 +86,7 @@ function init() {
 	// Map Constructor
 	map = new OpenLayers.Map('map', options);
 	
+	/************ Base Layers *************/
 	// Background layer Constructor
 	var background = new OpenLayers.Layer.WMS(
 		"TP. Cần Thơ",
@@ -104,6 +105,15 @@ function init() {
 		}
 	);
 	
+	// Google (v3) Layer
+	var googleMap = new OpenLayers.Layer.Google("Bản đồ Google", {visibility: false});
+	
+	// OpenStreetMap
+	var openStreetMap = new OpenLayers.Layer.OSM("Bản đồ OpenStreetMap");
+	
+	/************ End Base Layers *************/
+	
+	/************ Overlay Layers *************/
 	// Tinh_lo layer Constructor
 	var tinhLo = new OpenLayers.Layer.WMS(
 		"Tỉnh lộ",
@@ -198,9 +208,10 @@ function init() {
 			yx : {'EPSG:4326' : true}
 		}
 	);
+	/************ End Overlay Layers *************/
 	
 	// Add layers into Map
-	map.addLayers([background, tinhLo, quocLo, cau, benXe, benXeBuyt]);
+	map.addLayers([background, tinhLo, quocLo, cau, benXe, benXeBuyt, googleMap, openStreetMap]);
 	
 	// Cong cu do khoang cach, dien tich (http://openlayers.org/dev/examples/measure.html)
 	// Trang tri cac net ve khi do
