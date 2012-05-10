@@ -105,12 +105,6 @@ function init() {
 		}
 	);
 	
-	// Google (v3) Layer
-	var googleMap = new OpenLayers.Layer.Google("Bản đồ Google", {visibility: false});
-	
-	// OpenStreetMap
-	var openStreetMap = new OpenLayers.Layer.OSM("Bản đồ OpenStreetMap");
-	
 	/************ End Base Layers *************/
 	
 	/************ Overlay Layers *************/
@@ -211,7 +205,7 @@ function init() {
 	/************ End Overlay Layers *************/
 	
 	// Add layers into Map
-	map.addLayers([background, tinhLo, quocLo, cau, benXe, benXeBuyt, googleMap, openStreetMap]);
+	map.addLayers([background, tinhLo, quocLo, cau, benXe, benXeBuyt]);
 	
 	// Cong cu do khoang cach, dien tich (http://openlayers.org/dev/examples/measure.html)
 	// Trang tri cac net ve khi do

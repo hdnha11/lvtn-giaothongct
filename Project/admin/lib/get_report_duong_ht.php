@@ -58,11 +58,11 @@ TABLE;
 				$reportContent .= '<tr>';
 				$reportContent .= "<td>$stt</td>";
 				$reportContent .= "<td>$duong->ten</td>";
-				$reportContent .= "<td>$duong->chieu_dai</td>";
-				$reportContent .= "<td>$duong->rong_nen</td>";
-				$reportContent .= "<td>$duong->rong_mat</td>";
+				$reportContent .= "<td class='alignRight'>$duong->chieu_dai km</td>";
+				$reportContent .= "<td class='alignRight'>$duong->rong_nen m</td>";
+				$reportContent .= "<td class='alignRight'>$duong->rong_mat m</td>";
 				$reportContent .= "<td>$duong->quy_mo</td>";
-				$reportContent .= "<td>$duong->tai_trong</td>";
+				$reportContent .= "<td class='alignRight'>$duong->tai_trong tấn</td>";
 				$reportContent .= "<td>$duong->loai</td>";
 				$reportContent .= "<td>$duong->cap</td>";
 				$reportContent .= "<td>$duong->tinh_trang_su_dung</td>";
@@ -128,11 +128,11 @@ TABLE;
 				$reportContent .= '<tr>';
 				$reportContent .= "<td>$stt</td>";
 				$reportContent .= "<td>$duong->ten</td>";
-				$reportContent .= "<td>$duong->chieu_dai</td>";
-				$reportContent .= "<td>$duong->rong_nen</td>";
-				$reportContent .= "<td>$duong->rong_mat</td>";
+				$reportContent .= "<td class='alignRight'>$duong->chieu_dai km</td>";
+				$reportContent .= "<td class='alignRight'>$duong->rong_nen m</td>";
+				$reportContent .= "<td class='alignRight'>$duong->rong_mat m</td>";
 				$reportContent .= "<td>$duong->quy_mo</td>";
-				$reportContent .= "<td>$duong->tai_trong</td>";
+				$reportContent .= "<td class='alignRight'>$duong->tai_trong tấn</td>";
 				$reportContent .= "<td>$duong->loai</td>";
 				$reportContent .= "<td>$duong->cap</td>";
 				$reportContent .= "<td>$duong->tinh_trang_su_dung</td>";
@@ -169,6 +169,11 @@ body {
 
 .italic {
 	font-style: italic;
+}
+
+/* Canh phải */
+.alignRight {
+	text-align: right;
 }
 
 /* Đầu trang: Tên cơ quan, tiêu ngữ */

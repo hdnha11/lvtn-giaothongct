@@ -32,20 +32,20 @@ SQL;
 TABLE;
 
 		$db->connect();
-		$dsDuong = $db->query($reportSQL);
+		$dsCau = $db->query($reportSQL);
 		$stt = 1;
-		while ($duong = pg_fetch_object($dsDuong)) {
+		while ($cau = pg_fetch_object($dsCau)) {
 			$reportContent .= '<tr>';
 			$reportContent .= "<td>$stt</td>";
-			$reportContent .= "<td>$duong->ten_cau</td>";
-			$reportContent .= "<td>$duong->ten_duong</td>";
-			$reportContent .= "<td>$duong->chieu_dai</td>";
-			$reportContent .= "<td>$duong->be_rong</td>";
-			$reportContent .= "<td>$duong->tai_trong</td>";
-			$reportContent .= "<td>$duong->mo_tru</td>";
-			$reportContent .= "<td>$duong->so_nhip</td>";
-			$reportContent .= "<td>$duong->loai</td>";
-			$reportContent .= "<td>$duong->su_dung</td>";
+			$reportContent .= "<td>$cau->ten_cau</td>";
+			$reportContent .= "<td>$cau->ten_duong</td>";
+			$reportContent .= "<td class='alignRight'>$cau->chieu_dai m</td>";
+			$reportContent .= "<td class='alignRight'>$cau->be_rong m</td>";
+			$reportContent .= "<td class='alignRight'>$cau->tai_trong tấn</td>";
+			$reportContent .= "<td>$cau->mo_tru</td>";
+			$reportContent .= "<td>$cau->so_nhip</td>";
+			$reportContent .= "<td>$cau->loai</td>";
+			$reportContent .= "<td>$cau->su_dung</td>";
 			$reportContent .= '</tr>';
 			
 			$stt++;
@@ -82,20 +82,20 @@ SQL;
 			<tbody>
 TABLE;
 		$db->connect();
-		$dsDuong = $db->query($reportSQL);
+		$dsCau = $db->query($reportSQL);
 		$stt = 1;
-		while ($duong = pg_fetch_object($dsDuong)) {
+		while ($cau = pg_fetch_object($dsCau)) {
 			$reportContent .= '<tr>';
 			$reportContent .= "<td>$stt</td>";
-			$reportContent .= "<td>$duong->ten_cau</td>";
-			$reportContent .= "<td>$duong->ten_duong</td>";
-			$reportContent .= "<td>$duong->chieu_dai</td>";
-			$reportContent .= "<td>$duong->be_rong</td>";
-			$reportContent .= "<td>$duong->tai_trong</td>";
-			$reportContent .= "<td>$duong->mo_tru</td>";
-			$reportContent .= "<td>$duong->so_nhip</td>";
-			$reportContent .= "<td>$duong->loai</td>";
-			$reportContent .= "<td>$duong->su_dung</td>";
+			$reportContent .= "<td>$cau->ten_cau</td>";
+			$reportContent .= "<td>$cau->ten_duong</td>";
+			$reportContent .= "<td class='alignRight'>$cau->chieu_dai m</td>";
+			$reportContent .= "<td class='alignRight'>$cau->be_rong m</td>";
+			$reportContent .= "<td class='alignRight'>$cau->tai_trong tấn</td>";
+			$reportContent .= "<td>$cau->mo_tru</td>";
+			$reportContent .= "<td>$cau->so_nhip</td>";
+			$reportContent .= "<td>$cau->loai</td>";
+			$reportContent .= "<td>$cau->su_dung</td>";
 			$reportContent .= '</tr>';
 			
 			$stt++;
@@ -127,6 +127,11 @@ body {
 
 .italic {
 	font-style: italic;
+}
+
+/* Canh phải */
+.alignRight {
+	text-align: right;
 }
 
 /* Đầu trang: Tên cơ quan, tiêu ngữ */

@@ -41,7 +41,7 @@ TABLE;
 		$reportContent .= "<td>$duong->loai</td>";
 		$reportContent .= "<td>$duong->cap</td>";
 		$reportContent .= "<td>$duong->noi_dung_xay_dung</td>";
-		$reportContent .= "<td>". number_format($duong->tong_kinh_phi * 1000000000, 3, '.', ','). "đ</td>";
+		$reportContent .= "<td class='alignRight'>". number_format($duong->tong_kinh_phi * 1000000000, 3, '.', ','). " đ</td>";
 		$reportContent .= "<td>$duong->tinh_trang_su_dung</td>";
 		$reportContent .= '</tr>';
 		
@@ -72,6 +72,11 @@ body {
 
 .italic {
 	font-style: italic;
+}
+
+/* Canh phải */
+.alignRight {
+	text-align: right;
 }
 
 /* Đầu trang: Tên cơ quan, tiêu ngữ */

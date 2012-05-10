@@ -47,20 +47,20 @@ SQL;
 TABLE;
 
 		$db->connect();
-		$dsDuong = $db->query($reportSQL);
+		$dsCau = $db->query($reportSQL);
 		$stt = 1;
-		while ($duong = pg_fetch_object($dsDuong)) {
+		while ($cau = pg_fetch_object($dsCau)) {
 			$reportContent .= '<tr>';
 			$reportContent .= '<td width="6%" align="center">' . $stt . '</td>';
-			$reportContent .= '<td width="10%" align="left">' . $duong->ten_cau . '</td>';
-			$reportContent .= '<td width="11%" align="left">' . $duong->ten_duong . '</td>';
-			$reportContent .= '<td width="11%" align="right">' . $duong->chieu_dai . '</td>';
-			$reportContent .= '<td width="11%" align="right">' . $duong->be_rong . '</td>';
-			$reportContent .= '<td width="11%" align="right">' . $duong->tai_trong . '</td>';
-			$reportContent .= '<td width="10%" align="left">' . $duong->mo_tru . '</td>';
-			$reportContent .= '<td width="10%" align="right">' . $duong->so_nhip . '</td>';
-			$reportContent .= '<td width="10%" align="left">' . $duong->loai . '</td>';
-			$reportContent .= '<td width="10%" align="left">' . $duong->su_dung . '</td>';
+			$reportContent .= '<td width="10%" align="left">' . $cau->ten_cau . '</td>';
+			$reportContent .= '<td width="11%" align="left">' . $cau->ten_duong . '</td>';
+			$reportContent .= '<td width="11%" align="right">' . $cau->chieu_dai . ' m</td>';
+			$reportContent .= '<td width="11%" align="right">' . $cau->be_rong . ' m</td>';
+			$reportContent .= '<td width="11%" align="right">' . $cau->tai_trong . ' tấn</td>';
+			$reportContent .= '<td width="10%" align="left">' . $cau->mo_tru . '</td>';
+			$reportContent .= '<td width="10%" align="right">' . $cau->so_nhip . '</td>';
+			$reportContent .= '<td width="10%" align="left">' . $cau->loai . '</td>';
+			$reportContent .= '<td width="10%" align="left">' . $cau->su_dung . '</td>';
 			$reportContent .= '</tr>';
 			
 			$stt++;
@@ -98,20 +98,20 @@ SQL;
 TABLE;
 		
 		$db->connect();
-		$dsDuong = $db->query($reportSQL);
+		$dsCau = $db->query($reportSQL);
 		$stt = 1;
-		while ($duong = pg_fetch_object($dsDuong)) {
+		while ($cau = pg_fetch_object($dsCau)) {
 			$reportContent .= '<tr>';
 			$reportContent .= '<td width="6%" align="center">' . $stt . '</td>';
-			$reportContent .= '<td width="10%" align="left">' . $duong->ten_cau . '</td>';
-			$reportContent .= '<td width="11%" align="left">' . $duong->ten_duong . '</td>';
-			$reportContent .= '<td width="11%" align="right">' . $duong->chieu_dai . '</td>';
-			$reportContent .= '<td width="11%" align="right">' . $duong->be_rong . '</td>';
-			$reportContent .= '<td width="11%" align="right">' . $duong->tai_trong . '</td>';
-			$reportContent .= '<td width="10%" align="left">' . $duong->mo_tru . '</td>';
-			$reportContent .= '<td width="10%" align="right">' . $duong->so_nhip . '</td>';
-			$reportContent .= '<td width="10%" align="left">' . $duong->loai . '</td>';
-			$reportContent .= '<td width="10%" align="left">' . $duong->su_dung . '</td>';
+			$reportContent .= '<td width="10%" align="left">' . $cau->ten_cau . '</td>';
+			$reportContent .= '<td width="11%" align="left">' . $cau->ten_duong . '</td>';
+			$reportContent .= '<td width="11%" align="right">' . $cau->chieu_dai . ' m</td>';
+			$reportContent .= '<td width="11%" align="right">' . $cau->be_rong . ' m</td>';
+			$reportContent .= '<td width="11%" align="right">' . $cau->tai_trong . ' tấn</td>';
+			$reportContent .= '<td width="10%" align="left">' . $cau->mo_tru . '</td>';
+			$reportContent .= '<td width="10%" align="right">' . $cau->so_nhip . '</td>';
+			$reportContent .= '<td width="10%" align="left">' . $cau->loai . '</td>';
+			$reportContent .= '<td width="10%" align="left">' . $cau->su_dung . '</td>';
 			$reportContent .= '</tr>';
 			
 			$stt++;
