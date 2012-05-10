@@ -55,7 +55,7 @@ TABLE;
 		$reportContent .= '<td width="13%" align="left">' . $duong->loai . '</td>';
 		$reportContent .= '<td width="13%" align="left">' . $duong->cap . '</td>';		
 		$reportContent .= '<td width="22%" align="left">' . $duong->noi_dung_xay_dung . '</td>';
-		$reportContent .= '<td width="16%" align="right">' . number_format($duong->tong_kinh_phi, 1, '.', ','). ' tỉ đ</td>';
+		$reportContent .= '<td width="16%" align="right">' . number_format($duong->tong_kinh_phi, 1, '.', ','). ' tỉ đồng</td>';
 		$reportContent .= '<td width="15%" align="left">' . $duong->tinh_trang_su_dung . '</td>';
 		$reportContent .= '</tr>';
 		

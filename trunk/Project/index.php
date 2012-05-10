@@ -10,7 +10,6 @@
 <script type="text/javascript" src="js/jquery/jquery-1.7.1.min.js"></script>
 <script type="text/javascript" src="js/jquery/jquery-ui-1.8.18.custom.min.js"></script>
 <script type="text/javascript" src="js/effects.js"></script>
-<script type="text/javascript" src="http://maps.google.com/maps/api/js?v=3.6&sensor=false"></script>
 <script type="text/javascript" src="js/OpenLayers-2.11/OpenLayers.js"></script>
 <script type="text/javascript" src="js/OpenLayers-2.11/lang/vi.js"></script>
 <script type="text/javascript" src="js/MapHandle.js"></script>
